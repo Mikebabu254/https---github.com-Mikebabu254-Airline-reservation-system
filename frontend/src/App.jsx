@@ -1,11 +1,8 @@
-import NavBar from "./Components/NavBar";
+import { useState } from "react";
+import { BroserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
-  return (
-    <>
-      <NavBar />
-    </>
-  );
+  return <></>;
 }
 
 export default App;
