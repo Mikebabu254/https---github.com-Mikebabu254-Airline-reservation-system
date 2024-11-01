@@ -5,6 +5,7 @@ import Login from "./Pages/Login";
 import Home from "./Pages/Home";
 import Registration from "./Pages/Registration";
 import Profile from "./Pages/Profile";
+import BookingConfirmation from "./Pages/BookingConfirmation";
 
 
 function App() {
@@ -16,6 +17,8 @@ function App() {
           <Route path="/Login" element={<Login />} />
           <Route path="/Registration" element={<Registration />} />
           <Route path="/Profile" element={<Profile />} />
+          <Route path="/Flight-confirmation" element = {<BookingConfirmation/>}/>
+          <Route path="/Profile" element = {<Profile/>}/>
         </Routes>
       </BrowserRouter>
     </>

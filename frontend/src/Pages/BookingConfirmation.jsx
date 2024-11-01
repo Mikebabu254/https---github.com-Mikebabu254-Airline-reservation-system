@@ -1,7 +1,7 @@
 function BookingConfirmation() {
     return(
         <>
-        <h1>Registration</h1>
+        <h1>Flight confirmation</h1>
         </>
     )
     
