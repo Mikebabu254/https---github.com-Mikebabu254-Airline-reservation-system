@@ -1,29 +1,26 @@
+// Import necessary modules
 import { useState } from "react";
-import { BroserRouter, Routes, Route } from "react-router-dom";
-import Login from "./Pages/Login"
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./Pages/Login";
 import Home from "./Pages/Home";
 import Registration from "./Pages/Registration";
 import Profile from "./Pages/Profile";
-import Booking from "./Pages/Booking";
-import FlightDetials from "./Pages/FlightDetails";
 
 
 function App() {
   return (
     <>
-      <BroserRouter>
+      <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home/>}></Route>
-          <Route path="/Login" element={<Login/>}></Route>
-          <Route path="/Registration" element={<Registration/>}></Route>
-          <Route path="/Booking" element={<Booking/>}></Route>
-          <Route path="/Profile" element={<Profile/>}></Route>
-          <Route path="/Confirmation" element={<Confirmation/>}></Route>
-          <Route path="/Flight-details" element={<FlightDetials/>}></Route>
+          <Route path="/" element={<Home />} />
+          <Route path="/Login" element={<Login />} />
+          <Route path="/Registration" element={<Registration />} />
+          <Route path="/Profile" element={<Profile />} />
         </Routes>
-      </BroserRouter>
+      </BrowserRouter>
     </>
   );
 }
 
 export default App;
+
