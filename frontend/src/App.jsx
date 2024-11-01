@@ -18,7 +18,6 @@ function App() {
           <Route path="/Registration" element={<Registration />} />
           <Route path="/Profile" element={<Profile />} />
           <Route path="/Flight-confirmation" element = {<BookingConfirmation/>}/>
-          <Route path="/Profile" element = {<Profile/>}/>
         </Routes>
       </BrowserRouter>
     </>
