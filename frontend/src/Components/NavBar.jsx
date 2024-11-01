@@ -60,20 +60,6 @@ const NavBar = () => {
               </Link>
             </li>
 
-            {/* Search form */}
-            <li className="nav-item">
-              <form className="d-flex ms-lg-3">
-                <input
-                  className="form-control me-2"
-                  type="search"
-                  placeholder="Search flights"
-                  aria-label="Search"
-                />
-                <button className="btn btn-outline-primary" type="submit">
-                  Search
-                </button>
-              </form>
-            </li>
 
             {/* Dropdown menu */}
             <li className="nav-item dropdown">

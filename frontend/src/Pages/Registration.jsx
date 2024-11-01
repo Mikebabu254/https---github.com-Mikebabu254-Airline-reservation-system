@@ -33,16 +33,26 @@ function Registration() {
                         />
                     </div>
 
-                    {/* Phone number*/}
-                    <div className='mb-3'>
-                        <label htmlFor='phoneNo' className='form-label'>Phone Number</label>
+                    {/* Phone Number */}
+                    <div className="mb-3">
+                        <label htmlFor="phoneNo" className="form-label">Phone Number</label>
                         <input 
                             type="tel"
                             className="form-control"
                             id="phoneNo"
-                            placeholder='enter your phone number'
+                            placeholder="Enter your phone number"
                             required
                         />
+                    </div>
+
+                    {/* Gender Dropdown */}
+                    <div className="mb-3">
+                        <label htmlFor="gender" className="form-label">Gender</label>
+                        <select className="form-select" id="gender" required>
+                            <option value="">Select your gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
                     </div>
 
                     {/* Email Input */}
