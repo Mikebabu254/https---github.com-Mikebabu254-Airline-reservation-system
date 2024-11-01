@@ -10,8 +10,8 @@ const NavBar = () => {
           <img
             src="/logo.png"  // Add your logo path here
             alt="Airline Logo"
-            width="40"
-            height="40"
+            width="60"
+            height="60"
             className="d-inline-block align-top"
             style={{ marginRight: '10px' }}
           />
