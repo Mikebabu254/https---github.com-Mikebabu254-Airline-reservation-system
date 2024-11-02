@@ -3,9 +3,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
 
 function Registration() {
-    const [users, setUsers] = useState([{
-        firstName: "John Doe", Email: "Johnoe@mail.com", age: 20
-    }])
+    
+    const [firstName, setFirstName] =useState()
+    const [lastName, setLastName] =useState()
+    const [phoneNo, setPhoneNo] =useState()
+    const [gender, setGender] =useState()
+    const [email, setEmail] =useState()
+    const [DOB, setDOB] =useState()
+    const [password, setPassword] =useState()
+    const [confirmPassword, setConfirmPassword] =useState()
+    
     return (
 
         <div className="container d-flex justify-content-center align-items-center vh-100" style={{margin: '100px'}}>
@@ -64,6 +71,7 @@ function Registration() {
                         </select>
                     </div>
                     
+                    {/* {date of birth} */}
                     <div className="d-flex flex-column" style={{ minWidth: '120px' }}>
                         <label htmlFor="" className="form-label">DOB</label>
                         <input 
