@@ -1,29 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
 
 function Registration() {
+    const [users, setUsers] = useState([{
+        firstName: "John Doe", Email: "Johnoe@mail.com", age: 20
+    }])
     return (
+
         <div className="container d-flex justify-content-center align-items-center vh-100" style={{margin: '100px'}}>
+        
             <div className="card shadow-sm p-4" style={{ maxWidth: '500px', width: '100%'}}>
                 <h2 className="text-center mb-4">Create an Account</h2>
                 
+                
                 <form>
+                
                     {/* First Name Input */}
                     <div className="mb-3">
-                        <label htmlFor="firstName" className="form-label">First Name</label>
+                        <label htmlFor="" className="form-label">First Name</label>
                         <input 
                             type="text" 
                             className="form-control" 
                             id="firstName" 
-                            placeholder="Enter your first name" 
+                            placeholder="Enter your first name  "
                             required 
+                            
                         />
+    
                     </div>
 
                     {/* Last Name Input */}
                     <div className="mb-3">
-                        <label htmlFor="lastName" className="form-label">Last Name</label>
+                        <label htmlFor="" className="form-label">Last Name</label>
                         <input 
                             type="text" 
                             className="form-control" 
@@ -35,7 +44,7 @@ function Registration() {
 
                     {/* Phone Number */}
                     <div className="mb-3">
-                        <label htmlFor="phoneNo" className="form-label">Phone Number</label>
+                        <label htmlFor="" className="form-label">Phone Number</label>
                         <input 
                             type="tel"
                             className="form-control"
@@ -47,7 +56,7 @@ function Registration() {
 
                     {/* Gender Dropdown */}
                     <div className="mb-3">
-                        <label htmlFor="gender" className="form-label">Gender</label>
+                        <label htmlFor="" className="form-label">Gender</label>
                         <select className="form-select" id="gender" required>
                             <option value="">Select your gender</option>
                             <option value="male">Male</option>
@@ -56,7 +65,7 @@ function Registration() {
                     </div>
                     
                     <div className="d-flex flex-column" style={{ minWidth: '120px' }}>
-                        <label htmlFor="DOB" className="form-label">DOB</label>
+                        <label htmlFor="" className="form-label">DOB</label>
                         <input 
                             type="date"
                             id="DOB"
@@ -72,7 +81,7 @@ function Registration() {
 
                     {/* Email Input */}
                     <div className="mb-3">
-                        <label htmlFor="email" className="form-label">Email address</label>
+                        <label htmlFor="" className="form-label">Email address</label>
                         <input 
                             type="email" 
                             className="form-control" 
@@ -84,7 +93,7 @@ function Registration() {
 
                     {/* Password Input */}
                     <div className="mb-3">
-                        <label htmlFor="password" className="form-label">Password</label>
+                        <label htmlFor="" className="form-label">Password</label>
                         <input 
                             type="password" 
                             className="form-control" 
@@ -96,7 +105,7 @@ function Registration() {
 
                     {/* Confirm Password Input */}
                     <div className="mb-3">
-                        <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
+                        <label htmlFor="" className="form-label">Confirm Password</label>
                         <input 
                             type="password" 
                             className="form-control" 
