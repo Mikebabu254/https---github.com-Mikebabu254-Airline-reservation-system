@@ -54,6 +54,21 @@ function Registration() {
                             <option value="female">Female</option>
                         </select>
                     </div>
+                    
+                    <div className="d-flex flex-column" style={{ minWidth: '120px' }}>
+                        <label htmlFor="DOB" className="form-label">DOB</label>
+                        <input 
+                            type="date"
+                            id="DOB"
+                            required
+                            style={{
+                                padding: '10px',
+                                borderRadius: '5px',
+                                border: '1px solid #ccc',
+                                fontSize: '1em'
+                            }}
+                        />
+                    </div>
 
                     {/* Email Input */}
                     <div className="mb-3">
