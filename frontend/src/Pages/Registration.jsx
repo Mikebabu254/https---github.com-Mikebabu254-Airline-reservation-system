@@ -13,19 +13,31 @@ function Registration() {
     const [DOB, setDOB] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [message, setMessage] = useState("");
     
     const handleSubmit = (e) => {
         e.preventDefault();
 
         // Confirm passwords match
         if (password !== confirmPassword) {
-            alert("Passwords do not match!");
+            setMessage("Passwords do not match!");
+            return;
+        }
+
+        // Check if password length is at least 6 characters
+        if (password.length < 6) {
+            setMessage("Password should be at least 6 characters long!");
             return;
         }
 
         axios.post('http://localhost:3000/registration', { firstName, lastName, phoneNo, gender, email, DOB, password })
-            .then(result => console.log(result))
-            .catch(err => console.log(err));
+            .then(result => {
+                setMessage(result.data); // Set the response message from the server
+            })
+            .catch(err => {
+                setMessage("An error occurred. Please try again.");
+                console.log(err);
+            });
     }
 
     return (
@@ -137,6 +149,13 @@ function Registration() {
                     {/* Register Button */}
                     <button type="submit" className="btn btn-primary w-100">Register</button>
                 </form>
+
+                {/* Feedback Message */}
+                {message && (
+                    <div className="alert alert-info mt-3 text-center" role="alert">
+                        {message}
+                    </div>
+                )}
 
                 {/* Login Link */}
                 <div className="text-center mt-3">
