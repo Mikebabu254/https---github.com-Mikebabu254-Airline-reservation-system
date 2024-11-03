@@ -32,6 +32,7 @@ function Registration() {
                             id="firstName" 
                             placeholder="Enter your first name  "
                             required 
+                            onChange={(e)=> setFirstName(e.target.value)}
                             
                         />
     
@@ -46,6 +47,7 @@ function Registration() {
                             id="lastName" 
                             placeholder="Enter your last name" 
                             required 
+                            onChange={(e)=> setLastName(e.target.value)}
                         />
                     </div>
 
@@ -58,6 +60,7 @@ function Registration() {
                             id="phoneNo"
                             placeholder="Enter your phone number"
                             required
+                            onChange={(e)=> setPhoneNo(e.target.value)}
                         />
                     </div>
 
@@ -68,6 +71,7 @@ function Registration() {
                             <option value="">Select your gender</option>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
+                            onChange={(e)=> setGender(e.target.value)}
                         </select>
                     </div>
                     
@@ -84,6 +88,7 @@ function Registration() {
                                 border: '1px solid #ccc',
                                 fontSize: '1em'
                             }}
+                            onChange={(e)=> setDOB(e.target.value)}
                         />
                     </div>
 
@@ -96,6 +101,7 @@ function Registration() {
                             id="email" 
                             placeholder="Enter your email" 
                             required 
+                            onChange={(e)=> setEmail(e.target.value)}
                         />
                     </div>
 
@@ -108,6 +114,7 @@ function Registration() {
                             id="password" 
                             placeholder="Enter your password" 
                             required 
+                            onChange={(e)=> setPassword(e.target.value)}
                         />
                     </div>
 
@@ -120,6 +127,7 @@ function Registration() {
                             id="confirmPassword" 
                             placeholder="Confirm your password" 
                             required 
+                            onChange={(e)=> setConfirmPassword(e.target.value)}
                         />
                     </div>
 
