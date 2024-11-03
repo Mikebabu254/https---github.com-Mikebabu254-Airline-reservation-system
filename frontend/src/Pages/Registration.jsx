@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
+import axios from "axios";
 
 function Registration() {
     
@@ -13,6 +14,13 @@ function Registration() {
     const [password, setPassword] =useState()
     const [confirmPassword, setConfirmPassword] =useState()
     
+    const handleSubmit = (e)=>{
+        e.preventDefault();
+        axios.post('', {firstName,lastName,phoneNo,gender,email,DOB,password,confirmPassword})
+        .then(result => console.log(result))
+        .catch(err => console.log(err))
+        
+    }
     return (
 
         <div className="container d-flex justify-content-center align-items-center vh-100" style={{margin: '100px'}}>
@@ -21,7 +29,7 @@ function Registration() {
                 <h2 className="text-center mb-4">Create an Account</h2>
                 
                 
-                <form>
+                <form onSubmit={handleSubmit}> 
                 
                     {/* First Name Input */}
                     <div className="mb-3">
