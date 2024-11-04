@@ -1,14 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function Login() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [message, setMessage] = useState("");
+    const navigate = useNavigate(); // Hook for navigation
+
+    const handleSubmit = (e) => {
+        e.preventDefault(); // Prevent default form submission
+
+        axios.post('http://localhost:3000/login', { email, password })
+            .then(result => {
+                if (result.data.success) {
+                    navigate("/home"); // Redirect to /home if login is successful
+                } else {
+                    setMessage(result.data.message); // Display message from the server
+                }
+            })
+            .catch(err => {
+                setMessage("An error occurred. Please try again.");
+                console.error(err);
+            });
+    };
+
     return (
         <div className="container d-flex justify-content-center align-items-center vh-100">
             <div className="card shadow-sm p-4" style={{ maxWidth: '400px', width: '100%' }}>
                 <h2 className="text-center mb-4">Login</h2>
                 
-                <form>
+                <form onSubmit={handleSubmit}>
                     {/* Email Input */}
                     <div className="mb-3">
                         <label htmlFor="email" className="form-label">Email address</label>
@@ -18,6 +41,7 @@ function Login() {
                             id="email" 
                             placeholder="Enter your email" 
                             required 
+                            onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
 
@@ -30,6 +54,7 @@ function Login() {
                             id="password" 
                             placeholder="Enter your password" 
                             required 
+                            onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
 
@@ -42,6 +67,13 @@ function Login() {
                     {/* Login Button */}
                     <button type="submit" className="btn btn-primary w-100">Login</button>
                 </form>
+
+                {/* Feedback Message */}
+                {message && (
+                    <div className="alert alert-info mt-3 text-center" role="alert">
+                        {message}
+                    </div>
+                )}
 
                 {/* Additional Links */}
                 <div className="text-center mt-3">
