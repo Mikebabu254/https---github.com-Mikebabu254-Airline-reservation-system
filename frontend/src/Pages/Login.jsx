@@ -14,8 +14,9 @@ function Login() {
 
         axios.post('http://localhost:3000/login', { email, password })
             .then(result => {
-                if (result.data.success) {
-                    navigate("/home"); // Redirect to /home if login is successful
+                console.log(result)
+                if (result.data === "success") {
+                    navigate("/Home"); // Redirect to /home if login is successful
                 } else {
                     setMessage(result.data.message); // Display message from the server
                 }
