@@ -12,6 +12,6 @@ const registrationSchema = new mongoose.Schema({
   role: { type: String, default: "user" }  // Default role is "user"
 });
 
-const RegistrationModel = mongoose.model("Registration", registrationSchema);
+const RegistrationModel = mongoose.model("user", registrationSchema);
 
 module.exports = RegistrationModel;
