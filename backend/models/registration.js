@@ -1,14 +1,17 @@
+// models/registration.js
 const mongoose = require("mongoose");
 
-const RegistrationSchema = new mongoose.Schema({
-    firstName: String,
-    lastName: String,
-    phoneNo: String,
-    gender: String,
-    email: String,
-    DOB: Date,
-    password: String
+const registrationSchema = new mongoose.Schema({
+  firstName: String,
+  lastName: String,
+  phoneNo: String,
+  gender: String,
+  email: { type: String, unique: true },
+  DOB: Date,
+  password: String,
+  role: { type: String, default: "user" }  // Default role is "user"
 });
 
-const RegistrationModel = mongoose.model("User", RegistrationSchema);
+const RegistrationModel = mongoose.model("Registration", registrationSchema);
+
 module.exports = RegistrationModel;

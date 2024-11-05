@@ -1,3 +1,4 @@
+// Login.js
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -7,16 +8,20 @@ function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
-    const navigate = useNavigate(); // Hook for navigation
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
-        e.preventDefault(); // Prevent default form submission
+        e.preventDefault();
 
         axios.post('http://localhost:3000/login', { email, password })
             .then(result => {
-                console.log(result)
-                if (result.data === "success") {
-                    navigate("/Home"); // Redirect to /home if login is successful
+                console.log(result);
+                if (result.data.status === "success") {
+                    if (result.data.role === "admin") {
+                        navigate("/admin"); // Redirect to admin page if role is "admin"
+                    } else {
+                        navigate("/Home"); // Redirect to home page for regular users
+                    }
                 } else {
                     setMessage(result.data.message); // Display message from the server
                 }

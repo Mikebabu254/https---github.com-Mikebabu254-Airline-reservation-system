@@ -14,6 +14,7 @@ function Registration() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [message, setMessage] = useState("");
+    const[status, setStatus] = useState("user");
     
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -30,7 +31,7 @@ function Registration() {
             return;
         }
 
-        axios.post('http://localhost:3000/registration', { firstName, lastName, phoneNo, gender, email, DOB, password })
+        axios.post('http://localhost:3000/registration', { firstName, lastName, phoneNo, gender, email, DOB, password, status})
             .then(result => {
                 setMessage(result.data); // Set the response message from the server
             })
