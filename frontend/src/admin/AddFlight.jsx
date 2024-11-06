@@ -26,7 +26,7 @@ const AddFlight = () => {
                 date
             });
             console.log(response.data); // Log response for confirmation
-            navigate("/flight-schedule"); // Redirect to flight schedule page
+            navigate("/Admin"); // Redirect to flight schedule page
         } catch (error) {
             console.error("Error adding flight:", error);
         }
