@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Nav, Navbar, NavItem } from "react-bootstrap";
 import Login from "../Pages/Login";
+import Dashboard from "../admin/Dashboard";
 
 const SideNavBar = () => {
     const [activeSection, setActiveSection] = useState("dashboard");
@@ -8,9 +9,9 @@ const SideNavBar = () => {
     const renderContent = () => {
         switch (activeSection) {
             case "dashboard":
-                return <Login></Login>;
+                return <Dashboard/>;
             case "users":
-                return <div>Manage Users Content</div>;
+                return <Dashboard/>;
             case "orders":
                 return <div>Manage Orders Content</div>;
             case "reports":
