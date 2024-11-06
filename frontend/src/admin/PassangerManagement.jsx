@@ -2,7 +2,7 @@ import React from "react";
 
 const PassangerManagement =()=>{
     return(
-        <div></div>
+        <div>Passanger Management</div>
     )
 }
 
