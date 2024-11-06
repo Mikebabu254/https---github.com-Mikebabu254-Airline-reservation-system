@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const RegistrationModel = require('./models/registration'); // Assuming you have a registration model file
+const flightModel = require("./models/flight");
 const app = express();
 
 app.use(cors());
@@ -60,6 +61,15 @@ app.post("/login", (req, res) => {
     })
     .catch(err => res.json({ message: "An error occurred", error: err }));
 });
+
+//POST route for flight schedule
+app.post("/flight-schedule", (req,res) => {
+  const {flightNumber, origin, destination, time, date} = req.body;
+
+  flightModel.create({ flightNumber, origin, destination, time, date })
+  .then(flight => res.json({ message: "Flight added successfully", flight }))
+    .catch(err => res.json({ message: "Failed to add flight", error: err }));
+})
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

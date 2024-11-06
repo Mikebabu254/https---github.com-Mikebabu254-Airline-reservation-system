@@ -10,12 +10,13 @@ const AddFlight = () => {
     const [origin, setOrigin] = useState("");
     const [destination, setDestination] = useState("");
     const [time, setTime] = useState("");
+    const [date, setDate] = useState("");
 
     // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
         // Placeholder logic for adding flight data
-        console.log("New Flight:", { flightNumber, origin, destination, time });
+        console.log("New Flight:", { flightNumber, origin, destination, time, date });
 
         // Redirect back to the flight schedule page
         navigate("/flight-schedule");
@@ -66,6 +67,17 @@ const AddFlight = () => {
                         id="time"
                         value={time}
                         onChange={(e) => setTime(e.target.value)}
+                        required
+                    />
+                </div>
+                <div className="form-group mb-4">
+                    <label htmlFor="time">Date</label>
+                    <input
+                        type="Date"
+                        className="form-control"
+                        id="date"
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
                         required
                     />
                 </div>
