@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const AddFlight = () => {
@@ -13,13 +14,22 @@ const AddFlight = () => {
     const [date, setDate] = useState("");
 
     // Handle form submission
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Placeholder logic for adding flight data
-        console.log("New Flight:", { flightNumber, origin, destination, time, date });
-
-        // Redirect back to the flight schedule page
-        navigate("/flight-schedule");
+        
+        try {
+            const response = await axios.post("http://localhost:3000/flight-schedule", {
+                flightNumber,
+                origin,
+                destination,
+                time,
+                date
+            });
+            console.log(response.data); // Log response for confirmation
+            navigate("/flight-schedule"); // Redirect to flight schedule page
+        } catch (error) {
+            console.error("Error adding flight:", error);
+        }
     };
 
     return (
@@ -71,9 +81,9 @@ const AddFlight = () => {
                     />
                 </div>
                 <div className="form-group mb-4">
-                    <label htmlFor="time">Date</label>
+                    <label htmlFor="date">Date</label>
                     <input
-                        type="Date"
+                        type="date"
                         className="form-control"
                         id="date"
                         value={date}

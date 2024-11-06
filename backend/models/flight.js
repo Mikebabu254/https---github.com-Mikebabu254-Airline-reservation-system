@@ -1,13 +1,27 @@
-const mongoose = require("mongoose")
+// const mongoose = require("mongoose")
+
+// const flightSchema = new mongoose.Schema({
+//     flightNumber: String,
+//     origin: String,
+//     destination: String,
+//     time: time,
+//     date: date
+// });
+
+// const flightModel= mongoose.model("flight schedule", flightSchema);
+
+// module.exports = flightModel;
+
+const mongoose = require("mongoose");
 
 const flightSchema = new mongoose.Schema({
-    flightNumber: String,
-    origin: String,
-    destination: String,
-    time: time,
-    date: Date
+    flightNumber: { type: String, required: true },
+    origin: { type: String, required: true },
+    destination: { type: String, required: true },
+    time: { type: String, required: true }, // Stores time as a string in "HH:MM" format
+    date: { type: Date, required: true }    // Stores date in Date format
 });
 
-const flightModel= mongoose.model("flight schedule", flightSchema);
+const FlightModel = mongoose.model("FlightSchedule", flightSchema);
 
-module.exports = flightModel;
+module.exports = FlightModel;

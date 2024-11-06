@@ -1,20 +1,20 @@
-// server.js
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const RegistrationModel = require('./models/registration'); // Assuming you have a registration model file
-const flightModel = require("./models/flight");
+const FlightModel = require("./models/flight");             // Use updated flight model
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
 const PORT = 3000;
+
 mongoose.connect("mongodb://127.0.0.1:27017/Jetset-airline-reservation", {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-.then(() => console.log("Connected to MongoDB "))
+.then(() => console.log("Connected to MongoDB"))
 .catch(err => console.error("Could not connect to MongoDB", err));
 
 // POST route for registration
@@ -36,8 +36,8 @@ app.post("/registration", (req, res) => {
           password, 
           role: "user"  // Default role set to "user"
         })
-          .then(result => res.json("Account created successfully"))
-          .catch(err => res.json(err));
+        .then(result => res.json("Account created successfully"))
+        .catch(err => res.json(err));
       }
     })
     .catch(err => res.json(err));
@@ -47,7 +47,7 @@ app.post("/registration", (req, res) => {
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
 
-  RegistrationModel.findOne({ email: email })
+  RegistrationModel.findOne({ email })
     .then(user => {
       if (user) {
         if (user.password === password) {
@@ -62,14 +62,15 @@ app.post("/login", (req, res) => {
     .catch(err => res.json({ message: "An error occurred", error: err }));
 });
 
-//POST route for flight schedule
-app.post("/flight-schedule", (req,res) => {
-  const {flightNumber, origin, destination, time, date} = req.body;
+// POST route for adding a flight to the schedule
+app.post("/flight-schedule", (req, res) => {
+  const { flightNumber, origin, destination, time, date } = req.body;
 
-  flightModel.create({ flightNumber, origin, destination, time, date })
-  .then(flight => res.json({ message: "Flight added successfully", flight }))
+  // Create a new flight document
+  FlightModel.create({ flightNumber, origin, destination, time, date })
+    .then(flight => res.json({ message: "Flight added successfully", flight }))
     .catch(err => res.json({ message: "Failed to add flight", error: err }));
-})
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
