@@ -1,9 +1,9 @@
 import React from "react";
 
-const PassangerManagement =()=>{
+const Settings =()=>{
     return(
         <div></div>
     )
 }
 
-export default PassangerManagement;
+export default Settings;

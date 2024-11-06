@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import { Nav, Navbar, NavItem } from "react-bootstrap";
 import Login from "../Pages/Login";
 import Dashboard from "../admin/Dashboard";
+import ViewBooking from "../admin/ViewBooking";
+import FlightSchedule from "../admin/FlightSchedule";
+import PassangerManagement from "../admin/PassangerManagement";
+import Settings from "../admin/Settings";
 
 const SideNavBar = () => {
     const [activeSection, setActiveSection] = useState("dashboard");
@@ -10,16 +14,16 @@ const SideNavBar = () => {
         switch (activeSection) {
             case "dashboard":
                 return <Dashboard/>;
-            case "users":
-                return <Dashboard/>;
-            case "orders":
-                return <div>Manage Orders Content</div>;
-            case "reports":
-                return <div>Reports Content</div>;
+            case "flightSchedule":
+                return <FlightSchedule/>;
+            case "passangerManagement":
+                return <PassangerManagement/>;
+            case "viewBooking":
+                return <ViewBooking/>;
             case "settings":
-                return <div>Settings Content</div>;
+                return <Settings/>;
             default:
-                return <div>Welcome to the Admin Panel</div>;
+                return <Dashboard/>;
         }
     };
 
@@ -36,18 +40,18 @@ const SideNavBar = () => {
                         </button>
                     </NavItem>
                     <NavItem>
-                        <button className="btn btn-link text-light" onClick={() => setActiveSection("users")}>
-                            ewdfa
+                        <button className="btn btn-link text-light" onClick={() => setActiveSection("flightSchedule")}>
+                            FLight Schedule 
                         </button>
                     </NavItem>
                     <NavItem>
-                        <button className="btn btn-link text-light" onClick={() => setActiveSection("orders")}>
-                            Manage Orders
+                        <button className="btn btn-link text-light" onClick={() => setActiveSection("passangerManagement")}>
+                        Passanger Management
                         </button>
                     </NavItem>
                     <NavItem>
-                        <button className="btn btn-link text-light" onClick={() => setActiveSection("reports")}>
-                            Reports
+                        <button className="btn btn-link text-light" onClick={() => setActiveSection("viewBooking")}>
+                        View Booking
                         </button>
                     </NavItem>
                     <NavItem>
