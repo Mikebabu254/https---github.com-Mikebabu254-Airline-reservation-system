@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Nav, Navbar, NavItem } from "react-bootstrap";
+import Login from "../Pages/Login";
 
 const SideNavBar = () => {
     const [activeSection, setActiveSection] = useState("dashboard");
@@ -7,7 +8,7 @@ const SideNavBar = () => {
     const renderContent = () => {
         switch (activeSection) {
             case "dashboard":
-                return <div>Dashboard Content</div>;
+                return <Login></Login>;
             case "users":
                 return <div>Manage Users Content</div>;
             case "orders":
@@ -35,7 +36,7 @@ const SideNavBar = () => {
                     </NavItem>
                     <NavItem>
                         <button className="btn btn-link text-light" onClick={() => setActiveSection("users")}>
-                            Manage Users
+                            ewdfa
                         </button>
                     </NavItem>
                     <NavItem>
