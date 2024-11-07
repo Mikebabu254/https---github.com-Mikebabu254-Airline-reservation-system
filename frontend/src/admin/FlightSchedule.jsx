@@ -1,8 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const FlightSchedule = () => {
     const navigate = useNavigate();
+    const [flightss, setFlights] = useState([]);
+
+    const fetchFlights = async () => {
+        try {
+            const response = await axios.get("/flights");
+            setFlights(response.data);
+        } catch (error) {
+            console.error("Error fetching flights:", error);
+        }
+    };
+
+    // Fetch flights on component mount
+    // useEffect(() => {
+    //     fetchFlights();
+    // }, []);
+
 
     const flights = [
         { id: 1, flightNumber: "AA123", origin: "New York", destination: "Los Angeles", time: "10:00 AM" },
@@ -28,13 +45,14 @@ const FlightSchedule = () => {
                 </thead>
                 <tbody>
                     {flights.map((flight) => (
-                        <tr key={flight.id}>
+                        <tr key={flight._id}>
                             <td>{flight.flightNumber}</td>
                             <td>{flight.origin}</td>
                             <td>{flight.destination}</td>
                             <td>{flight.time}</td>
+                            <td>{new Date(flight.date).toLocaleDateString()}</td>
                             <td><button className="btn btn-primary">Edit</button></td>
-                            <td><button className="btn btn-primary">Delete</button></td>
+                            <td><button className="btn btn-danger">Delete</button></td>
                         </tr>
                     ))}
                 </tbody>
