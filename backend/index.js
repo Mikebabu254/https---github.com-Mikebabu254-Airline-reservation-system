@@ -4,6 +4,7 @@ const cors = require("cors");
 const RegistrationModel = require('./models/registration'); // Assuming you have a registration model file
 const FlightModel = require("./models/flight");             // Use updated flight model
 const app = express();
+const router = express.Router();
 
 app.use(cors());
 app.use(express.json());
@@ -71,6 +72,9 @@ app.post("/flight-schedule", (req, res) => {
     .then(flight => res.json({ message: "Flight added successfully", flight }))
     .catch(err => res.json({ message: "Failed to add flight", error: err }));
 });
+
+//getting flights 
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

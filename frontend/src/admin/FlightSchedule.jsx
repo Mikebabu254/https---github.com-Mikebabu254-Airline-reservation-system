@@ -33,6 +33,8 @@ const FlightSchedule = () => {
                             <td>{flight.origin}</td>
                             <td>{flight.destination}</td>
                             <td>{flight.time}</td>
+                            <td><button className="btn btn-primary">Edit</button></td>
+                            <td><button className="btn btn-primary">Delete</button></td>
                         </tr>
                     ))}
                 </tbody>
