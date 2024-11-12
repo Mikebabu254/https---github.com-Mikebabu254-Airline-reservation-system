@@ -3,9 +3,9 @@ import NavBar from "../Components/NavBar";
 
 function HomeUser(){
     return(
-        <>
-        <NavBar></NavBar>
-        </>
+        <div>
+            <NavBar></NavBar>
+        </div>
     )
 }
 

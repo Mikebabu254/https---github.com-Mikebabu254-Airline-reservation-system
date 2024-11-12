@@ -20,7 +20,7 @@ function Login() {
                     if (result.data.role === "admin") {
                         navigate("/admin"); // Redirect to admin page if role is "admin"
                     } else {
-                        navigate("/HomeUser"); // Redirect to home page for regular users
+                        navigate("/Profile"); // Redirect to home page for regular users
                     }
                 } else {
                     setMessage(result.data.message); // Display message from the server
