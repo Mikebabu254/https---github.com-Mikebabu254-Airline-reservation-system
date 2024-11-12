@@ -53,7 +53,13 @@ app.post("/login", (req, res) => {
     .then(user => {
       if (user) {
         if (user.password === password) {
-          res.json({ status: "success", role: user.role });
+          res.json({ status: "success", role: user.role, user: {
+            firstName: user.firstName,
+            lastName: user.lastName,
+            gender: user.gender,
+            email: user.email,
+            DOB: user.DOB
+          } });
         } else {
           res.json({ message: "The password is incorrect" });
         }

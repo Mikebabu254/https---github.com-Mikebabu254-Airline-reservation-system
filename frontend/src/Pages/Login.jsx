@@ -17,6 +17,8 @@ function Login() {
             .then(result => {
                 console.log(result);
                 if (result.data.status === "success") {
+                    const userData = result.data.user;
+                    localStorage.setItem("user", JSON.stringify(userData));
                     if (result.data.role === "admin") {
                         navigate("/admin"); // Redirect to admin page if role is "admin"
                     } else {

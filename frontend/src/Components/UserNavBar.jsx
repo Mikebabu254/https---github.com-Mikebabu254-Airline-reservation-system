@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { FaUser } from 'react-icons/fa';  // Import FontAwesome user icon
 
 const UserNavBar = () => {
   return (
@@ -55,52 +56,21 @@ const UserNavBar = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/profile">
-                Profile
+              <Link className="nav-link" to="/support">
+                Customer Support
               </Link>
             </li>
 
-
-            {/* Dropdown menu */}
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                More
-              </a>
-              <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li>
-                  <Link className="dropdown-item" to="/support">
-                    Customer Support
-                  </Link>
-                </li>
-                <li>
-                  <Link className="dropdown-item" to="/deals">
-                    Deals
-                  </Link>
-                </li>
-                <li>
-                  <Link className="dropdown-item" to="/about">
-                    About Us
-                  </Link>
-                </li>
-                <li><hr className="dropdown-divider" /></li>
-                <li>
-                  <Link className="dropdown-item" to="/logout">
-                    Logout
-                  </Link>
-                </li>
-              </ul>
+            {/* User Profile with Icon */}
+            <li className="nav-item">
+              <Link className="nav-link" to="/profile">
+                <FaUser style={{ marginRight: '5px' }} /> Profile
+              </Link>
             </li>
 
-            {/* Login Button */}
+            {/* Logout Button */}
             <li className="nav-item ms-lg-3">
-              <Link className="btn btn-primary" to="/login">
+              <Link className="btn btn-primary" to="/logout">
                 Logout
               </Link>
             </li>
