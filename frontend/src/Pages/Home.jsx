@@ -8,7 +8,6 @@ function Home() {
     <>
         <NavBar/>
         <BookingTicket/>
-        <h1>home</h1>
         <Footer/>
     </>
   );
