@@ -4,6 +4,7 @@ const cors = require("cors");
 const RegistrationModel = require('./models/registration');
 const FlightModel = require("./models/flight");
 const { default: FlightSchedule } = require("./models/flight");
+const Booking = require("./models/booking");
 const app = express();
 
 app.use(cors());
@@ -18,6 +19,8 @@ mongoose.connect("mongodb://127.0.0.1:27017/Jetset-airline-reservation", {
 })
 .then(() => console.log("Connected to MongoDB"))
 .catch(err => console.error("Could not connect to MongoDB", err));
+
+
 
 // Registration route
 app.post("/registration", (req, res) => {
@@ -45,6 +48,8 @@ app.post("/registration", (req, res) => {
     .catch(err => res.json(err));
 });
 
+
+
 // Login route
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
@@ -70,6 +75,8 @@ app.post("/login", (req, res) => {
     .catch(err => res.json({ message: "An error occurred", error: err }));
 });
 
+
+
 // Route for adding a flight
 app.post("/flight-schedule", (req, res) => {
   const { flightNumber, origin, destination, time, date } = req.body;
@@ -78,6 +85,8 @@ app.post("/flight-schedule", (req, res) => {
     .then(flight => res.json({ message: "Flight added successfully", flight }))
     .catch(err => res.json({ message: "Failed to add flight", error: err }));
 });
+
+
 
 // Route for getting all flights
 app.get("/flights", async (req, res) => {
@@ -88,6 +97,20 @@ app.get("/flights", async (req, res) => {
     res.status(500).json({ message: "Error retrieving flights" });
   }
 });
+
+
+//Route for booking flights
+app.post("/api/bookings", async (req, res) =>{
+  try{
+    const bookingData = req.body;
+    const booking = new Booking(bookingData);
+    await booking.save();
+    res.status(201).json({ message: "Booking saved successfully!" });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Failed to save booking." });
+    }
+})
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
