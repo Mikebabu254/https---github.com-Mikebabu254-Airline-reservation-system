@@ -1,12 +1,12 @@
 import React from "react";
-import NavBar from "../Components/NavBar";
 import BookingTicket from "../Components/BookingTicket";
 import Footer from "../Components/Footer";
+import UserNavBar from "../Components/UserNavBar";
 
 function Home() {
   return (
     <>
-        <NavBar/>
+        <UserNavBar/>
         <BookingTicket/>
         <Footer/>
     </>

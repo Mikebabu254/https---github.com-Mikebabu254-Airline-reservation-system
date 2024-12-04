@@ -1,11 +1,12 @@
 import React from 'react';
-import NavBar from "../Components/NavBar";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Footer from '../Components/Footer';
+import UserNavBar from '../Components/UserNavBar';
 
 function Profile() {
     return (
         <>
-            <NavBar />
+            <UserNavBar/>
             <div className="container mt-5">
                 <h1 className="text-center mb-5">Profile</h1>  
 
@@ -41,6 +42,7 @@ function Profile() {
                     </div>
                 </div>  
             </div>
+            <Footer/>
         </>
     );
 }

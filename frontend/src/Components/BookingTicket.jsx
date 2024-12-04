@@ -1,153 +1,92 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const BookingTicket = () => {
     const [isRoundTrip, setIsRoundTrip] = useState(false);
 
     const handleTripType = (tripType) => {
-        setIsRoundTrip(tripType === 'round');
+        setIsRoundTrip(tripType === "round");
     };
 
     return (
-        <form style={{
-            marginTop: '20px',
-            background: 'linear-gradient(135deg, #f0c27b, #4b1248)',
-            padding: '20px',
-            borderRadius: '8px',
-            color: '#fff',
-            maxWidth: '600px',
-            boxShadow: '0px 4px 12px rgba(0,0,0,0.1)',
-            margin: '0 auto'
-        }}> 
-            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-                <button 
-                    type="button" 
-                    onClick={() => handleTripType('round')} 
-                    style={{
-                        background: isRoundTrip ? '#4b1248' : '#ccc', 
-                        color: '#fff', 
-                        border: 'none', 
-                        padding: '10px 20px', 
-                        borderRadius: '5px', 
-                        cursor: 'pointer',
-                        marginRight: '10px'
-                    }}
+        <form className="mt-4 bg-gradient p-4 rounded text-white shadow" style={{ maxWidth: "600px", margin: "0 auto" }}>
+            {/* Trip Type Buttons */}
+            <div className="d-flex justify-content-center mb-4">
+                <button
+                    type="button"
+                    onClick={() => handleTripType("round")}
+                    className={`btn me-2 ${isRoundTrip ? "btn-dark" : "btn-secondary"}`}
                 >
                     Round Trip
                 </button>
-                <button 
-                    type="button" 
-                    onClick={() => handleTripType('oneWay')} 
-                    style={{
-                        background: !isRoundTrip ? '#4b1248' : '#ccc', 
-                        color: '#fff', 
-                        border: 'none', 
-                        padding: '10px 20px', 
-                        borderRadius: '5px', 
-                        cursor: 'pointer'
-                    }}
+                <button
+                    type="button"
+                    onClick={() => handleTripType("oneWay")}
+                    className={`btn ${!isRoundTrip ? "btn-dark" : "btn-secondary"}`}
                 >
                     One Way Trip
                 </button>
-            </div>  
-
-            <div className="d-flex flex-wrap" style={{ gap: '20px', justifyContent: 'center' }}>
-                <div className="d-flex flex-column" style={{ minWidth: '120px' }}>
+            </div>
+            
+            {/* Input Fields */}
+            <div className="row g-3">
+                <div className="col-md-6">
                     <label htmlFor="fromLocation" className="form-label">Where from</label>
-                    <input 
+                    <input
                         type="text"
                         id="fromLocation"
+                        className="form-control"
                         placeholder="Enter your location"
                         required
-                        style={{
-                            padding: '10px',
-                            borderRadius: '5px',
-                            border: '1px solid #ccc',
-                            fontSize: '1em'
-                        }}
                     />
                 </div>
-
-                <div className="d-flex flex-column" style={{ minWidth: '120px' }}>
+                <div className="col-md-6">
                     <label htmlFor="destination" className="form-label">Destination</label>
-                    <input 
+                    <input
                         type="text"
                         id="destination"
+                        className="form-control"
                         placeholder="Enter your destination"
                         required
-                        style={{
-                            padding: '10px',
-                            borderRadius: '5px',
-                            border: '1px solid #ccc',
-                            fontSize: '1em'
-                        }}
                     />
                 </div>
-
-                <div className="d-flex flex-column" style={{ minWidth: '120px' }}>
-                    <label htmlFor="departure" className="form-label">Departure</label>
-                    <input 
+                <div className="col-md-6">
+                
+                    <label htmlFor="departure" className="form-label">Departure Date (Today)</label>
+                    <input
                         type="date"
                         id="departure"
+                        className="form-control"
                         required
-                        style={{
-                            padding: '10px',
-                            borderRadius: '5px',
-                            border: '1px solid #ccc',
-                            fontSize: '1em'
-                        }}
                     />
                 </div>
-
-                <div 
-                    className="d-flex flex-column" 
-                    style={{ 
-                        minWidth: '120px', 
-                        visibility: isRoundTrip ? 'visible' : 'hidden', 
-                        filter: isRoundTrip ? 'none' : 'blur(2px)' 
-                    }}
-                >
-                    <label htmlFor="return" className="form-label">Return</label>
-                    <input 
+                <div className="col-md-6">
+                    <label htmlFor="return" className="form-label">Return Date (Come Back)</label>
+                    <input
                         type="date"
                         id="return"
-                        disabled={!isRoundTrip} // Disable input when it’s not a round trip
-                        required={isRoundTrip} // Only require if round trip is selected
-                        style={{
-                            padding: '10px',
-                            borderRadius: '5px',
-                            border: '1px solid #ccc',
-                            fontSize: '1em'
-                        }}
+                        className="form-control"
+                        required={isRoundTrip}
+                        disabled={!isRoundTrip}
                     />
                 </div>
-
-                <div className="d-flex flex-column" style={{ minWidth: '120px' }}>
+                <div className="col-md-6">
                     <label htmlFor="seats" className="form-label">Seats</label>
-                    <input 
+                    <input
                         type="number"
                         id="seats"
-                        min="1"  // Prevent negative values
+                        className="form-control"
+                        min="1"
+                        placeholder="Enter number of seats"
                         required
-                        style={{
-                            padding: '10px',
-                            borderRadius: '5px',
-                            border: '1px solid #ccc',
-                            fontSize: '1em'
-                        }}
                     />
                 </div>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-                <button style={{
-                    background: '#4b1248', 
-                    color: '#fff', 
-                    border: 'none', 
-                    padding: '12px 30px', 
-                    borderRadius: '5px', 
-                    cursor: 'pointer',
-                    fontSize: '1em'
-                }}>Search</button>
+            {/* Submit Button */}
+            <div className="d-flex justify-content-center mt-4">
+                <button type="submit" className="btn btn-dark px-4 py-2">
+                    Search
+                </button>
             </div>
         </form>
     );
