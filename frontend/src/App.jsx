@@ -9,6 +9,7 @@ import BookingConfirmation from "./Pages/BookingConfirmation";
 import Admin from "./Pages/Admin";
 import AddFlight from "./admin/AddFlight";
 import HomeUser from "./Pages/HomeUser";
+import AddCity from "./admin/AddCity";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <Route path="/Admin" element={<Admin/>}/>
           <Route path="/admin/add-flight" element={<AddFlight/>}/>
           <Route path="/HomeUser" element={<HomeUser/>}/>
+          <Route path="/admin/add-city" element={<AddCity/>}/>
         </Routes>
       </BrowserRouter>
     </>
