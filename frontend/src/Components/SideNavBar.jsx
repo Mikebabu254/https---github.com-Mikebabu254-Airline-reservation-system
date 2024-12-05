@@ -6,6 +6,7 @@ import ViewBooking from "../admin/ViewBooking";
 import FlightSchedule from "../admin/FlightSchedule";
 import PassangerManagement from "../admin/PassangerManagement";
 import Settings from "../admin/Settings";
+import AddCity from "../admin/AddCity";
 
 const SideNavBar = () => {
     const [activeSection, setActiveSection] = useState("dashboard");
@@ -16,6 +17,8 @@ const SideNavBar = () => {
                 return <Dashboard/>;
             case "flightSchedule":
                 return <FlightSchedule/>;
+            case "addCity":
+                return <AddCity/>;
             case "passangerManagement":
                 return <PassangerManagement/>;
             case "viewBooking":
@@ -42,6 +45,11 @@ const SideNavBar = () => {
                     <NavItem>
                         <button className="btn btn-link text-light" onClick={() => setActiveSection("flightSchedule")}>
                             FLight Schedule 
+                        </button>
+                    </NavItem>
+                    <NavItem>
+                        <button className="btn btn-link text-light" onClick={() => setActiveSection("addCity")}>
+                            Add City
                         </button>
                     </NavItem>
                     <NavItem>
