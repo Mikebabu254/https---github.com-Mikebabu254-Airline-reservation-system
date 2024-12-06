@@ -8,31 +8,49 @@ const AddCity = () => {
 
     // State for form fields
     const [cityCode, setCityCode] = useState("");
+    const [countryName, setCountryName] = useState("");
     const [cityName, setCityName] = useState("");
     const [timeZone, setTimeZone] = useState("");
-    const [countryName, setCountryName] = useState("");
+
+    // State for feedback messages
+    const [feedback, setFeedback] = useState("");
 
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Reset feedback
+        setFeedback("");
+
         // Validate form
-        if (!cityCode || !cityName || !timeZone) {
-            alert("Please fill in all fields.");
+        if (!cityCode || !countryName || !cityName || !timeZone) {
+            setFeedback("Please fill in all fields.");
             return;
         }
 
         try {
             const response = await axios.post("http://localhost:3000/add-city", {
                 cityCode,
+                countryName,
                 cityName,
                 timeZone,
-                countryName
             });
-            console.log("City added successfully:", response.data);
-            navigate("/Admin"); // Redirect to Admin page
+
+            // Handle success
+            if (response.status === 201) {
+                setFeedback("City added successfully.");
+                setCityCode("");
+                setCountryName("");
+                setCityName("");
+                setTimeZone("");
+            }
         } catch (error) {
-            console.error("Error adding city:", error);
+            // Handle errors
+            if (error.response && error.response.status === 409) {
+                setFeedback("City with this code already exists.");
+            } else {
+                setFeedback("An error occurred. Please try again.");
+            }
         }
     };
 
@@ -93,6 +111,11 @@ const AddCity = () => {
                     Add City
                 </button>
             </form>
+            {feedback && (
+                <div className={`alert mt-3 ${feedback.includes("success") ? "alert-success" : "alert-danger"}`}>
+                    {feedback}
+                </div>
+            )}
         </div>
     );
 };
