@@ -4,7 +4,7 @@ import SideNavBar from "../Components/SideNavBar";
 
 function Admin(){
     return(
-        <div style={{ backgroundColor: "blue"}}>  
+        <div>  
             <SideNavBar/>
         </div>
     )

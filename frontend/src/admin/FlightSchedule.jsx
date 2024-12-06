@@ -1,31 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const FlightSchedule = () => {
     const navigate = useNavigate();
-    const [flightss, setFlights] = useState([]);
+    const [flights, setFlights] = useState([]); // State to store flight data
 
+    // Fetch flights from the backend
     const fetchFlights = async () => {
         try {
-            const response = await axios.get("/flights");
+            const response = await axios.get("http://localhost:3000/flight-schedule"); // Update with your backend URL
             setFlights(response.data);
         } catch (error) {
             console.error("Error fetching flights:", error);
         }
     };
 
-    // Fetch flights on component mount
-    // useEffect(() => {
-    //     fetchFlights();
-    // }, []);
-
-
-    const flights = [
-        { id: 1, flightNumber: "AA123", origin: "New York", destination: "Los Angeles", time: "10:00 AM" },
-        { id: 2, flightNumber: "BA456", origin: "London", destination: "Paris", time: "12:00 PM" },
-        { id: 3, flightNumber: "CA789", origin: "Tokyo", destination: "Seoul", time: "02:00 PM" },
-    ];
+    // Fetch flights when the component mounts
+    useEffect(() => {
+        fetchFlights();
+    }, []);
 
     const handleAddFlight = () => {
         navigate("/admin/add-flight");
@@ -41,20 +35,32 @@ const FlightSchedule = () => {
                         <th>Origin</th>
                         <th>Destination</th>
                         <th>Time</th>
+                        <th>Date</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {flights.map((flight) => (
-                        <tr key={flight._id}>
-                            <td>{flight.flightNumber}</td>
-                            <td>{flight.origin}</td>
-                            <td>{flight.destination}</td>
-                            <td>{flight.time}</td>
-                            <td>{new Date(flight.date).toLocaleDateString()}</td>
-                            <td><button className="btn btn-primary">Edit</button></td>
-                            <td><button className="btn btn-danger">Delete</button></td>
+                    {flights.length > 0 ? (
+                        flights.map((flight) => (
+                            <tr key={flight._id}>
+                                <td>{flight.flightNumber}</td>
+                                <td>{flight.origin}</td>
+                                <td>{flight.destination}</td>
+                                <td>{flight.time}</td>
+                                <td>{new Date(flight.date).toLocaleDateString()}</td>
+                                <td>
+                                    <button className="btn btn-primary btn-sm me-2">Edit</button>
+                                    <button className="btn btn-danger btn-sm">Delete</button>
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="6" className="text-center">
+                                No flights available.
+                            </td>
                         </tr>
-                    ))}
+                    )}
                 </tbody>
             </table>
             <div className="d-flex justify-content-end">

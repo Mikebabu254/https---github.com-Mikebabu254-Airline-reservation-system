@@ -128,14 +128,16 @@ app.get("/cities", async (req, res) => {
 
 
 // Route for getting all flights
-app.get("/flights", async (req, res) => {
+app.get("/flight-schedule", async (req, res) => {
   try {
-    const flights = await FlightModel.find();
-    res.json(flightschedule);
+    const flights = await FlightModel.find(); // Fetch all flights from the database
+    res.status(200).json(flights);
   } catch (error) {
-    res.status(500).json({ message: "Error retrieving flights" });
+    console.error("Error fetching flights:", error);
+    res.status(500).json({ message: "Failed to fetch flights", error });
   }
 });
+
 
 
 //Route for booking flights

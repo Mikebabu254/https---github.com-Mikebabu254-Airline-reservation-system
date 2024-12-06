@@ -18,8 +18,6 @@ const SideNavBar = () => {
                 return <Dashboard/>;
             case "flightSchedule":
                 return <FlightSchedule/>;
-            case "addCity":
-                return <AddCity/>;
             case "cityList":
                 return <CityList/>;
             case "passangerManagement":
@@ -48,11 +46,6 @@ const SideNavBar = () => {
                     <NavItem>
                         <button className="btn btn-link text-light" onClick={() => setActiveSection("flightSchedule")}>
                             FLight Schedule 
-                        </button>
-                    </NavItem>
-                    <NavItem>
-                        <button className="btn btn-link text-light" onClick={() => setActiveSection("addCity")}>
-                            Add City
                         </button>
                     </NavItem>
                     <NavItem>
