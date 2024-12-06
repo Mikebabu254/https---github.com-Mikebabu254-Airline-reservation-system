@@ -7,26 +7,30 @@ const AddCity = () => {
     const navigate = useNavigate();
 
     // State for form fields
-    const [flightNumber, setFlightNumber] = useState("");
-    const [origin, setOrigin] = useState("");
-    const [destination, setDestination] = useState("");
-    const [time, setTime] = useState("");
-    const [date, setDate] = useState("");
+    const [cityCode, setCityCode] = useState("");
+    const [cityName, setCityName] = useState("");
+    const [timeZone, setTimeZone] = useState("");
+    const [countryName, setCountryName] = useState("");
 
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
+        // Validate form
+        if (!cityCode || !cityName || !timeZone) {
+            alert("Please fill in all fields.");
+            return;
+        }
+
         try {
-            const response = await axios.post("http://localhost:3000/flight-schedule", {
-                flightNumber,
-                origin,
-                destination,
-                time,
-                date
+            const response = await axios.post("http://localhost:3000/add-city", {
+                cityCode,
+                cityName,
+                timeZone,
+                countryName
             });
-            console.log(response.data); // Log response for confirmation
-            navigate("/Admin"); // Redirect to flight schedule page
+            console.log("City added successfully:", response.data);
+            navigate("/Admin"); // Redirect to Admin page
         } catch (error) {
             console.error("Error adding city:", error);
         }
@@ -34,65 +38,59 @@ const AddCity = () => {
 
     return (
         <div className="container mt-4">
-            <h1 className="text-center mb-4">Add New Flight</h1>
+            <h1 className="text-center mb-4">Add City</h1>
             <form onSubmit={handleSubmit}>
                 <div className="form-group mb-3">
-                    <label htmlFor="flightNumber">Flight Number</label>
+                    <label htmlFor="cityCode">City Code</label>
                     <input
-                        type="text"
+                        type="number"
                         className="form-control"
-                        id="flightNumber"
-                        value={flightNumber}
-                        onChange={(e) => setFlightNumber(e.target.value)}
+                        id="cityCode"
+                        value={cityCode}
+                        onChange={(e) => setCityCode(e.target.value)}
                         required
                     />
                 </div>
                 <div className="form-group mb-3">
-                    <label htmlFor="origin">Origin</label>
+                    <label htmlFor="countryName">Country Name</label>
                     <input
                         type="text"
                         className="form-control"
-                        id="origin"
-                        value={origin}
-                        onChange={(e) => setOrigin(e.target.value)}
+                        id="countryName"
+                        value={countryName}
+                        onChange={(e) => setCountryName(e.target.value)}
                         required
                     />
                 </div>
                 <div className="form-group mb-3">
-                    <label htmlFor="destination">Destination</label>
+                    <label htmlFor="cityName">City Name</label>
                     <input
                         type="text"
                         className="form-control"
-                        id="destination"
-                        value={destination}
-                        onChange={(e) => setDestination(e.target.value)}
+                        id="cityName"
+                        value={cityName}
+                        onChange={(e) => setCityName(e.target.value)}
                         required
                     />
                 </div>
-                <div className="form-group mb-4">
-                    <label htmlFor="time">Time</label>
-                    <input
-                        type="time"
+                <div className="form-group mb-3">
+                    <label htmlFor="timeZone">Time Zone</label>
+                    <select
                         className="form-control"
-                        id="time"
-                        value={time}
-                        onChange={(e) => setTime(e.target.value)}
+                        id="timeZone"
+                        value={timeZone}
+                        onChange={(e) => setTimeZone(e.target.value)}
                         required
-                    />
-                </div>
-                <div className="form-group mb-4">
-                    <label htmlFor="date">Date</label>
-                    <input
-                        type="date"
-                        className="form-control"
-                        id="date"
-                        value={date}
-                        onChange={(e) => setDate(e.target.value)}
-                        required
-                    />
+                    >
+                        <option value="" disabled>
+                            Select Time Zone
+                        </option>
+                        <option value="GMT+3">GMT+3</option>
+                        <option value="GMT+2">GMT+2</option>
+                    </select>
                 </div>
                 <button type="submit" className="btn btn-primary">
-                    Add Flight
+                    Add City
                 </button>
             </form>
         </div>

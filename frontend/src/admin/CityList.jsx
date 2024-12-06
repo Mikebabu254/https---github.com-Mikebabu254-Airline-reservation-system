@@ -17,8 +17,7 @@ const CityList = () => {
                         <th>City Code</th>
                         <th>City Name</th>
                         <th>Time Zone</th>
-                        <th>Latitude</th>
-                        <th>Longitude</th>
+                        <th>Time</th>
                     </tr>
                 </thead>
                 <tbody>
