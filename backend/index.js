@@ -5,6 +5,7 @@ const RegistrationModel = require('./models/registration');
 const FlightModel = require("./models/flight");
 const { default: FlightSchedule } = require("./models/flight");
 const Booking = require("./models/booking");
+const AddCityModel = require("./models/addCity");
 const app = express();
 
 app.use(cors());
@@ -85,6 +86,23 @@ app.post("/flight-schedule", (req, res) => {
     .then(flight => res.json({ message: "Flight added successfully", flight }))
     .catch(err => res.json({ message: "Failed to add flight", error: err }));
 });
+
+
+// Route for adding cities
+app.post("/add-city", (req, res) => {
+  const { cityCode, countryName, cityName, timeZone } = req.body;
+
+  // Validate request data
+  if (!cityCode || !countryName || !cityName || !timeZone) {
+      return res.status(400).json({ message: "All fields are required." });
+  }
+
+  // Create a new city entry
+  AddCityModel.create({ cityCode, countryName, cityName, timeZone })
+      .then(city => res.json({ message: "City added successfully", city }))
+      .catch(err => res.status(500).json({ message: "Failed to add city", error: err }));
+});
+
 
 
 
