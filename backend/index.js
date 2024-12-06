@@ -89,7 +89,7 @@ app.post("/flight-schedule", (req, res) => {
 
 
 // Route for adding cities
-app.post("/add-city", (req, res) => {
+app.post("/add-city", async (req, res) => {
   const { cityCode, countryName, cityName, timeZone } = req.body;
 
   // Validate request data
@@ -97,11 +97,21 @@ app.post("/add-city", (req, res) => {
       return res.status(400).json({ message: "All fields are required." });
   }
 
-  // Create a new city entry
-  AddCityModel.create({ cityCode, countryName, cityName, timeZone })
-      .then(city => res.json({ message: "City added successfully", city }))
-      .catch(err => res.status(500).json({ message: "Failed to add city", error: err }));
+  try {
+      // Check if the city code already exists
+      const existingCity = await AddCityModel.findOne({ cityCode });
+      if (existingCity) {
+          return res.status(409).json({ message: "City with this code already exists." });
+      }
+
+      // Create a new city entry
+      const city = await AddCityModel.create({ cityCode, countryName, cityName, timeZone });
+      res.status(201).json({ message: "City added successfully", city });
+  } catch (err) {
+      res.status(500).json({ message: "Failed to add city", error: err });
+  }
 });
+
 
 
 
