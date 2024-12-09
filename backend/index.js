@@ -11,6 +11,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use(
+  session({
+      secret: "your_secret_key", // Use a strong, random secret key
+      resave: false,
+      saveUninitialized: true,
+      cookie: { secure: false } // Set to true if using HTTPS
+  })
+);
+
 const PORT = 3000;
 
 // Connect to MongoDB
@@ -56,25 +65,54 @@ app.post("/login", (req, res) => {
   const { email, password } = req.body;
 
   RegistrationModel.findOne({ email })
-    .then(user => {
-      if (user) {
-        if (user.password === password) {
-          res.json({ status: "success", role: user.role, user: {
-            firstName: user.firstName,
-            lastName: user.lastName,
-            gender: user.gender,
-            email: user.email,
-            DOB: user.DOB
-          } });
-        } else {
-          res.json({ message: "The password is incorrect" });
-        }
-      } else {
-        res.json({ message: "The user does not exist" });
-      }
-    })
-    .catch(err => res.json({ message: "An error occurred", error: err }));
+      .then(user => {
+          if (user) {
+              if (user.password === password) {
+                  // Set user data in the session
+                  req.session.user = {
+                      id: user._id,
+                      role: user.role,
+                      firstName: user.firstName,
+                      email: user.email
+                  };
+
+                  res.json({
+                      status: "success",
+                      role: user.role,
+                      user: {
+                          firstName: user.firstName,
+                          lastName: user.lastName,
+                          gender: user.gender,
+                          email: user.email,
+                          DOB: user.DOB
+                      }
+                  });
+              } else {
+                  res.json({ message: "The password is incorrect" });
+              }
+          } else {
+              res.json({ message: "The user does not exist" });
+          }
+      })
+      .catch(err => res.json({ message: "An error occurred", error: err }));
 });
+
+
+//logout API
+app.post("/logout", (req, res) => {
+  if (req.session) {
+      req.session.destroy(err => {
+          if (err) {
+              res.json({ message: "Logout failed", error: err });
+          } else {
+              res.json({ status: "success", message: "Logged out successfully" });
+          }
+      });
+  } else {
+      res.json({ message: "No active session" });
+  }
+});
+
 
 
 

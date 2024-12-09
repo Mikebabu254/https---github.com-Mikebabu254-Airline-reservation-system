@@ -12,20 +12,21 @@ function Login() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        axios.post('http://localhost:3000/login', { email, password })
+    
+        axios.post("http://localhost:3000/login", { email, password })
             .then(result => {
-                console.log(result);
                 if (result.data.status === "success") {
                     const userData = result.data.user;
                     localStorage.setItem("user", JSON.stringify(userData));
+                    localStorage.setItem("isLoggedIn", true);
+    
                     if (result.data.role === "admin") {
-                        navigate("/admin"); // Redirect to admin page if role is "admin"
+                        navigate("/admin"); // Redirect to admin page
                     } else {
-                        navigate("/HomeUser"); // Redirect to home page for regular users
+                        navigate("/HomeUser"); // Redirect to user page
                     }
                 } else {
-                    setMessage(result.data.message); // Display message from the server
+                    setMessage(result.data.message);
                 }
             })
             .catch(err => {
@@ -33,7 +34,7 @@ function Login() {
                 console.error(err);
             });
     };
-
+    
     return (
         <div className="container d-flex justify-content-center align-items-center vh-100">
             <div className="card shadow-sm p-4" style={{ maxWidth: '400px', width: '100%' }}>
@@ -95,3 +96,17 @@ function Login() {
 }
 
 export default Login;
+
+
+
+//later for logout
+
+// const handleLogout = () => {
+//     axios.post("http://localhost:3000/logout")
+//         .then(() => {
+//             localStorage.removeItem("user");
+//             localStorage.removeItem("isLoggedIn");
+//             navigate("/login"); // Redirect to login page
+//         })
+//         .catch(err => console.error("Logout error:", err));
+// };
