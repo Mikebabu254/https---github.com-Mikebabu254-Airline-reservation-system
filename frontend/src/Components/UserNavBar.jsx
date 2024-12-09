@@ -1,35 +1,42 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { FaUser } from 'react-icons/fa'; // Import FontAwesome user icon
+import { FaUser } from 'react-icons/fa';
 
 const UserNavBar = () => {
   const [userName, setUserName] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Retrieve the user information from localStorage
+    // Retrieve user information from localStorage
     const user = JSON.parse(localStorage.getItem("user"));
-    if (user && user.firstName) {
-      setUserName(user.firstName); // Set the user's first name
+    if (user?.firstName) {
+      setUserName(user.firstName);
     }
   }, []);
+
+  const handleLogout = () => {
+    // Remove user data and navigate to login
+    localStorage.removeItem("user");
+    navigate("/login", { replace: true });
+  };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
       <div className="container-fluid">
+        {/* Logo */}
         <Link className="navbar-brand" to="/">
           <img
-            src="/logo.png" // Add your logo path here
+            src="/logo.png" // Replace with your logo path
             alt="Airline Logo"
             width="60"
             height="60"
-            className="d-inline-block align-top"
-            style={{ marginRight: '10px' }}
+            className="d-inline-block align-top me-2"
           />
           Jet Set Airline Booking
         </Link>
 
-        {/* Toggle button for mobile view */}
+        {/* Mobile Menu Toggle */}
         <button
           className="navbar-toggler"
           type="button"
@@ -42,9 +49,10 @@ const UserNavBar = () => {
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        {/* Navbar links */}
+        {/* Navbar Links */}
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
+            {/* Navigation Links */}
             <li className="nav-item">
               <Link className="nav-link" to="/">
                 Home
@@ -71,18 +79,22 @@ const UserNavBar = () => {
               </Link>
             </li>
 
-            {/* User Profile with Icon and First Name */}
-            <li className="nav-item d-flex align-items-center">
+            {/* User Profile with Icon */}
+            <li className="nav-item">
               <Link className="nav-link d-flex align-items-center" to="/profile">
-                <FaUser style={{ marginRight: '5px' }} /> {userName || "Profile"}
+                <FaUser className="me-1" />
+                {userName || "Profile"}
               </Link>
             </li>
 
             {/* Logout Button */}
             <li className="nav-item ms-lg-3">
-              <Link className="btn btn-primary" to="/logout">
+              <button
+                className="btn btn-primary"
+                onClick={handleLogout}
+              >
                 Logout
-              </Link>
+              </button>
             </li>
           </ul>
         </div>
