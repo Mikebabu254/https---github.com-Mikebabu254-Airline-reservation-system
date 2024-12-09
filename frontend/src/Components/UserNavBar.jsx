@@ -1,22 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { FaUser } from 'react-icons/fa';  // Import FontAwesome user icon
+import { FaUser } from 'react-icons/fa'; // Import FontAwesome user icon
 
 const UserNavBar = () => {
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    // Retrieve the user information from localStorage
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user && user.firstName) {
+      setUserName(user.firstName); // Set the user's first name
+    }
+  }, []);
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
           <img
-            src="/logo.png"  // Add your logo path here
+            src="/logo.png" // Add your logo path here
             alt="Airline Logo"
             width="60"
             height="60"
             className="d-inline-block align-top"
             style={{ marginRight: '10px' }}
           />
-          Jet Set AirLine Booking
+          Jet Set Airline Booking
         </Link>
 
         {/* Toggle button for mobile view */}
@@ -61,10 +71,10 @@ const UserNavBar = () => {
               </Link>
             </li>
 
-            {/* User Profile with Icon */}
-            <li className="nav-item">
-              <Link className="nav-link" to="/profile">
-                <FaUser style={{ marginRight: '5px' }} /> Profile
+            {/* User Profile with Icon and First Name */}
+            <li className="nav-item d-flex align-items-center">
+              <Link className="nav-link d-flex align-items-center" to="/profile">
+                <FaUser style={{ marginRight: '5px' }} /> {userName || "Profile"}
               </Link>
             </li>
 
