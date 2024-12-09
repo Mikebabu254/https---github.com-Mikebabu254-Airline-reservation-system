@@ -12,3 +12,43 @@
 .nav-item {
     transition: background-color 0.3s ease;
 }
+
+.container {
+    max-width: 900px;
+  }
+  
+  .card {
+    border-radius: 8px;
+  }
+  
+  .card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  button {
+    border-radius: 5px;
+    font-weight: bold;
+  }
+  
+  button:hover {
+    background-color: #0056b3 !important;
+  }
+  
+
+  .badge {
+    font-size: 0.9rem;
+    padding: 0.5em 0.75em;
+    border-radius: 8px;
+  }
+  
+  .table th {
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .table td {
+    vertical-align: middle;
+    text-align: center;
+  }
+  
