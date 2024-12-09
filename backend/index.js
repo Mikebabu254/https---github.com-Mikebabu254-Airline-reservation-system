@@ -140,6 +140,18 @@ app.get("/flight-schedule", async (req, res) => {
 
 
 
+//Route to get all users details
+app.get("/registration", async (req, res) => {
+  try{
+    const users = await RegistrationModel.find();
+    res.status(200).json(users);
+  }catch(error){
+    console.error("Error fetching the users: ", error);
+    res.status(500).json({message: "failed to fetch user data", error});
+  }
+});
+
+
 //Route for booking flights
 app.post("/api/bookings", async (req, res) =>{
   try{
