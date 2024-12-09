@@ -7,6 +7,8 @@ const { default: FlightSchedule } = require("./models/flight");
 const Booking = require("./models/booking");
 const AddCityModel = require("./models/addCity");
 const app = express();
+const session = require("express-session");
+
 
 app.use(cors());
 app.use(express.json());
