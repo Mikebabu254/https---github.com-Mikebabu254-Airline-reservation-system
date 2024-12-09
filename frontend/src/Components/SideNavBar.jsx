@@ -47,12 +47,14 @@ const SideNavBar = () => {
   };
 
   return (
-    <div className="d-flex vh-100" style={{ backgroundColor: "#f8f9fa" }}>
+    <div className="d-flex vh-100">
       {/* Sidebar */}
       <div
-        className="bg-dark text-light d-flex flex-column p-3"
+        className="bg-dark text-light d-flex flex-column p-3 sticky-top"
         style={{
           width: "280px",
+          height: "100vh",
+          overflowY: "auto",
           boxShadow: "2px 0 5px rgba(0, 0, 0, 0.1)",
         }}
       >
@@ -125,7 +127,7 @@ const SideNavBar = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-grow-1 p-4">{renderContent()}</div>
+      <div className="flex-grow-1 p-4 overflow-auto">{renderContent()}</div>
     </div>
   );
 };
