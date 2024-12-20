@@ -10,6 +10,7 @@ import Admin from "./Pages/Admin";
 import AddFlight from "./admin/AddFlight";
 import HomeUser from "./Pages/HomeUser";
 import AddCity from "./admin/AddCity";
+import EditFlight from "./admin/EditFlight";
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
           <Route path="/admin/add-flight" element={<AddFlight/>}/>
           <Route path="/HomeUser" element={<HomeUser/>}/>
           <Route path="/admin/add-city" element={<AddCity/>}/>
+          <Route path="/admin/edit-flight/:id" element={<EditFlight/>}/>
         </Routes>
       </BrowserRouter>
     </>

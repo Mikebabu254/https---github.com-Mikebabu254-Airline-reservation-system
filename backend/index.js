@@ -237,6 +237,33 @@ app.delete("/flight-schedule/:id", async (req, res) => {
 
 
 
+app.get("/flight-schedule/:id", async (req, res) => {
+  try {
+      const flight = await FlightModel.findById(req.params.id);
+      if (!flight) return res.status(404).json({ message: "Flight not found" });
+      res.status(200).json(flight);
+  } catch (error) {
+      res.status(500).json({ message: "Error fetching flight", error });
+  }
+});
+
+
+app.put("/flight-schedule/:id", async (req, res) => {
+  try {
+      const updatedFlight = await FlightModel.findByIdAndUpdate(req.params.id, req.body, {
+          new: true,
+      });
+      if (!updatedFlight) return res.status(404).json({ message: "Flight not found" });
+      res.status(200).json({ message: "Flight updated successfully", updatedFlight });
+  } catch (error) {
+      res.status(500).json({ message: "Error updating flight", error });
+  }
+});
+
+
+
+
+
 
 
 app.listen(PORT, () => {
