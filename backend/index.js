@@ -219,14 +219,33 @@ app.post("/bookings", async (req, res) =>{
 
 
 // Route for deleting a flight by ID
+// app.delete("/flight-schedule/:id", async (req, res) => {
+//   try {
+//       const flightId = req.params.id;
+//       console.log("Deleting flight with ID:", flightId); // Debugging line
+//       const deletedFlight = await Flight.findByIdAndDelete(flightId);
+//       if (!deletedFlight) {
+//           return res.status(404).json({ message: "Flight not found" });
+//       }
+//       res.status(200).json({ message: "Flight deleted successfully" });
+//   } catch (error) {
+//       console.error("Error deleting flight:", error);
+//       res.status(500).json({ message: "Error deleting flight", error });
+//   }
+// });
+
+// Delete route for deleting a flight by ID
 app.delete("/flight-schedule/:id", async (req, res) => {
   try {
       const flightId = req.params.id;
-      console.log("Deleting flight with ID:", flightId); // Debugging line
-      const deletedFlight = await Flight.findByIdAndDelete(flightId);
+
+      // Use FlightModel to delete the flight
+      const deletedFlight = await FlightModel.findByIdAndDelete(flightId);
+
       if (!deletedFlight) {
           return res.status(404).json({ message: "Flight not found" });
       }
+
       res.status(200).json({ message: "Flight deleted successfully" });
   } catch (error) {
       console.error("Error deleting flight:", error);
@@ -234,9 +253,25 @@ app.delete("/flight-schedule/:id", async (req, res) => {
   }
 });
 
+// Route for deleting a flight by ID
+// app.delete("/flight-schedule/:id", async (req, res) => {
+//   try {
+//     const flightId = req.params.id;
+//     const deletedFlight = await FlightModel.findByIdAndDelete(flightId);
+//     if (!deletedFlight) {
+//       return res.status(404).json({ message: "Flight not found" });
+//     }
+//     res.status(200).json({ message: "Flight deleted successfully" });
+//   } catch (error) {
+//     console.error("Error deleting flight:", error);
+//     res.status(500).json({ message: "Error deleting flight", error });
+//   }
+// });
 
 
 
+
+//getting flight by id to edit
 app.get("/flight-schedule/:id", async (req, res) => {
   try {
       const flight = await FlightModel.findById(req.params.id);
@@ -247,7 +282,7 @@ app.get("/flight-schedule/:id", async (req, res) => {
   }
 });
 
-
+//editing flight
 app.put("/flight-schedule/:id", async (req, res) => {
   try {
       const updatedFlight = await FlightModel.findByIdAndUpdate(req.params.id, req.body, {
