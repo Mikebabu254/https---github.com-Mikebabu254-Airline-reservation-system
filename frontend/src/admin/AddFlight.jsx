@@ -16,6 +16,9 @@ const AddFlight = () => {
     // State for cities
     const [cities, setCities] = useState([]);
 
+    // State for error message
+    const [error, setError] = useState("");
+
     // Fetch cities from the backend
     useEffect(() => {
         const fetchCities = async () => {
@@ -33,6 +36,15 @@ const AddFlight = () => {
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Validate origin and destination
+        if (origin === destination) {
+            setError("Origin and destination cannot be the same.");
+            return;
+        }
+
+        // Clear error and proceed with submission
+        setError("");
 
         try {
             const response = await axios.post("http://localhost:3000/flight-schedule", {
@@ -52,6 +64,7 @@ const AddFlight = () => {
     return (
         <div className="container mt-4">
             <h1 className="text-center mb-4">Add New Flight</h1>
+            {error && <div className="alert alert-danger">{error}</div>}
             <form onSubmit={handleSubmit}>
                 <div className="form-group mb-3">
                     <label htmlFor="flightNumber">Flight Number</label>
