@@ -165,6 +165,16 @@ app.get("/cities", async (req, res) => {
   }
 });
 
+//Router for fetching cities
+app.get("/get-cities", async (req, res) => {
+  try {
+      const cities = await AddCityModel.find({});
+      res.status(200).json(cities);
+  } catch (err) {
+      res.status(500).json({ message: "Failed to fetch cities", error: err });
+  }
+});
+
 
 
 // Route for getting all flights
@@ -177,6 +187,8 @@ app.get("/flight-schedule", async (req, res) => {
     res.status(500).json({ message: "Failed to fetch flights", error });
   }
 });
+
+
 
 
 
@@ -193,7 +205,7 @@ app.get("/registration", async (req, res) => {
 
 
 //Route for booking flights
-app.post("/api/bookings", async (req, res) =>{
+app.post("/bookings", async (req, res) =>{
   try{
     const bookingData = req.body;
     const booking = new Booking(bookingData);
@@ -204,6 +216,8 @@ app.post("/api/bookings", async (req, res) =>{
         res.status(500).json({ error: "Failed to save booking." });
     }
 })
+
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

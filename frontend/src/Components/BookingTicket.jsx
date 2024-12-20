@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const BookingTicket = () => {
     const [isRoundTrip, setIsRoundTrip] = useState(false);
+    const [cities, setCities] = useState([]);
     const [formData, setFormData] = useState({
         userName: "",
         fromLocation: "",
@@ -12,6 +13,20 @@ const BookingTicket = () => {
         seats: "",
         tripType: "One Way",
     });
+
+    useEffect(() => {
+        // Fetch cities from the database
+        const fetchCities = async () => {
+            try {
+                const response = await axios.get("http://localhost:3000/get-cities");
+                setCities(response.data);
+            } catch (error) {
+                console.error("Error fetching cities:", error);
+            }
+        };
+
+        fetchCities();
+    }, []);
 
     const handleTripType = (tripType) => {
         setIsRoundTrip(tripType === "round");
@@ -25,7 +40,7 @@ const BookingTicket = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("http://localhost:5000/api/bookings", formData);
+            const response = await axios.post("http://localhost:3000/bookings", formData);
             alert(response.data.message);
         } catch (error) {
             console.error("Error uploading data:", error);
@@ -72,27 +87,37 @@ const BookingTicket = () => {
             <div className="row g-3">
                 <div className="col-md-6">
                     <label htmlFor="fromLocation" className="form-label">Where from</label>
-                    <input
-                        type="text"
+                    <select
                         id="fromLocation"
                         className="form-control"
-                        placeholder="Enter your location"
                         value={formData.fromLocation}
                         onChange={handleChange}
                         required
-                    />
+                    >
+                        <option value="">Select location</option>
+                        {cities.map((city) => (
+                            <option key={city.cityCode} value={city.cityName}>
+                                {city.cityName}, {city.countryName}
+                            </option>
+                        ))}
+                    </select>
                 </div>
                 <div className="col-md-6">
                     <label htmlFor="destination" className="form-label">Destination</label>
-                    <input
-                        type="text"
+                    <select
                         id="destination"
                         className="form-control"
-                        placeholder="Enter your destination"
                         value={formData.destination}
                         onChange={handleChange}
                         required
-                    />
+                    >
+                        <option value="">Select destination</option>
+                        {cities.map((city) => (
+                            <option key={city.cityCode} value={city.cityName}>
+                                {city.cityName}, {city.countryName}
+                            </option>
+                        ))}
+                    </select>
                 </div>
                 <div className="col-md-6">
                     <label htmlFor="departureDate" className="form-label">Departure Date (Today)</label>
