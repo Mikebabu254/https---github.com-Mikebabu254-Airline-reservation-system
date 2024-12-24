@@ -93,19 +93,25 @@ const EditFlight = () => {
                     />
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="time" className="form-label">
+                <label htmlFor="time" className="form-label">
                         Time
                     </label>
-                    <input
-                        type="time"
+                    <select
                         className="form-control"
                         id="time"
                         name="time"
                         value={flight.time}
                         onChange={handleChange}
                         required
-                    />
-                </div>
+                    >
+                        <option value="" disabled>Select a time</option>
+                        <option value="6:30 AM">6:30 AM</option>
+                        <option value="10:30 AM">10:30 AM</option>
+                        <option value="3:30 PM">3:30 PM</option>
+                        <option value="6:30 PM">6:30 PM</option>
+                    </select>
+            </div>
+
                 <div className="mb-3">
                     <label htmlFor="date" className="form-label">
                         Date

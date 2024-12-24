@@ -113,15 +113,21 @@ const AddFlight = () => {
                 </div>
                 <div className="form-group mb-4">
                     <label htmlFor="time">Time</label>
-                    <input
-                        type="time"
+                    <select
                         className="form-control"
                         id="time"
                         value={time}
                         onChange={(e) => setTime(e.target.value)}
                         required
-                    />
-                </div>
+                    >
+                        <option value="" disabled>Select a time</option>
+                        <option value="6:30 AM">6:30 AM</option>
+                        <option value="10:30 AM">10:30 AM</option>
+                        <option value="3:30 PM">3:30 PM</option>
+                        <option value="6:30 PM">6:30 PM</option>
+                    </select>
+            </div>
+
                 <div className="form-group mb-4">
                     <label htmlFor="date">Date</label>
                     <input
