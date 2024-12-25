@@ -296,6 +296,68 @@ app.put("/flight-schedule/:id", async (req, res) => {
 });
 
 
+//searching flights
+// app.get("/search-flights", async (req, res) => {
+//     const { fromLocation, destination, departureDate } = req.query;
+
+//     try {
+//         const flights = await FlightModel.find({
+//             origin: fromLocation,
+//             destination,
+//             date: new Date(departureDate).toISOString().split('T')[0], // Match only the date part
+//         });
+
+//         res.status(200).json(flights);
+//     } catch (error) {
+//         console.error("Error searching for flights:", error);
+//         res.status(500).json({ message: "Failed to search for flights" });
+//     }
+// });
+
+// app.get("/search-flights", async (req, res) => {
+//   const { fromLocation, destination, departureDate } = req.query;
+
+//   try {
+//       // Example database query
+//       const flights = await Flight.find({
+//           fromLocation,
+//           destination,
+//           departureDate,
+//       });
+
+//       res.json(flights);
+//   } catch (error) {
+//       console.error("Error fetching flights:", error);
+//       res.status(500).send("Internal Server Error");
+//   }
+// });
+
+app.get("/flight-schedule", (req, res) => {
+  const { fromLocation, destination, departureDate } = req.query;
+
+  // Query the database for matching flights
+  FlightModel.find({
+    origin: fromLocation,
+    destination: destination,
+    date: departureDate,
+  })
+    .then(flights => {
+      if (flights.length > 0) {
+        res.json(flights); // Return the list of flights
+      } else {
+        res.status(404).json({ message: "No flights found for the given criteria." });
+      }
+    })
+    .catch(err => res.status(500).json({ message: "Error fetching flights", error: err }));
+});
+
+
+
+
+
+
+
+
 
 
 
