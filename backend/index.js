@@ -35,6 +35,8 @@ mongoose.connect("mongodb://127.0.0.1:27017/Jetset-airline-reservation", {
 
 
 // Registration route
+const bcrypt = require("bcryptjs");
+
 app.post("/registration", (req, res) => {
   const { firstName, lastName, phoneNo, gender, email, DOB, password } = req.body;
 
@@ -43,22 +45,27 @@ app.post("/registration", (req, res) => {
       if (user) {
         res.json("The user already exists");
       } else {
-        RegistrationModel.create({
-          firstName,
-          lastName,
-          phoneNo,
-          gender,
-          email,
-          DOB,
-          password,
-          role: "user",
-        })
-        .then(result => res.json("Account created successfully"))
-        .catch(err => res.json(err));
+        bcrypt.hash(password, 10, (err, hashedPassword) => {
+          if (err) return res.json({ message: "Error hashing password", error: err });
+
+          RegistrationModel.create({
+            firstName,
+            lastName,
+            phoneNo,
+            gender,
+            email,
+            DOB,
+            password: hashedPassword, // Save hashed password
+            role: "user",
+          })
+            .then(result => res.json("Account created successfully"))
+            .catch(err => res.json(err));
+        });
       }
     })
     .catch(err => res.json(err));
 });
+
 
 // Login route
 app.post("/login", (req, res) => {
@@ -129,6 +136,9 @@ app.post("/flight-schedule", (req, res) => {
 });
 
 
+
+
+
 // Route for getting flights with optional filters
 app.get("/flight-schedule", async (req, res) => {
   const { destination, origin, date } = req.query;
@@ -145,6 +155,10 @@ app.get("/flight-schedule", async (req, res) => {
       res.status(500).json({ message: "Error fetching flights", error: err });
   }
 });
+
+
+
+
 
 // Route for adding cities
 app.post("/add-city", async (req, res) => {
@@ -170,6 +184,9 @@ app.post("/add-city", async (req, res) => {
   }
 });
 
+
+
+
 // Route for getting all cities
 app.get("/cities", async (req, res) => {
   try {
@@ -181,6 +198,11 @@ app.get("/cities", async (req, res) => {
   }
 });
 
+
+
+
+
+
 //Router for fetching cities
 app.get("/get-cities", async (req, res) => {
   try {
@@ -190,6 +212,11 @@ app.get("/get-cities", async (req, res) => {
       res.status(500).json({ message: "Failed to fetch cities", error: err });
   }
 });
+
+
+
+
+
 
 // Route for getting all flights
 app.get("/flight-schedule", async (req, res) => {
@@ -202,6 +229,9 @@ app.get("/flight-schedule", async (req, res) => {
   }
 });
 
+
+
+
 //Route to get all users details
 app.get("/registration", async (req, res) => {
   try{
@@ -212,6 +242,11 @@ app.get("/registration", async (req, res) => {
     res.status(500).json({message: "failed to fetch user data", error});
   }
 });
+
+
+
+
+
 
 //Route for booking flights
 app.post("/bookings", async (req, res) =>{
@@ -225,6 +260,11 @@ app.post("/bookings", async (req, res) =>{
         res.status(500).json({ error: "Failed to save booking." });
     }
 })
+
+
+
+
+
 
 // Delete route for deleting a flight by ID
 app.delete("/flight-schedule/:id", async (req, res) => {
@@ -287,6 +327,11 @@ app.get("/flight-schedule", (req, res) => {
     })
     .catch(err => res.status(500).json({ message: "Error fetching flights", error: err }));
 });
+
+
+
+
+
 
 // Route for reserving seats
 app.post("/reservations", async (req, res) => {
