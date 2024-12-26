@@ -60,6 +60,13 @@ app.post("/registration", (req, res) => {
     .catch(err => res.json(err));
 });
 
+// ...       ..........  .........   ...  .........
+// ...       ..........  .........   ...  .........
+// ...       ...    ...  ...         ...  ...   ...
+// ...       ...    ...  ...    ...  ...  ...   ...
+// ........  ..........  ..........  ...  ...   ...
+// ........  ..........  ..........  ...  ...   ...
+
 // Login route
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
@@ -96,6 +103,45 @@ app.post("/login", (req, res) => {
       })
       .catch(err => res.json({ message: "An error occurred", error: err }));
 });
+
+
+// Get user data from session
+// Get logged-in user data from session
+app.get("/getUserData", (req, res) => {
+  if (req.session.user) {
+    const userId = req.session.user.id; // Retrieve the user ID from the session
+
+    // Query the database for the full user data
+    RegistrationModel.findById(userId)
+      .then(user => {
+        if (user) {
+          res.json({
+            status: 'success',
+            user: {
+              firstName: user.firstName,
+              lastName: user.lastName,
+              gender: user.gender,
+              email: user.email,
+              DOB: user.DOB,
+              role: user.role, // Add any other fields as necessary
+            },
+          });
+        } else {
+          res.json({ status: 'error', message: 'User not found in the database' });
+        }
+      })
+      .catch(err => {
+        res.json({ status: 'error', message: 'An error occurred while fetching user data', error: err });
+      });
+  } else {
+    res.json({ status: 'error', message: 'User not logged in' });
+  }
+});
+
+  
+
+
+
 
 
 //logout API

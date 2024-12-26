@@ -44,21 +44,7 @@ const NavBar = () => {
                 About Us
               </Link>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/my-bookings">
-                My Bookings
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/check-in">
-                Check-In
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/profile">
-                Profile
-              </Link>
-            </li>
+          
 
 
             {/* Dropdown menu */}
