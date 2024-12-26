@@ -1,13 +1,14 @@
 import React from "react";
-import BookingTicket from "../Components/BookingTicket";
 import Footer from "../Components/Footer";
 import NavBar from "../Components/NavBar";
+import UserFlightSchedule from "../Components/UserFlightSchedule";
+import Body from "../Components/Body";
 
 function Home() {
   return (
     <>
         <NavBar/>
-        <BookingTicket/>
+        <Body/>
         <Footer/>
     </>
   );

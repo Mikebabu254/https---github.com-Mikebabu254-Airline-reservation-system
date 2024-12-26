@@ -85,7 +85,7 @@ const NavBar = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link className="dropdown-item" to="/about">
+                  <Link className="dropdown-item" to="/About">
                     About Us
                   </Link>
                 </li>
