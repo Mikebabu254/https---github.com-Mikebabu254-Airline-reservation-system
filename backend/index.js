@@ -408,6 +408,25 @@ app.post("/reservations", async (req, res) => {
 });
 
 
+///change password
+app.post("/changePassword", (req, res) => {
+  const { email, oldPassword, newPassword } = req.body;
+
+  RegistrationModel.findOne({ email })
+    .then(user => {
+      if (user && user.password === oldPassword) {
+        user.password = newPassword; // Update password
+        user.save()
+          .then(() => res.json({ status: "success", message: "Password changed successfully!" }))
+          .catch(err => res.json({ status: "error", message: "Failed to save new password." }));
+      } else {
+        res.json({ status: "error", message: "Old password is incorrect." });
+      }
+    })
+    .catch(err => res.json({ status: "error", message: "An error occurred." }));
+});
+
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
