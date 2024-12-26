@@ -6,7 +6,7 @@ const UserFlightSchedule = () => {
     const [searchFilters, setSearchFilters] = useState({
         destination: "",
         origin: "",
-        date: ""
+        date: "",
     }); // State to store search filters
     const [selectedFlight, setSelectedFlight] = useState(null); // Selected flight for booking
     const [numSeats, setNumSeats] = useState(0); // Number of seats for booking

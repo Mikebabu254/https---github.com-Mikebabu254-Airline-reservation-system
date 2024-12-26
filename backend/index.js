@@ -60,8 +60,6 @@ app.post("/registration", (req, res) => {
     .catch(err => res.json(err));
 });
 
-
-
 // Login route
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
@@ -115,37 +113,6 @@ app.post("/logout", (req, res) => {
   }
 });
 
-
-
-
-// Route for adding a flight
-// app.post("/flight-schedule", (req, res) => {
-//   const { flightNumber, origin, destination, time, date } = req.body;
-
-//   FlightModel.create({ flightNumber, origin, destination, time, date })
-//     .then(flight => res.json({ message: "Flight added successfully", flight }))
-//     .catch(err => res.json({ message: "Failed to add flight", error: err }));
-// });
-
-// app.post('/flight-schedule', (req, res) => {
-//   const { flightNumber, origin, destination, time, date, noOfSeats } = req.body;
-
-//   // Example: Save the data to the database
-//   const newFlight = new Flight({
-//       flightNumber,
-//       origin,
-//       destination,
-//       time,
-//       date,
-//       noOfSeats,
-//   });
-
-//   newFlight.save()
-//       .then(() => res.status(201).send("Flight added successfully"))
-//       .catch((err) => res.status(500).send("Error adding flight: " + err));
-// });
-
-
 // Route for adding a flight
 app.post("/flight-schedule", (req, res) => {
   const { flightNumber, origin, destination, time, date, noOfSeats } = req.body;
@@ -179,9 +146,6 @@ app.get("/flight-schedule", async (req, res) => {
   }
 });
 
-
-
-
 // Route for adding cities
 app.post("/add-city", async (req, res) => {
   const { cityCode, countryName, cityName, timeZone } = req.body;
@@ -206,8 +170,6 @@ app.post("/add-city", async (req, res) => {
   }
 });
 
-
-
 // Route for getting all cities
 app.get("/cities", async (req, res) => {
   try {
@@ -229,8 +191,6 @@ app.get("/get-cities", async (req, res) => {
   }
 });
 
-
-
 // Route for getting all flights
 app.get("/flight-schedule", async (req, res) => {
   try {
@@ -242,10 +202,6 @@ app.get("/flight-schedule", async (req, res) => {
   }
 });
 
-
-
-
-
 //Route to get all users details
 app.get("/registration", async (req, res) => {
   try{
@@ -256,7 +212,6 @@ app.get("/registration", async (req, res) => {
     res.status(500).json({message: "failed to fetch user data", error});
   }
 });
-
 
 //Route for booking flights
 app.post("/bookings", async (req, res) =>{
@@ -270,23 +225,6 @@ app.post("/bookings", async (req, res) =>{
         res.status(500).json({ error: "Failed to save booking." });
     }
 })
-
-
-// Route for deleting a flight by ID
-// app.delete("/flight-schedule/:id", async (req, res) => {
-//   try {
-//       const flightId = req.params.id;
-//       console.log("Deleting flight with ID:", flightId); // Debugging line
-//       const deletedFlight = await Flight.findByIdAndDelete(flightId);
-//       if (!deletedFlight) {
-//           return res.status(404).json({ message: "Flight not found" });
-//       }
-//       res.status(200).json({ message: "Flight deleted successfully" });
-//   } catch (error) {
-//       console.error("Error deleting flight:", error);
-//       res.status(500).json({ message: "Error deleting flight", error });
-//   }
-// });
 
 // Delete route for deleting a flight by ID
 app.delete("/flight-schedule/:id", async (req, res) => {
@@ -306,24 +244,6 @@ app.delete("/flight-schedule/:id", async (req, res) => {
       res.status(500).json({ message: "Error deleting flight", error });
   }
 });
-
-// Route for deleting a flight by ID
-// app.delete("/flight-schedule/:id", async (req, res) => {
-//   try {
-//     const flightId = req.params.id;
-//     const deletedFlight = await FlightModel.findByIdAndDelete(flightId);
-//     if (!deletedFlight) {
-//       return res.status(404).json({ message: "Flight not found" });
-//     }
-//     res.status(200).json({ message: "Flight deleted successfully" });
-//   } catch (error) {
-//     console.error("Error deleting flight:", error);
-//     res.status(500).json({ message: "Error deleting flight", error });
-//   }
-// });
-
-
-
 
 //getting flight by id to edit
 app.get("/flight-schedule/:id", async (req, res) => {
@@ -349,43 +269,6 @@ app.put("/flight-schedule/:id", async (req, res) => {
   }
 });
 
-
-//searching flights
-// app.get("/search-flights", async (req, res) => {
-//     const { fromLocation, destination, departureDate } = req.query;
-
-//     try {
-//         const flights = await FlightModel.find({
-//             origin: fromLocation,
-//             destination,
-//             date: new Date(departureDate).toISOString().split('T')[0], // Match only the date part
-//         });
-
-//         res.status(200).json(flights);
-//     } catch (error) {
-//         console.error("Error searching for flights:", error);
-//         res.status(500).json({ message: "Failed to search for flights" });
-//     }
-// });
-
-// app.get("/search-flights", async (req, res) => {
-//   const { fromLocation, destination, departureDate } = req.query;
-
-//   try {
-//       // Example database query
-//       const flights = await Flight.find({
-//           fromLocation,
-//           destination,
-//           departureDate,
-//       });
-
-//       res.json(flights);
-//   } catch (error) {
-//       console.error("Error fetching flights:", error);
-//       res.status(500).send("Internal Server Error");
-//   }
-// });
-
 app.get("/flight-schedule", (req, res) => {
   const { fromLocation, destination, departureDate } = req.query;
 
@@ -404,7 +287,6 @@ app.get("/flight-schedule", (req, res) => {
     })
     .catch(err => res.status(500).json({ message: "Error fetching flights", error: err }));
 });
-
 
 // Route for reserving seats
 app.post("/reservations", async (req, res) => {
@@ -425,15 +307,18 @@ app.post("/reservations", async (req, res) => {
       flight.noOfSeats -= numSeats;
       await flight.save();
 
-      // Save reservation details (adjust schema/model as necessary)
-      const reservation = {
+      // Save reservation details
+      const reservation = new ReservationModel({
           flightId,
           flightNumber,
           numSeats,
-      };
+      });
+
+      await reservation.save();
 
       res.json({ message: "Reservation successful", reservation });
   } catch (error) {
+      console.error("Error making reservation:", error);
       res.status(500).json({ message: "Error making reservation", error });
   }
 });
