@@ -2,41 +2,43 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const session = require("express-session");
-
-// Import Routes
-const authRoutes = require("./routes/authRoutes");
+const registrationRoutes = require("./routes/registrationRoutes");
 const flightRoutes = require("./routes/flightRoutes");
 const cityRoutes = require("./routes/cityRoutes");
 const userRoutes = require("./routes/userRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 const PORT = 3000;
 
-// Middleware
 app.use(cors());
 app.use(express.json());
+
+// Session configuration
 app.use(
   session({
     secret: "your_secret_key",
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false }, // Set to true if using HTTPS
+    cookie: { secure: false },
   })
 );
 
-// MongoDB Connection
-mongoose
-  .connect("mongodb://127.0.0.1:27017/Jetset-airline-reservation", {})
+// MongoDB connection
+mongoose.connect("mongodb://127.0.0.1:27017/Jetset-airline-reservation", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("Could not connect to MongoDB", err));
 
-// Register Routes
+// Register routes
+app.use("/registration", registrationRoutes);
+app.use("/flight", flightRoutes);
+app.use("/city", cityRoutes);
+app.use("/user", userRoutes);
 app.use("/auth", authRoutes);
-app.use("/flights", flightRoutes);
-app.use("/cities", cityRoutes);
-app.use("/users", userRoutes);
 
-// Start Server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

@@ -1,4 +1,3 @@
-// models/registration.js
 const mongoose = require("mongoose");
 
 const registrationSchema = new mongoose.Schema({
@@ -9,9 +8,8 @@ const registrationSchema = new mongoose.Schema({
   email: { type: String, unique: true },
   DOB: Date,
   password: String,
-  role: { type: String, default: "user" }  // Default role is "user"
+  role: { type: String, default: "user" },
 });
 
-const RegistrationModel = mongoose.model("user", registrationSchema);
-
+const RegistrationModel = mongoose.model("Registration", registrationSchema);
 module.exports = RegistrationModel;
