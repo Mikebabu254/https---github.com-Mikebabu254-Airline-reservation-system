@@ -162,6 +162,25 @@ app.post("/flight-schedule", (req, res) => {
 });
 
 
+// Route for getting flights with optional filters
+app.get("/flight-schedule", async (req, res) => {
+  const { destination, origin, date } = req.query;
+
+  const filters = {};
+  if (destination) filters.destination = { $regex: destination, $options: "i" };
+  if (origin) filters.origin = { $regex: origin, $options: "i" };
+  if (date) filters.date = date;
+
+  try {
+      const flights = await FlightModel.find(filters).limit(5); // Limit to 5 flights
+      res.json(flights);
+  } catch (err) {
+      res.status(500).json({ message: "Error fetching flights", error: err });
+  }
+});
+
+
+
 
 // Route for adding cities
 app.post("/add-city", async (req, res) => {
