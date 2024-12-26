@@ -35,8 +35,6 @@ mongoose.connect("mongodb://127.0.0.1:27017/Jetset-airline-reservation", {
 
 
 // Registration route
-const bcrypt = require("bcryptjs");
-
 app.post("/registration", (req, res) => {
   const { firstName, lastName, phoneNo, gender, email, DOB, password } = req.body;
 
@@ -45,27 +43,22 @@ app.post("/registration", (req, res) => {
       if (user) {
         res.json("The user already exists");
       } else {
-        bcrypt.hash(password, 10, (err, hashedPassword) => {
-          if (err) return res.json({ message: "Error hashing password", error: err });
-
-          RegistrationModel.create({
-            firstName,
-            lastName,
-            phoneNo,
-            gender,
-            email,
-            DOB,
-            password: hashedPassword, // Save hashed password
-            role: "user",
-          })
-            .then(result => res.json("Account created successfully"))
-            .catch(err => res.json(err));
-        });
+        RegistrationModel.create({
+          firstName,
+          lastName,
+          phoneNo,
+          gender,
+          email,
+          DOB,
+          password,
+          role: "user",
+        })
+        .then(result => res.json("Account created successfully"))
+        .catch(err => res.json(err));
       }
     })
     .catch(err => res.json(err));
 });
-
 
 // Login route
 app.post("/login", (req, res) => {
