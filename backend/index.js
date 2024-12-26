@@ -406,14 +406,37 @@ app.get("/flight-schedule", (req, res) => {
 });
 
 
+// Route for reserving seats
+app.post("/reservations", async (req, res) => {
+  const { flightId, flightNumber, numSeats } = req.body;
 
+  try {
+      const flight = await FlightModel.findById(flightId);
 
+      if (!flight) {
+          return res.status(404).json({ message: "Flight not found" });
+      }
 
+      if (numSeats > flight.noOfSeats) {
+          return res.status(400).json({ message: "Not enough seats available" });
+      }
 
+      // Reduce the available seats
+      flight.noOfSeats -= numSeats;
+      await flight.save();
 
+      // Save reservation details (adjust schema/model as necessary)
+      const reservation = {
+          flightId,
+          flightNumber,
+          numSeats,
+      };
 
-
-
+      res.json({ message: "Reservation successful", reservation });
+  } catch (error) {
+      res.status(500).json({ message: "Error making reservation", error });
+  }
+});
 
 
 
