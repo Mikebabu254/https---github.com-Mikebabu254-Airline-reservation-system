@@ -16,6 +16,15 @@ const flightSchema = new mongoose.Schema({
             message: (props) => `${props.value} is not a valid date format (YYYY-MM-DD).`
         }
     },
+    noOfSeats: { 
+        type: Number, 
+        required: true, 
+        min: [1, "The number of seats must be at least 1."], 
+        validate: {
+            validator: Number.isInteger,
+            message: (props) => `${props.value} is not a valid number of seats. It must be an integer.`
+        }
+    }
 });
 
 const FlightModel = mongoose.model("FlightSchedule", flightSchema);

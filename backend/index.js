@@ -119,13 +119,48 @@ app.post("/logout", (req, res) => {
 
 
 // Route for adding a flight
-app.post("/flight-schedule", (req, res) => {
-  const { flightNumber, origin, destination, time, date } = req.body;
+// app.post("/flight-schedule", (req, res) => {
+//   const { flightNumber, origin, destination, time, date } = req.body;
 
-  FlightModel.create({ flightNumber, origin, destination, time, date })
-    .then(flight => res.json({ message: "Flight added successfully", flight }))
-    .catch(err => res.json({ message: "Failed to add flight", error: err }));
+//   FlightModel.create({ flightNumber, origin, destination, time, date })
+//     .then(flight => res.json({ message: "Flight added successfully", flight }))
+//     .catch(err => res.json({ message: "Failed to add flight", error: err }));
+// });
+
+// app.post('/flight-schedule', (req, res) => {
+//   const { flightNumber, origin, destination, time, date, noOfSeats } = req.body;
+
+//   // Example: Save the data to the database
+//   const newFlight = new Flight({
+//       flightNumber,
+//       origin,
+//       destination,
+//       time,
+//       date,
+//       noOfSeats,
+//   });
+
+//   newFlight.save()
+//       .then(() => res.status(201).send("Flight added successfully"))
+//       .catch((err) => res.status(500).send("Error adding flight: " + err));
+// });
+
+
+// Route for adding a flight
+app.post("/flight-schedule", (req, res) => {
+  const { flightNumber, origin, destination, time, date, noOfSeats } = req.body;
+
+  // Validate that all required fields are present
+  if (!flightNumber || !origin || !destination || !time || !date || noOfSeats === undefined) {
+    return res.status(400).json({ message: "All fields are required." });
+  }
+
+  // Create a new flight document
+  FlightModel.create({ flightNumber, origin, destination, time, date, noOfSeats })
+    .then((flight) => res.json({ message: "Flight added successfully", flight }))
+    .catch((err) => res.status(500).json({ message: "Failed to add flight", error: err.message }));
 });
+
 
 
 // Route for adding cities

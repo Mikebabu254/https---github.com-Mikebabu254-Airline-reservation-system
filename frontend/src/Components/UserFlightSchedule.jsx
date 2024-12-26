@@ -66,6 +66,7 @@ const UserFlightSchedule = () => {
                         <th>Destination</th>
                         <th>Time</th>
                         <th>Date</th>
+                        <th>No. of Seats</th>
                         <th>Reserve</th>
                     </tr>
                 </thead>
@@ -78,6 +79,7 @@ const UserFlightSchedule = () => {
                                 <td>{flight.destination}</td>
                                 <td>{flight.time}</td>
                                 <td>{new Date(flight.date).toLocaleDateString()}</td>
+                                <td>{flight.noOfSeats}</td>
                                 <td>
                                     <button>Reserve</button>
                                 </td>

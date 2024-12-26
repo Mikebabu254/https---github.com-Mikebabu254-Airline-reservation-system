@@ -12,6 +12,7 @@ const AddFlight = () => {
     const [destination, setDestination] = useState("");
     const [time, setTime] = useState("");
     const [date, setDate] = useState("");
+    const [noOfSeats, setNoOfSeats] = useState("");
 
     // State for cities
     const [cities, setCities] = useState([]);
@@ -53,6 +54,7 @@ const AddFlight = () => {
                 destination,
                 time,
                 date,
+                noOfSeats,
             });
             console.log(response.data); // Log response for confirmation
             navigate("/Admin"); // Redirect to the Admin page
@@ -76,6 +78,22 @@ const AddFlight = () => {
                         onChange={(e) => setFlightNumber(e.target.value)}
                         required
                     />
+                </div>
+                <div className="form-group mb-3">
+                    <label htmlFor="noOfSeats">No of Seats</label>
+                    <select
+                        className="form-control"
+                        id="noOfSeats"
+                        value={noOfSeats}
+                        onChange={(e) => setNoOfSeats(e.target.value)}
+                        required
+                    >
+                        <option value="">Select Number of Seats</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="150">150</option>
+                        <option value="200">200</option>
+                    </select>
                 </div>
                 <div className="form-group mb-3">
                     <label htmlFor="origin">Origin</label>
@@ -126,8 +144,7 @@ const AddFlight = () => {
                         <option value="3:30 PM">3:30 PM</option>
                         <option value="6:30 PM">6:30 PM</option>
                     </select>
-            </div>
-
+                </div>
                 <div className="form-group mb-4">
                     <label htmlFor="date">Date</label>
                     <input

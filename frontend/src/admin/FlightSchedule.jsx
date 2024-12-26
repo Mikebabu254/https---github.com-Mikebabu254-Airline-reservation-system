@@ -66,6 +66,7 @@ const FlightSchedule = () => {
                         <th>Destination</th>
                         <th>Time</th>
                         <th>Date</th>
+                        <th>No. of Seats</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -78,6 +79,7 @@ const FlightSchedule = () => {
                                 <td>{flight.destination}</td>
                                 <td>{flight.time}</td>
                                 <td>{new Date(flight.date).toLocaleDateString()}</td>
+                                <td>{flight.noOfSeats}</td> {/* Display number of seats */}
                                 <td>
                                     <button
                                         className="btn btn-primary btn-sm me-2"
@@ -96,7 +98,7 @@ const FlightSchedule = () => {
                         ))
                     ) : (
                         <tr>
-                            <td colSpan="6" className="text-center">
+                            <td colSpan="7" className="text-center">
                                 No flights available.
                             </td>
                         </tr>
@@ -144,6 +146,9 @@ const FlightSchedule = () => {
                                     <li>
                                         <strong>Date:</strong>{" "}
                                         {new Date(selectedFlight.date).toLocaleDateString()}
+                                    </li>
+                                    <li>
+                                        <strong>No. of Seats:</strong> {selectedFlight.noOfSeats}
                                     </li>
                                 </ul>
                             </div>
