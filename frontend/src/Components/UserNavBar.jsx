@@ -25,7 +25,7 @@ const UserNavBar = () => {
     <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
       <div className="container-fluid">
         {/* Logo */}
-        <Link className="navbar-brand" to="/">
+        <Link className="navbar-brand" to="/HomeUser">
           <img
             src="/logo.png" // Replace with your logo path
             alt="Airline Logo"
@@ -54,15 +54,11 @@ const UserNavBar = () => {
           <ul className="navbar-nav ms-auto">
             {/* Navigation Links */}
             <li className="nav-item">
-              <Link className="nav-link" to="/">
+              <Link className="nav-link" to="/HomeUser">
                 Home
               </Link>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/about">
-                About Us
-              </Link>
-            </li>
+            
             <li className="nav-item">
               <Link className="nav-link" to="/my-bookings">
                 My Bookings

@@ -1,43 +1,51 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Spinner, Modal, Button } from "react-bootstrap";
 
 const UserFlightSchedule = () => {
-    const [flights, setFlights] = useState([]); // State to store flight data
+    const [flights, setFlights] = useState([]);
+    const [loading, setLoading] = useState(false); // Loading state
+    const [error, setError] = useState(null); // Error state
     const [searchFilters, setSearchFilters] = useState({
         destination: "",
         origin: "",
         date: "",
-    }); // State to store search filters
-    const [selectedFlight, setSelectedFlight] = useState(null); // Selected flight for booking
-    const [numSeats, setNumSeats] = useState(0); // Number of seats for booking
+    });
+    const [selectedFlight, setSelectedFlight] = useState(null);
+    const [numSeats, setNumSeats] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1); // Pagination
 
-    // Fetch flights from the backend based on filters
+    const flightsPerPage = 5;
+
+    // Fetch flights from the backend
     const fetchFlights = async () => {
+        setLoading(true);
+        setError(null);
         try {
             const response = await axios.get("http://localhost:3000/flight-schedule", {
-                params: searchFilters,
+                params: { ...searchFilters, page: currentPage, limit: flightsPerPage },
             });
-            setFlights(response.data.slice(0, 5)); // Limit to 5 flights
-        } catch (error) {
-            console.error("Error fetching flights:", error);
+            setFlights(response.data);
+        } catch (err) {
+            setError("Failed to fetch flights. Please try again.");
+        } finally {
+            setLoading(false);
         }
     };
 
-    // Handle input change for search fields
+    useEffect(() => {
+        fetchFlights();
+    }, [searchFilters, currentPage]);
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setSearchFilters((prevFilters) => ({
-            ...prevFilters,
-            [name]: value,
-        }));
+        setSearchFilters((prev) => ({ ...prev, [name]: value }));
     };
 
-    // Handle seat reservation
     const handleReserve = (flight) => {
-        setSelectedFlight(flight); // Set the flight for reservation
+        setSelectedFlight(flight);
     };
 
-    // Confirm booking
     const confirmBooking = async () => {
         if (!numSeats || numSeats <= 0) {
             alert("Please enter a valid number of seats.");
@@ -58,19 +66,13 @@ const UserFlightSchedule = () => {
 
             await axios.post("http://localhost:3000/reservations", reservation);
             alert("Reservation successful!");
-            setSelectedFlight(null); // Clear selection after booking
-            setNumSeats(0); // Reset number of seats
-            fetchFlights(); // Refresh flight data
-        } catch (error) {
-            console.error("Error making reservation:", error);
-            alert("Failed to make reservation.");
+            setSelectedFlight(null);
+            setNumSeats(0);
+            fetchFlights();
+        } catch (err) {
+            alert("Failed to make reservation. Please try again.");
         }
     };
-
-    // Fetch flights when the component mounts
-    useEffect(() => {
-        fetchFlights();
-    }, [searchFilters]);
 
     return (
         <div className="container mt-4">
@@ -110,6 +112,12 @@ const UserFlightSchedule = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Loading Spinner */}
+            {loading && <Spinner animation="border" className="d-block mx-auto" />}
+
+            {/* Error Message */}
+            {error && <p className="text-danger text-center">{error}</p>}
 
             {/* Flight Table */}
             <table className="table table-bordered table-striped">
@@ -154,53 +162,48 @@ const UserFlightSchedule = () => {
                 </tbody>
             </table>
 
+            {/* Pagination */}
+            <div className="d-flex justify-content-center">
+                <button
+                    className="btn btn-outline-secondary mx-2"
+                    disabled={currentPage === 1}
+                    onClick={() => setCurrentPage((prev) => prev - 1)}
+                >
+                    Previous
+                </button>
+                <button
+                    className="btn btn-outline-secondary mx-2"
+                    onClick={() => setCurrentPage((prev) => prev + 1)}
+                >
+                    Next
+                </button>
+            </div>
+
             {/* Booking Modal */}
             {selectedFlight && (
-                <div className="modal d-block" tabIndex="-1" role="dialog">
-                    <div className="modal-dialog" role="document">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title">Reserve Seats</h5>
-                                <button
-                                    type="button"
-                                    className="close"
-                                    onClick={() => setSelectedFlight(null)}
-                                >
-                                    <span>&times;</span>
-                                </button>
-                            </div>
-                            <div className="modal-body">
-                                <p>Flight Number: {selectedFlight.flightNumber}</p>
-                                <p>Available Seats: {selectedFlight.noOfSeats}</p>
-                                <div className="form-group">
-                                    <label>Number of Seats</label>
-                                    <input
-                                        type="number"
-                                        className="form-control"
-                                        value={numSeats}
-                                        onChange={(e) => setNumSeats(parseInt(e.target.value, 10))}
-                                    />
-                                </div>
-                            </div>
-                            <div className="modal-footer">
-                                <button
-                                    type="button"
-                                    className="btn btn-success"
-                                    onClick={confirmBooking}
-                                >
-                                    Confirm Booking
-                                </button>
-                                <button
-                                    type="button"
-                                    className="btn btn-secondary"
-                                    onClick={() => setSelectedFlight(null)}
-                                >
-                                    Cancel
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <Modal show onHide={() => setSelectedFlight(null)}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Reserve Seats</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <p>Flight Number: {selectedFlight.flightNumber}</p>
+                        <p>Available Seats: {selectedFlight.noOfSeats}</p>
+                        <input
+                            type="number"
+                            className="form-control"
+                            value={numSeats}
+                            onChange={(e) => setNumSeats(parseInt(e.target.value, 10))}
+                        />
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="success" onClick={confirmBooking}>
+                            Confirm
+                        </Button>
+                        <Button variant="secondary" onClick={() => setSelectedFlight(null)}>
+                            Cancel
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             )}
         </div>
     );

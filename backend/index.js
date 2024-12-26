@@ -13,6 +13,8 @@ const session = require("express-session");
 app.use(cors());
 app.use(express.json());
 
+const PORT = 3000;
+
 app.use(
   session({
       secret: "your_secret_key", // Use a strong, random secret key
@@ -22,7 +24,7 @@ app.use(
   })
 );
 
-const PORT = 3000;
+
 
 // Connect to MongoDB
 mongoose.connect("mongodb://127.0.0.1:27017/Jetset-airline-reservation", {
@@ -31,6 +33,8 @@ mongoose.connect("mongodb://127.0.0.1:27017/Jetset-airline-reservation", {
 })
 .then(() => console.log("Connected to MongoDB"))
 .catch(err => console.error("Could not connect to MongoDB", err));
+
+
 
 
 
@@ -60,12 +64,9 @@ app.post("/registration", (req, res) => {
     .catch(err => res.json(err));
 });
 
-// ...       ..........  .........   ...  .........
-// ...       ..........  .........   ...  .........
-// ...       ...    ...  ...         ...  ...   ...
-// ...       ...    ...  ...    ...  ...  ...   ...
-// ........  ..........  ..........  ...  ...   ...
-// ........  ..........  ..........  ...  ...   ...
+
+
+
 
 // Login route
 app.post("/login", (req, res) => {
@@ -105,7 +106,10 @@ app.post("/login", (req, res) => {
 });
 
 
-// Get user data from session
+
+
+
+
 // Get logged-in user data from session
 app.get("/getUserData", (req, res) => {
   if (req.session.user) {
@@ -142,8 +146,6 @@ app.get("/getUserData", (req, res) => {
 
 
 
-
-
 //logout API
 app.post("/logout", (req, res) => {
   if (req.session) {
@@ -158,6 +160,9 @@ app.post("/logout", (req, res) => {
       res.json({ message: "No active session" });
   }
 });
+
+
+
 
 // Route for adding a flight
 app.post("/flight-schedule", (req, res) => {
@@ -188,7 +193,7 @@ app.get("/flight-schedule", async (req, res) => {
   if (date) filters.date = date;
 
   try {
-      const flights = await FlightModel.find(filters).limit(5); // Limit to 5 flights
+      const flights = await FlightModel.find(filters); // Limit to 5 flights
       res.json(flights);
   } catch (err) {
       res.status(500).json({ message: "Error fetching flights", error: err });
@@ -287,18 +292,18 @@ app.get("/registration", async (req, res) => {
 
 
 
-//Route for booking flights
-app.post("/bookings", async (req, res) =>{
-  try{
-    const bookingData = req.body;
-    const booking = new Booking(bookingData);
-    await booking.save();
-    res.status(201).json({ message: "Booking saved successfully!" });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Failed to save booking." });
-    }
-})
+// //Route for booking flights
+// app.post("/bookings", async (req, res) =>{
+//   try{
+//     const bookingData = req.body;
+//     const booking = new Booking(bookingData);
+//     await booking.save();
+//     res.status(201).json({ message: "Booking saved successfully!" });
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({ error: "Failed to save booking." });
+//     }
+// })
 
 
 
@@ -324,6 +329,10 @@ app.delete("/flight-schedule/:id", async (req, res) => {
   }
 });
 
+
+
+
+
 //getting flight by id to edit
 app.get("/flight-schedule/:id", async (req, res) => {
   try {
@@ -334,6 +343,10 @@ app.get("/flight-schedule/:id", async (req, res) => {
       res.status(500).json({ message: "Error fetching flight", error });
   }
 });
+
+
+
+
 
 //editing flight
 app.put("/flight-schedule/:id", async (req, res) => {
@@ -348,83 +361,79 @@ app.put("/flight-schedule/:id", async (req, res) => {
   }
 });
 
-app.get("/flight-schedule", (req, res) => {
-  const { fromLocation, destination, departureDate } = req.query;
-
-  // Query the database for matching flights
-  FlightModel.find({
-    origin: fromLocation,
-    destination: destination,
-    date: departureDate,
-  })
-    .then(flights => {
-      if (flights.length > 0) {
-        res.json(flights); // Return the list of flights
-      } else {
-        res.status(404).json({ message: "No flights found for the given criteria." });
-      }
-    })
-    .catch(err => res.status(500).json({ message: "Error fetching flights", error: err }));
-});
 
 
 
 
+// app.get("/flight-schedule", (req, res) => {
+//   const { fromLocation, destination, departureDate } = req.query;
+
+//   // Query the database for matching flights
+//   FlightModel.find({
+//     origin: fromLocation,
+//     destination: destination,
+//     date: departureDate,
+//   })
+//     .then(flights => {
+//       if (flights.length > 0) {
+//         res.json(flights); // Return the list of flights
+//       } else {
+//         res.status(404).json({ message: "No flights found for the given criteria." });
+//       }
+//     })
+//     .catch(err => res.status(500).json({ message: "Error fetching flights", error: err }));
+// });
 
 
-// Route for reserving seats
-app.post("/reservations", async (req, res) => {
-  const { flightId, flightNumber, numSeats } = req.body;
-
-  try {
-      const flight = await FlightModel.findById(flightId);
-
-      if (!flight) {
-          return res.status(404).json({ message: "Flight not found" });
-      }
-
-      if (numSeats > flight.noOfSeats) {
-          return res.status(400).json({ message: "Not enough seats available" });
-      }
-
-      // Reduce the available seats
-      flight.noOfSeats -= numSeats;
-      await flight.save();
-
-      // Save reservation details
-      const reservation = new ReservationModel({
-          flightId,
-          flightNumber,
-          numSeats,
-      });
-
-      await reservation.save();
-
-      res.json({ message: "Reservation successful", reservation });
-  } catch (error) {
-      console.error("Error making reservation:", error);
-      res.status(500).json({ message: "Error making reservation", error });
-  }
-});
 
 
-///change password
-app.post("/changePassword", (req, res) => {
-  const { email, oldPassword, newPassword } = req.body;
 
-  RegistrationModel.findOne({ email })
-    .then(user => {
-      if (user && user.password === oldPassword) {
-        user.password = newPassword; // Update password
-        user.save()
-          .then(() => res.json({ status: "success", message: "Password changed successfully!" }))
-          .catch(err => res.json({ status: "error", message: "Failed to save new password." }));
-      } else {
-        res.json({ status: "error", message: "Old password is incorrect." });
-      }
-    })
-    .catch(err => res.json({ status: "error", message: "An error occurred." }));
-});
+
+// // Route for reserving seats
+// app.post("/reservations", (req, res) => {
+//   const { flightId, flightNumber, numSeats } = req.body;
+
+//   if(!flightId || !flightNumber || !numSeats === null ){
+//     return res.status(400).json({message: "All field must be field."});
+//   }
+
+//   ReservationModel.create({flightId, flightNumber, numSeats})
+//   .then((reservation) => {
+//     res.status(201).json({
+//       message: "reservation created successful",reservation,
+//     });
+//   })
+//   .catch((error)=>{
+//     console.log("error creating reservation", error);
+//     res.status(500).json({message: "failed to create reservation"})
+//   })
+// });
+
+
+
+
+
+
+// ///change password
+// app.post("/changePassword", (req, res) => {
+//   const { email, oldPassword, newPassword } = req.body;
+
+//   RegistrationModel.findOne({ email })
+//     .then(user => {
+//       if (user && user.password === oldPassword) {
+//         user.password = newPassword; // Update password
+//         user.save()
+//           .then(() => res.json({ status: "success", message: "Password changed successfully!" }))
+//           .catch(err => res.json({ status: "error", message: "Failed to save new password." }));
+//       } else {
+//         res.json({ status: "error", message: "Old password is incorrect." });
+//       }
+//     })
+//     .catch(err => res.json({ status: "error", message: "An error occurred." }));
+// });
+
+
+
 
 
 
