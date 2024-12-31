@@ -1,39 +1,80 @@
-const express= require("express")
-const flightModel = require("../models/flightModel")
+const express = require("express");
+const flightModel = require("../models/flightModel");
 
 const addFlight = async (req, res) => {
-    const {from, to, depatureDate, returnDate, price, payed} = req.body;
-    try{
-        const FlightModel = await flightModel.create({from, to, depatureDate, returnDate, price, payed})
-        res.status(201).json(FlightModel)
-    }catch(Error){
-        console.log("error")
-    }
-}
+  const { from, to, departureDate, returnDate, price, payed } = req.body;
+
+  try {
+    const newFlight = await flightModel.create({
+      from,
+      to,
+      departureDate,
+      returnDate,
+      price,
+      payed,
+    });
+
+    res.status(201).json(newFlight); 
+  } catch (error) {
+    console.error("Error adding flight:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
 
 const deleteFlight = async (req, res) => {
-    try{
-        const FlightModel = await flightModel.delete({_id})
-        res.status(201).json(FlightModel)
-    }catch(Error){
-        console.log("error")
+  try {
+    const { id } = req.params; 
+
+    const deletedFlight = await flightModel.findByIdAndDelete(id); 
+
+    if (!deletedFlight) {
+      return res.status(404).json({ message: 'Flight not found' }); 
     }
-}
 
-const viewFlight =(req, res)=>{
-    try{
+    res.status(200).json({ message: 'Flight deleted successfully' }); 
+  } catch (error) {
+    console.error("Error deleting flight:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
 
-    }catch(Error){
+const viewFlight = async (req, res) => {
+  try {
+    const { id } = req.params; // Get flight ID from URL parameters
 
+    const flight = await flightModel.findById(id); 
+
+    if (!flight) {
+      return res.status(404).json({ message: 'Flight not found' }); 
     }
-}
 
-const modifyFlight =(req, res)=>{
-    try{
+    res.status(200).json(flight); 
+  } catch (error) {
+    console.error("Error viewing flight:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
 
-    }catch(Error){
+const modifyFlight = async (req, res) => {
+  try {
+    const { id } = req.params; 
+    const { from, to, departureDate, returnDate, price, payed } = req.body;
 
+    const updatedFlight = await flightModel.findByIdAndUpdate(
+      id, 
+      { from, to, departureDate, returnDate, price, payed }, 
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedFlight) {
+      return res.status(404).json({ message: 'Flight not found' }); 
     }
-}
 
-module.exports ={addFlight, deleteFlight, viewFlight, modifyFlight}
+    res.status(200).json(updatedFlight); 
+  } catch (error) {
+    console.error("Error modifying flight:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+module.exports = { addFlight, deleteFlight, viewFlight, modifyFlight };
