@@ -1,19 +1,19 @@
 const express= require("express")
 
-const addFLight=()=>{
+const addFlight=(req, res)=>{
 
 }
 
-const deleteFlight =()=>{
+const deleteFlight =(req, res)=>{
 
 }
 
-const viewFlight =()=>{
+const viewFlight =(req, res)=>{
 
 }
 
-const modifyFlight =()=>{
+const modifyFlight =(req, res)=>{
 
 }
 
-module.exports ={addFLight, deleteFlight, viewFligt, modifyFlight}
+module.exports ={addFlight, deleteFlight, viewFlight, modifyFlight}

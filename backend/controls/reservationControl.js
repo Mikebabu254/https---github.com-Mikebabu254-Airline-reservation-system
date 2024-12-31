@@ -1,18 +1,18 @@
 const { modifyFlight } = require("./flightControl")
 
-const bookFlight =()=>{
+const bookFlight =(req, res)=>{
 
 }
 
-const cancelFlight=()=>{
+const cancelFlight=(req, res)=>{
 
 }
 
-const viewFlight=()=>{
+const viewFlight=(req, res)=>{
 
 }
 
-const modifyFlight=()=>{
+const modifyFlight=(req, res)=>{
 
 }
 
