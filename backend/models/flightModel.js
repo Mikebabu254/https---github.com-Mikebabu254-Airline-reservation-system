@@ -3,8 +3,8 @@ const mongoose = require("mongoose")
 const flightSchema = mongoose.Schema({
     from :String,
     to: String,
-    Depature: String,
-    Return: String,
+    depatureDate: String,
+    returnDate: String,
     type: String,
     price: String,
     payed: String

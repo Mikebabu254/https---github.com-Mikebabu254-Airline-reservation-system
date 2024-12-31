@@ -3,8 +3,8 @@ const router = express.Router()
 const {addFlight, deleteFlight, viewFlight, modifyFlight} = require("../controls/flightControl")
 
 router.post("/add-flight",addFlight)
-router.delete("/delete-flight", deleteFlight)
+router.delete("/delete-flight/:id", deleteFlight)
 router.get("/view-flight", viewFlight)
-router.patch("modifyFlight", modifyFlight)
+router.patch("modifyFlight/:id", modifyFlight)
 
 module.exports = router
