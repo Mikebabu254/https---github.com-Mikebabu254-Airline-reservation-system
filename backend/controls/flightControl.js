@@ -11,11 +11,12 @@ const addFlight = async (req, res) => {
     }
 }
 
-const deleteFlight =(req, res)=>{
+const deleteFlight = async (req, res) => {
     try{
-
+        const FlightModel = await flightModel.delete({_id})
+        res.status(201).json(FlightModel)
     }catch(Error){
-
+        console.log("error")
     }
 }
 
