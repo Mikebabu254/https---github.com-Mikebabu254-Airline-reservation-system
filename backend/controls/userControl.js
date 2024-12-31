@@ -6,6 +6,7 @@ const registerUser = async (req, res)=>{
 
     try{
 
+
         const UserModel = await userModel.create({ firstName, lastName, phoneNo, gender, email,DOB, password, role:"user"});
         res.status(201).json(UserModel); 
     }catch(Error){
