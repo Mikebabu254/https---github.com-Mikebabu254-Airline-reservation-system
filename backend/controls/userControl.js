@@ -15,8 +15,23 @@ const registerUser = async (req, res)=>{
 
 }
 
-const loginUser = (req,res)=>{
-    res.json({msg : "login user"})
+const loginUser = async (req,res)=>{
+    const {email, password} = req.body
+
+    try{
+        const user = await userModel.findOne({email})
+        if(!user){
+            return console.log("no user found")
+        }
+
+        if (user.password !== password) {
+            return res.status(401).json("Invalid password.");
+        }
+
+        res.status(200).json({msg:"login successful"})
+    }catch(Error){
+        console.log("error", Error)
+    }
 }
 
 const changePassword = (req, res)=>{
