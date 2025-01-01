@@ -43,6 +43,7 @@
             })
                 .then(result => {
                     setMessage(result.data); 
+                    setMessage("user has been registered successful");
                 })
                 .catch(err => {
                     setMessage("An error occurred. Please try again.");
