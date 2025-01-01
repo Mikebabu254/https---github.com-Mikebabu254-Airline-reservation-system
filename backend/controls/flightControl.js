@@ -1,6 +1,8 @@
 const express = require("express");
 const flightModel = require("../models/flightModel");
 
+
+// adding flight
 const addFlight = async (req, res) => {
   const { from, to, departureDate, returnDate, price, payed } = req.body;
 
@@ -21,6 +23,8 @@ const addFlight = async (req, res) => {
   }
 };
 
+
+// deleting flight
 const deleteFlight = async (req, res) => {
   try {
     const { id } = req.params; 
@@ -38,6 +42,18 @@ const deleteFlight = async (req, res) => {
   }
 };
 
+
+// view all flights
+const viewAllFlights = async (req, res)=>{
+  try{
+    const flight = await flightModel.find()
+    res.json(flight)
+  }catch(Error){
+    console.log("error", Error)
+  }
+}
+
+// viewing a single flight
 const viewFlight = async (req, res) => {
   try {
     const { id } = req.params; // Get flight ID from URL parameters
@@ -55,6 +71,8 @@ const viewFlight = async (req, res) => {
   }
 };
 
+
+// editing flight
 const modifyFlight = async (req, res) => {
   try {
     const { id } = req.params; 
@@ -77,4 +95,4 @@ const modifyFlight = async (req, res) => {
   }
 };
 
-module.exports = { addFlight, deleteFlight, viewFlight, modifyFlight };
+module.exports = { addFlight, deleteFlight, viewFlight, modifyFlight, viewAllFlights};

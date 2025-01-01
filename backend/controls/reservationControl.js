@@ -1,4 +1,3 @@
-const { modifyFlight } = require("./flightControl")
 
 const bookFlight =(req, res)=>{
 
