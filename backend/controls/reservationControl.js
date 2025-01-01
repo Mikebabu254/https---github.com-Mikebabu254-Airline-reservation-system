@@ -14,6 +14,7 @@ const bookFlight = async (req, res)=>{
         });
     
         res.status(201).json(newFlight); 
+        console.log(newFlight)
     } catch (error) {
         console.error("Error adding flight:", error);
         res.status(500).json({ message: "Internal server error" });

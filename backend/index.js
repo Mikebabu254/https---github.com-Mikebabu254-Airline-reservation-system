@@ -1,13 +1,16 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const cors = require("cors");
 const userRouter = require("./routers/userRouter")
 const flightRouter = require("./routers/flightRouter")
 
 const app = express();
 const PORT = 3000;
 
-app.use(express.json());
-
+//middle ware
+app.use(cors());
+app.use(bodyParser.json());
 
 // MongoDB connection
 mongoose.connect("mongodb://127.0.0.1:27017/Jetset-airline-reservation")
