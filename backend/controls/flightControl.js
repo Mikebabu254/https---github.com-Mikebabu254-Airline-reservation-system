@@ -1,5 +1,6 @@
 const express = require("express");
 const flightModel = require("../models/flightModel");
+const bookingFlights = require("../models/reservationModel")
 
 
 // adding flight
@@ -22,6 +23,27 @@ const addFlight = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+
+const bookFlight = async (req, res)=>{
+    const { from, to, departureDate, returnDate, price, payed } = req.body;
+
+    try {
+        const newFlight = await bookingFlights.create({
+          from,
+          to,
+          departureDate,
+          returnDate,
+          price,
+          payed,
+        });
+    
+        res.status(201).json(newFlight); 
+    } catch (error) {
+        console.error("Error adding flight:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
 
 
 // deleting flight
@@ -52,6 +74,7 @@ const viewAllFlights = async (req, res)=>{
     console.log("error", Error)
   }
 }
+
 
 // viewing a single flight
 const viewFlight = async (req, res) => {

@@ -23,7 +23,7 @@ function Login() {
                     if (result.data.role === "admin") {
                         navigate("/admin"); // Redirect to admin page
                     } else {
-                        navigate("/HomeUser"); // Redirect to user page
+                        navigate("/home-user"); // Redirect to user page
                     }
                 } else {
                     setMessage(result.data.message);

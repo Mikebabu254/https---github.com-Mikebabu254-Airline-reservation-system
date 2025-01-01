@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-const flightSchema = mongoose.Schema({
+const bookingFlights = mongoose.Schema({
     from :String,
     to: String,
     depatureDate: String,
@@ -10,4 +10,4 @@ const flightSchema = mongoose.Schema({
     payed: String
 })
 
-module.exports = mongoose.model("adding-flight", flightSchema)
+module.exports = mongoose.model("booking-flight", bookingFlights)

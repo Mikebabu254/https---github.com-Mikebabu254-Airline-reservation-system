@@ -42,7 +42,7 @@ function Registration() {
     }
 
     return (
-        <div className="container d-flex justify-content-center align-items-center vh-100" style={{margin: '100px'}}>
+        <div className="container d-flex justify-content-center align-items-center " style={{margin: '100px'}}>
             <div className="card shadow-sm p-4" style={{ maxWidth: '500px', width: '100%'}}>
                 <h2 className="text-center mb-4">Create an Account</h2>
                 

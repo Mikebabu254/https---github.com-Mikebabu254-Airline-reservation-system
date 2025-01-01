@@ -54,7 +54,7 @@ const UserNavBar = () => {
           <ul className="navbar-nav ms-auto">
             {/* Navigation Links */}
             <li className="nav-item">
-              <Link className="nav-link" to="/HomeUser">
+              <Link className="nav-link" to="/home-user">
                 Home
               </Link>
             </li>
