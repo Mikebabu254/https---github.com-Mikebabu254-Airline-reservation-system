@@ -19,16 +19,16 @@ const UserFlightSchedule = () => {
     }, []);
 
     const [flights, setFlights] = useState([]);
-    const [loading, setLoading] = useState(false); // Loading state
-    const [error, setError] = useState(null); // Error state
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
     const [searchFilters, setSearchFilters] = useState({
         destination: "",
         origin: "",
         date: "",
     });
     const [selectedFlight, setSelectedFlight] = useState(null);
-    const [seatNo, setseatNo] = useState(0);
-    const [currentPage, setCurrentPage] = useState(1); // Pagination
+    const [selectedSeats, setSelectedSeats] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
 
     const flightsPerPage = 5;
 
@@ -49,35 +49,34 @@ const UserFlightSchedule = () => {
         }
     };
 
-    // Trigger fetching flights when search filters or pagination changes
     useEffect(() => {
         fetchFlights();
     }, [currentPage]);
 
-    // Handle search input changes
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setSearchFilters((prev) => ({ ...prev, [name]: value }));
     };
 
-    // Handle search button click
     const handleSearch = () => {
-        setCurrentPage(1); // Reset to first page when searching
+        setCurrentPage(1);
         fetchFlights();
     };
 
     const handleReserve = (flight) => {
         setSelectedFlight(flight);
+        setSelectedSeats([]);
+    };
+
+    const toggleSeatSelection = (seat) => {
+        setSelectedSeats((prev) =>
+            prev.includes(seat) ? prev.filter((s) => s !== seat) : [...prev, seat]
+        );
     };
 
     const confirmBooking = async () => {
-        if (!seatNo || seatNo <= 0) {
-            alert("Please enter a valid number of seats.");
-            return;
-        }
-
-        if (seatNo > selectedFlight.noOfSeats) {
-            alert("Not enough seats available for this flight.");
+        if (selectedSeats.length === 0) {
+            alert("Please select at least one seat.");
             return;
         }
 
@@ -89,7 +88,7 @@ const UserFlightSchedule = () => {
                 destination: selectedFlight.destination,
                 time: selectedFlight.time,
                 date: selectedFlight.date,
-                seatNo,
+                selectedSeats,
             };
 
             if (loggedInUser) {
@@ -100,21 +99,50 @@ const UserFlightSchedule = () => {
             await axios.post("http://localhost:3000/booking-flight", reservation);
             alert("Reservation successful!");
             setSelectedFlight(null);
-            setseatNo(0);
             fetchFlights();
         } catch (err) {
             alert("Failed to make reservation. Please try again.");
         }
     };
 
+    const renderSeatGrid = (flight) => {
+        const totalSeats = flight.noOfSeats;
+        const rows = Math.ceil(totalSeats / 6); // Assuming 6 seats per row
+        const seatGrid = [];
+
+        for (let i = 0; i < rows; i++) {
+            const rowSeats = [];
+            for (let j = 0; j < 6; j++) {
+                const seatNumber = i * 6 + j + 1;
+                if (seatNumber > totalSeats) break;
+
+                rowSeats.push(
+                    <div
+                        key={seatNumber}
+                        className={`seat ${selectedSeats.includes(seatNumber) ? "selected" : ""}`}
+                        onClick={() => toggleSeatSelection(seatNumber)}
+                    >
+                        {seatNumber}
+                    </div>
+                );
+            }
+            seatGrid.push(
+                <div key={i} className="seat-row">
+                    {rowSeats}
+                </div>
+            );
+        }
+
+        return <div className="seat-grid">{seatGrid}</div>;
+    };
+
     return (
         <div className="container mt-4">
             <h1 className="mb-4 text-center">Flight Schedule</h1>
 
-            {/* Search Inputs */}
             <div className="mb-4">
                 <div className="row">
-                <div className="col-md-4">
+                    <div className="col-md-4">
                         <input
                             type="text"
                             name="origin"
@@ -144,21 +172,14 @@ const UserFlightSchedule = () => {
                         />
                     </div>
                 </div>
-                <button
-                    className="btn btn-primary mt-3"
-                    onClick={handleSearch} // Explicit search button
-                >
+                <button className="btn btn-primary mt-3" onClick={handleSearch}>
                     Search
                 </button>
             </div>
 
-            {/* Loading Spinner */}
             {loading && <Spinner animation="border" className="d-block mx-auto" />}
-
-            {/* Error Message */}
             {error && <p className="text-danger text-center">{error}</p>}
 
-            {/* Flight Table */}
             <table className="table table-bordered table-striped">
                 <thead className="thead-dark">
                     <tr>
@@ -201,7 +222,6 @@ const UserFlightSchedule = () => {
                 </tbody>
             </table>
 
-            {/* Pagination */}
             <div className="d-flex justify-content-center">
                 <button
                     className="btn btn-outline-secondary mx-2"
@@ -218,21 +238,13 @@ const UserFlightSchedule = () => {
                 </button>
             </div>
 
-            {/* Booking Modal */}
             {selectedFlight && (
                 <Modal show onHide={() => setSelectedFlight(null)}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Reserve Seats</Modal.Title>
+                        <Modal.Title>Select Seats</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <p>Flight Number: {selectedFlight.flightNumber}</p>
-                        <p>Available Seats: {selectedFlight.noOfSeats}</p>
-                        <input
-                            type="number"
-                            className="form-control"
-                            value={seatNo}
-                            onChange={(e) => setseatNo(parseInt(e.target.value, 10))}
-                        />
+                        {renderSeatGrid(selectedFlight)}
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="success" onClick={confirmBooking}>

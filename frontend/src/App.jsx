@@ -1,4 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
+import './index.css';
 import { BrowserRouter, Routes, Route, Router } from "react-router-dom";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
@@ -9,6 +10,7 @@ import About from './Pages/About';
 import AddFlight from './admin/AddFlight';
 import AddCity from './admin/AddCity';
 import EditFlight from './admin/EditFlight';
+
 
 function App() {
   return (
