@@ -10,7 +10,7 @@ const FlightSchedule = () => {
     // Fetch flights from the backend
     const fetchFlights = async () => {
         try {
-            const response = await axios.get("http://localhost:3000/flight-schedule");
+            const response = await axios.get("http://localhost:3000/view-all-flight");
             setFlights(response.data);
         } catch (error) {
             console.error("Error fetching flights:", error);
