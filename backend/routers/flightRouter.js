@@ -5,7 +5,7 @@ const {addFlight, deleteFlight, viewFlight, modifyFlight, viewAllFlights} = requ
 router.post("/flight-schedule",addFlight)
 router.delete("/delete-flight/:id", deleteFlight)
 router.get("/view-flight/:id", viewFlight)
-router.patch("/modifyFlight/:id", modifyFlight)
+router.put("/modifyFlight/:id", modifyFlight)
 router.get("/view-all-flight", viewAllFlights)
 
 

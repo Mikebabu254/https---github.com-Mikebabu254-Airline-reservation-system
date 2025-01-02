@@ -99,11 +99,11 @@ const viewFlight = async (req, res) => {
 const modifyFlight = async (req, res) => {
   try {
     const { id } = req.params; 
-    const { from, to, departureDate, returnDate, price, payed } = req.body;
+    const { flightNumber, origin, destination, time, date, noOfSeats  } = req.body;
 
     const updatedFlight = await flightModel.findByIdAndUpdate(
       id, 
-      { from, to, departureDate, returnDate, price, payed }, 
+      {flightNumber, origin, destination, time, date, noOfSeats  }, 
       { new: true } // Return the updated document
     );
 

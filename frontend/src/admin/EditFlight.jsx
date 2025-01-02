@@ -16,7 +16,7 @@ const EditFlight = () => {
     // Fetch flight details
     const fetchFlightDetails = async () => {
         try {
-            const response = await axios.get(`http://localhost:3000/flight-schedule/${id}`);
+            const response = await axios.get(`http://localhost:3000/view-flight/${id}`);
             setFlight(response.data);
         } catch (error) {
             console.error("Error fetching flight details:", error);
@@ -33,7 +33,7 @@ const EditFlight = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:3000/flight-schedule/${id}`, flight);
+            await axios.put(`http://localhost:3000/modifyFlight/${id}`, flight);
             alert("Flight updated successfully");
             navigate("/Admin");
         } catch (error) {

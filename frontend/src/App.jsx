@@ -8,6 +8,7 @@ import HomeUser from './Pages/HomeUser';
 import About from './Pages/About';
 import AddFlight from './admin/AddFlight';
 import AddCity from './admin/AddCity';
+import EditFlight from './admin/EditFlight';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/about" element={<About/>}/>
         <Route path="/admin/add-flight" element={<AddFlight/>}/>
         <Route path="/admin/add-city" element={<AddCity/>}/>
+        <Route path="/admin/edit-flight/:id" element={<EditFlight/>}/>
       </Routes>
     </BrowserRouter>
   );
