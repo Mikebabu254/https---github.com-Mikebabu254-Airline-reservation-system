@@ -5,16 +5,16 @@ const bookingFlights = require("../models/reservationModel")
 
 // adding flight
 const addFlight = async (req, res) => {
-  const { from, to, departureDate, returnDate, price, payed } = req.body;
+  const {flightNumber, origin, destination, time, date, noOfSeats } = req.body;
 
   try {
     const newFlight = await flightModel.create({
-      from,
-      to,
-      departureDate,
-      returnDate,
-      price,
-      payed,
+      flightNumber,
+      origin,
+      destination,
+      time,
+      date,
+      noOfSeats
     });
 
     res.status(201).json(newFlight); 

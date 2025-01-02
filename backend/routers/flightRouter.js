@@ -2,7 +2,7 @@ const express = require("express")
 const router = express.Router()
 const {addFlight, deleteFlight, viewFlight, modifyFlight, viewAllFlights} = require("../controls/flightControl")
 
-router.post("/add-flight",addFlight)
+router.post("/flight-schedule",addFlight)
 router.delete("/delete-flight/:id", deleteFlight)
 router.get("/view-flight/:id", viewFlight)
 router.patch("/modifyFlight/:id", modifyFlight)

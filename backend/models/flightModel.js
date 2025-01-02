@@ -1,13 +1,12 @@
 const mongoose = require("mongoose")
 
 const flightSchema = mongoose.Schema({
-    from :String,
-    to: String,
-    depatureDate: String,
-    returnDate: String,
-    type: String,
-    price: String,
-    payed: String
+    flightNumber: String,
+    origin: String,
+    destination: String,
+    time: String,
+    date: String,
+    noOfSeats: String,
 })
 
 module.exports = mongoose.model("adding-flight", flightSchema)
