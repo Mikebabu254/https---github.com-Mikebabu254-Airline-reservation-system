@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const userRouter = require("./routers/userRouter")
 const flightRouter = require("./routers/flightRouter")
+const cityRouter = require("./routers/cityRouter")
 
 const app = express();
 const PORT = 3000;
@@ -22,6 +23,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/Jetset-airline-reservation")
 
 app.use(userRouter)
 app.use(flightRouter)
+app.use(cityRouter)
 
 
 app.listen(PORT, () => {
