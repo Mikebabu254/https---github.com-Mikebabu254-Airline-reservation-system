@@ -30,7 +30,6 @@ const registerUser = async (req, res) => {
 };
 
 
-
 const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
@@ -67,13 +66,21 @@ const loginUser = async (req, res) => {
     }
 };
 
-
 const changePassword = (req, res)=>{
-    res.json({msg : "change password"})
+    try{
+        res.json({msg : "change password"})
+    }catch(Error){
+
+    }
+    
 }
 
 const viewProfile = (req, res)=>{
-    res.json({msg : "view profile"})
+    try{
+        res.json({msg : "view profile"})
+    }catch(Error){
+
+    }
 }
 
 module.exports = {registerUser, loginUser}

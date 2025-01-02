@@ -69,14 +69,23 @@ const deleteFlight = async (req, res) => {
 
 
 // view all flights
-const viewAllFlights = async (req, res)=>{
-  try{
-    const flight = await flightModel.find()
-    res.json(flight)
-  }catch(Error){
-    console.log("error", Error)
-  }
-}
+const viewAllFlights = async (req, res) => {
+    try {
+        const { destination, origin, date } = req.query; // Get filters from query parameters
+
+        let filter = {};
+        if (destination) filter.destination = { $regex: destination, $options: 'i' }; // Case-insensitive
+        if (origin) filter.origin = { $regex: origin, $options: 'i' };
+        if (date) filter.date = date;
+
+        const flights = await flightModel.find(filter); // Apply the filters
+        res.json(flights);
+    } catch (error) {
+        console.error("Error viewing flights:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
 
 
 // viewing a single flight

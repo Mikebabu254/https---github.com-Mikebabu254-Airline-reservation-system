@@ -5,19 +5,18 @@ import { Spinner, Modal, Button } from "react-bootstrap";
 const UserFlightSchedule = () => {
     const [loggedInUser, setLoggedInUser] = useState(null);
 
+    // Fetch logged-in user from localStorage
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
             try {
                 const parsedUser = JSON.parse(storedUser);
                 setLoggedInUser(parsedUser);
-                console.log("Logged in user:", parsedUser); // Debugging
             } catch (err) {
-                console.error("Error parsing logged in user:", err);
+                console.error("Error parsing logged-in user:", err);
             }
         }
     }, []);
-    
 
     const [flights, setFlights] = useState([]);
     const [loading, setLoading] = useState(false); // Loading state
@@ -33,7 +32,7 @@ const UserFlightSchedule = () => {
 
     const flightsPerPage = 5;
 
-    // Fetch flights from the backend
+    // Fetch flights from the backend with search filters
     const fetchFlights = async () => {
         setLoading(true);
         setError(null);
@@ -44,19 +43,27 @@ const UserFlightSchedule = () => {
             setFlights(response.data);
         } catch (err) {
             setError("Failed to fetch flights. Please try again.");
-            console.log(err);
+            console.error(err);
         } finally {
             setLoading(false);
         }
     };
 
+    // Trigger fetching flights when search filters or pagination changes
     useEffect(() => {
         fetchFlights();
-    }, [searchFilters, currentPage]);
+    }, [currentPage]);
 
+    // Handle search input changes
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setSearchFilters((prev) => ({ ...prev, [name]: value }));
+    };
+
+    // Handle search button click
+    const handleSearch = () => {
+        setCurrentPage(1); // Reset to first page when searching
+        fetchFlights();
     };
 
     const handleReserve = (flight) => {
@@ -75,7 +82,6 @@ const UserFlightSchedule = () => {
         }
 
         try {
-            // Construct the reservation object explicitly
             const reservation = {
                 flightId: selectedFlight._id,
                 flightNumber: selectedFlight.flightNumber,
@@ -86,7 +92,6 @@ const UserFlightSchedule = () => {
                 seatNo,
             };
 
-            // Add loggedInUser details if available
             if (loggedInUser) {
                 reservation.firstName = loggedInUser.firstName;
                 reservation.email = loggedInUser.email;
@@ -109,6 +114,16 @@ const UserFlightSchedule = () => {
             {/* Search Inputs */}
             <div className="mb-4">
                 <div className="row">
+                <div className="col-md-4">
+                        <input
+                            type="text"
+                            name="origin"
+                            value={searchFilters.origin}
+                            onChange={handleInputChange}
+                            className="form-control"
+                            placeholder="Search by Origin"
+                        />
+                    </div>
                     <div className="col-md-4">
                         <input
                             type="text"
@@ -121,16 +136,6 @@ const UserFlightSchedule = () => {
                     </div>
                     <div className="col-md-4">
                         <input
-                            type="text"
-                            name="origin"
-                            value={searchFilters.origin}
-                            onChange={handleInputChange}
-                            className="form-control"
-                            placeholder="Search by Origin"
-                        />
-                    </div>
-                    <div className="col-md-4">
-                        <input
                             type="date"
                             name="date"
                             value={searchFilters.date}
@@ -139,6 +144,12 @@ const UserFlightSchedule = () => {
                         />
                     </div>
                 </div>
+                <button
+                    className="btn btn-primary mt-3"
+                    onClick={handleSearch} // Explicit search button
+                >
+                    Search
+                </button>
             </div>
 
             {/* Loading Spinner */}
