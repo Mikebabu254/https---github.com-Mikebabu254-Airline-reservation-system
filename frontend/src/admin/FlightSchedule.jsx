@@ -25,7 +25,7 @@ const FlightSchedule = () => {
     // Handle flight deletion
     const handleDeleteFlight = async () => {
         try {
-            await axios.delete(`http://localhost:3000/flight-schedule/${selectedFlight._id}`);
+            await axios.delete(`http://localhost:3000/delete-flight/${selectedFlight._id}`);
             setFlights(flights.filter((flight) => flight._id !== selectedFlight._id)); // Update state to remove the deleted flight
             alert("Flight deleted successfully");
             setSelectedFlight(null); // Clear the selected flight after deletion
