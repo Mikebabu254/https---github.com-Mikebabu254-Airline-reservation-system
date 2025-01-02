@@ -26,16 +26,18 @@ const addFlight = async (req, res) => {
 
 
 const bookFlight = async (req, res)=>{
-    const { from, to, departureDate, returnDate, price, payed } = req.body;
+    const { flightNumber, origin, destination, time, date, seatNo, price} = req.body;
 
     try {
         const newFlight = await bookingFlights.create({
-          from,
-          to,
-          departureDate,
-          returnDate,
+          flightNumber,
+          origin,
+          destination,
+          time,
+          date,
+          seatNo,
           price,
-          payed,
+
         });
     
         res.status(201).json(newFlight); 
@@ -118,4 +120,4 @@ const modifyFlight = async (req, res) => {
   }
 };
 
-module.exports = { addFlight, deleteFlight, viewFlight, modifyFlight, viewAllFlights};
+module.exports = { addFlight, deleteFlight, viewFlight, modifyFlight, viewAllFlights, bookFlight};

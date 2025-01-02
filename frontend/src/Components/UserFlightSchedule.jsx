@@ -65,7 +65,7 @@ const UserFlightSchedule = () => {
                 numSeats,
             };
 
-            await axios.post("http://localhost:3000/reservations", reservation);
+            await axios.post("http://localhost:3000/booking-flight", reservation);
             alert("Reservation successful!");
             setSelectedFlight(null);
             setNumSeats(0);
