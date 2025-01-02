@@ -1,10 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const AddCity = () => {
     const navigate = useNavigate();
+
+    useEffect(()=>{
+        const isLoggedIn = localStorage.getItem("isLoggedIn")
+        const user = JSON.parse(localStorage.getItem("user"))
+
+        if(!isLoggedIn || !user || user.role !== "admin"){
+            navigate("/login")
+        }
+    }, [])
+
+    
+
 
     // State for form fields
     const [cityCode, setCityCode] = useState("");
