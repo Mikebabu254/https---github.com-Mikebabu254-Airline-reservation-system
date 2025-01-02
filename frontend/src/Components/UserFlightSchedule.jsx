@@ -22,12 +22,13 @@ const UserFlightSchedule = () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await axios.get("http://localhost:3000/flight-schedule", {
+            const response = await axios.get("http://localhost:3000/view-all-flight", {
                 params: { ...searchFilters, page: currentPage, limit: flightsPerPage },
             });
             setFlights(response.data);
         } catch (err) {
-            setError("Failed to fetch flights. Please try again.");
+            setError("Failed to fetch flights. Please try again.",err);
+            console.log(err)
         } finally {
             setLoading(false);
         }
