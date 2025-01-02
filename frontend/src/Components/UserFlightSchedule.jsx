@@ -3,6 +3,20 @@ import axios from "axios";
 import { Spinner, Modal, Button } from "react-bootstrap";
 
 const UserFlightSchedule = () => {
+    const [loggedInUser, setLoggedInUser] = useState(null);
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem("loggedInUser");
+        if (storedUser) {
+          try {
+            const parsedUser = JSON.parse(storedUser);
+            setLoggedInUser(parsedUser);
+          } catch (err) {
+            console.error("Error parsing logged in user:", err);
+          }
+        }
+      }, []);
+
     const [flights, setFlights] = useState([]);
     const [loading, setLoading] = useState(false); // Loading state
     const [error, setError] = useState(null); // Error state
@@ -12,7 +26,7 @@ const UserFlightSchedule = () => {
         date: "",
     });
     const [selectedFlight, setSelectedFlight] = useState(null);
-    const [numSeats, setNumSeats] = useState(0);
+    const [seatNo, setseatNo] = useState(0);
     const [currentPage, setCurrentPage] = useState(1); // Pagination
 
     const flightsPerPage = 5;
@@ -48,12 +62,12 @@ const UserFlightSchedule = () => {
     };
 
     const confirmBooking = async () => {
-        if (!numSeats || numSeats <= 0) {
+        if (!seatNo || seatNo <= 0) {
             alert("Please enter a valid number of seats.");
             return;
         }
 
-        if (numSeats > selectedFlight.noOfSeats) {
+        if (seatNo > selectedFlight.noOfSeats) {
             alert("Not enough seats available for this flight.");
             return;
         }
@@ -62,13 +76,22 @@ const UserFlightSchedule = () => {
             const reservation = {
                 flightId: selectedFlight._id,
                 flightNumber: selectedFlight.flightNumber,
-                numSeats,
-            };
+                origin: selectedFlight.origin,
+                destination: selectedFlight.destination,
+                time: selectedFlight.time,
+                date: selectedFlight.date,
+                seatNo,
+                ...(loggedInUser && {
+                    firstName: loggedInUser.firstName,
+                    email: loggedInUser.email,
+                }),
+                
+              };
 
             await axios.post("http://localhost:3000/booking-flight", reservation);
             alert("Reservation successful!");
             setSelectedFlight(null);
-            setNumSeats(0);
+            setseatNo(0);
             fetchFlights();
         } catch (err) {
             alert("Failed to make reservation. Please try again.");
@@ -192,8 +215,8 @@ const UserFlightSchedule = () => {
                         <input
                             type="number"
                             className="form-control"
-                            value={numSeats}
-                            onChange={(e) => setNumSeats(parseInt(e.target.value, 10))}
+                            value={seatNo}
+                            onChange={(e) => setseatNo(parseInt(e.target.value, 10))}
                         />
                     </Modal.Body>
                     <Modal.Footer>

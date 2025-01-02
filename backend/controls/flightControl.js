@@ -26,7 +26,7 @@ const addFlight = async (req, res) => {
 
 
 const bookFlight = async (req, res)=>{
-    const { flightNumber, origin, destination, time, date, seatNo, price} = req.body;
+    const { flightNumber, origin, destination, time, date, seatNo, price, firstName, email} = req.body;
 
     try {
         const newFlight = await bookingFlights.create({
@@ -37,7 +37,8 @@ const bookFlight = async (req, res)=>{
           date,
           seatNo,
           price,
-
+          firstName,
+          email,
         });
     
         res.status(201).json(newFlight); 

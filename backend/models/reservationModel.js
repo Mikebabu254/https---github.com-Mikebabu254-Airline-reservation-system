@@ -7,7 +7,9 @@ const bookingFlights = mongoose.Schema({
     time: String,
     date: String,
     seatNo: String,
-    price: String
+    price: String,
+    firstName: String,
+    email: String,
 })
 
 module.exports = mongoose.model("booking-flight", bookingFlights)
