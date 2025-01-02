@@ -67,7 +67,12 @@ const AddFlight = () => {
                 noOfSeats,
             });
             console.log(response.data); // Log response for confirmation
-            navigate("/Admin"); // Redirect to the Admin page
+            setFlightNumber("");
+            setOrigin("");
+            setDestination("");
+            setTime("");
+            setDate("");
+            setNoOfSeats("");
         } catch (error) {
             console.error("Error adding flight:", error);
         }
