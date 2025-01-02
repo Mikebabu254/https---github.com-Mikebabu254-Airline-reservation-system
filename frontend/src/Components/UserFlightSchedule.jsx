@@ -6,16 +6,18 @@ const UserFlightSchedule = () => {
     const [loggedInUser, setLoggedInUser] = useState(null);
 
     useEffect(() => {
-        const storedUser = localStorage.getItem("loggedInUser");
+        const storedUser = localStorage.getItem("user");
         if (storedUser) {
-          try {
-            const parsedUser = JSON.parse(storedUser);
-            setLoggedInUser(parsedUser);
-          } catch (err) {
-            console.error("Error parsing logged in user:", err);
-          }
+            try {
+                const parsedUser = JSON.parse(storedUser);
+                setLoggedInUser(parsedUser);
+                console.log("Logged in user:", parsedUser); // Debugging
+            } catch (err) {
+                console.error("Error parsing logged in user:", err);
+            }
         }
-      }, []);
+    }, []);
+    
 
     const [flights, setFlights] = useState([]);
     const [loading, setLoading] = useState(false); // Loading state
@@ -41,8 +43,8 @@ const UserFlightSchedule = () => {
             });
             setFlights(response.data);
         } catch (err) {
-            setError("Failed to fetch flights. Please try again.",err);
-            console.log(err)
+            setError("Failed to fetch flights. Please try again.");
+            console.log(err);
         } finally {
             setLoading(false);
         }
@@ -73,6 +75,7 @@ const UserFlightSchedule = () => {
         }
 
         try {
+            // Construct the reservation object explicitly
             const reservation = {
                 flightId: selectedFlight._id,
                 flightNumber: selectedFlight.flightNumber,
@@ -81,12 +84,13 @@ const UserFlightSchedule = () => {
                 time: selectedFlight.time,
                 date: selectedFlight.date,
                 seatNo,
-                ...(loggedInUser && {
-                    firstName: loggedInUser.firstName,
-                    email: loggedInUser.email,
-                }),
-                
-              };
+            };
+
+            // Add loggedInUser details if available
+            if (loggedInUser) {
+                reservation.firstName = loggedInUser.firstName;
+                reservation.email = loggedInUser.email;
+            }
 
             await axios.post("http://localhost:3000/booking-flight", reservation);
             alert("Reservation successful!");
