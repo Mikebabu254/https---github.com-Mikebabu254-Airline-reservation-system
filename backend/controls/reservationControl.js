@@ -21,4 +21,21 @@ const bookFlight = async (req, res)=>{
     }
 }
 
-module.exports = {bookFlight, cancelFlight, viewFlight, modifyFlight}
+const getUserBookings = async (req, res) => {
+    const { email } = req.query; // Use req.query to match the frontend request
+
+    if (!email) {
+        return res.status(400).json({ message: "Email is required" });
+    }
+
+    try {
+        const userBookings = await bookingFlights.find({ email });
+        res.status(200).json(userBookings);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Failed to fetch user bookings" });
+    }
+};
+
+
+module.exports = {bookFlight, getUserBookings}

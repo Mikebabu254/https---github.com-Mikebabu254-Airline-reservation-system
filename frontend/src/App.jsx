@@ -10,6 +10,7 @@ import About from './Pages/About';
 import AddFlight from './admin/AddFlight';
 import AddCity from './admin/AddCity';
 import EditFlight from './admin/EditFlight';
+import UserBookings from './Pages/UserBookings';
 
 
 function App() {
