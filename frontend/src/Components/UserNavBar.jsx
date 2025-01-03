@@ -60,7 +60,7 @@ const UserNavBar = () => {
             </li>
             
             <li className="nav-item">
-              <Link className="nav-link" to="/my-bookings">
+              <Link className="nav-link" to="/booking">
                 My Bookings
               </Link>
             </li>
