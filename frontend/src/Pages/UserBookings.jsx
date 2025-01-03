@@ -35,7 +35,7 @@ function UserBookings() {
                         date: booking.date,
                         seatNo: seat,
                         gate: "18",
-                        time: "10:30",
+                        time: booking.time,
                     }))
                 );
                 setBookings(expandedBookings);
