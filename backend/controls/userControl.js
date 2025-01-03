@@ -83,4 +83,13 @@ const viewProfile = (req, res)=>{
     }
 }
 
-module.exports = {registerUser, loginUser}
+const allUser = async (req, res) =>{
+    try{
+        const getUser = await userModel.find()
+        res.json(getUser)
+    }catch(Error){
+        console.log("Error fetching user", Error)
+    }
+}
+
+module.exports = {registerUser, loginUser, allUser}
