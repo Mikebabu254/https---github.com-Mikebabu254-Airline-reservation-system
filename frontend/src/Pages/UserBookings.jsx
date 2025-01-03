@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import UserNavBar from "../Components/UserNavBar";
 import Footer from "../Components/Footer";
+// import "./UserBookings.css"; // Custom CSS for styling tickets
 
 function UserBookings() {
     const [bookings, setBookings] = useState([]);
@@ -26,7 +27,6 @@ function UserBookings() {
 
                 const data = await response.json();
 
-                // Expand each booking into individual rows based on the number of seats
                 const expandedBookings = data.flatMap((booking) =>
                     booking.seatNo.map((seat) => ({
                         flightNumber: booking.flightNumber,
@@ -56,32 +56,41 @@ function UserBookings() {
             <UserNavBar />
             <div className="container">
                 <h2>User Bookings</h2>
-                {bookings.length > 0 ? (
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>Flight ID</th>
-                                <th>Origin</th>
-                                <th>Destination</th>
-                                <th>Date</th>
-                                <th>Seat No</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {bookings.map((booking, index) => (
-                                <tr key={index}>
-                                    <td>{booking.flightNumber}</td>
-                                    <td>{booking.origin}</td>
-                                    <td>{booking.destination}</td>
-                                    <td>{new Date(booking.date).toLocaleDateString()}</td>
-                                    <td>{booking.seatNo}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                ) : (
-                    <p>No bookings found.</p>
-                )}
+                <div className="ticket-container">
+                    {bookings.length > 0 ? (
+                        bookings.map((booking, index) => (
+                            <div key={index} className="ticket">
+                                <div className="ticket-header">
+                                    <h3>Flight Ticket</h3>
+                                    <p>Flight No: {booking.flightNumber}</p>
+                                </div>
+                                <div className="ticket-body">
+                                    <div className="ticket-row">
+                                        <span>From:</span>
+                                        <strong>{booking.origin}</strong>
+                                    </div>
+                                    <div className="ticket-row">
+                                        <span>To:</span>
+                                        <strong>{booking.destination}</strong>
+                                    </div>
+                                    <div className="ticket-row">
+                                        <span>Date:</span>
+                                        <strong>{new Date(booking.date).toLocaleDateString()}</strong>
+                                    </div>
+                                    <div className="ticket-row">
+                                        <span>Seat:</span>
+                                        <strong>{booking.seatNo}</strong>
+                                    </div>
+                                </div>
+                                <div className="ticket-footer">
+                                    <p>Thank you for booking with us!</p>
+                                </div>
+                            </div>
+                        ))
+                    ) : (
+                        <p>No bookings found.</p>
+                    )}
+                </div>
             </div>
             <Footer />
         </div>
