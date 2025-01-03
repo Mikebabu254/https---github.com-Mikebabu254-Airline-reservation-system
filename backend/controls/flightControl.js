@@ -44,7 +44,7 @@ const bookFlight = async (req, res)=>{
 } catch (error) {
     console.error("Error booking flight:", error);
     res.status(500).json({ message: "Internal server error" });
-  }
+}
 }
 
 
@@ -83,7 +83,7 @@ const viewAllFlights = async (req, res) => {
     } catch (error) {
         console.error("Error viewing flights:", error);
         res.status(500).json({ message: "Internal server error" });
-  }
+    }
 };
 
 
