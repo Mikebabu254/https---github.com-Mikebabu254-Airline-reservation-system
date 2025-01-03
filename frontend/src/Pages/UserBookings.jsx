@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import UserNavBar from "../Components/UserNavBar";
 import Footer from "../Components/Footer";
-// import "./UserBookings.css"; // Custom CSS for styling tickets
+// import "./UserBookings.css";
 
 function UserBookings() {
     const [bookings, setBookings] = useState([]);
@@ -26,17 +26,18 @@ function UserBookings() {
                 }
 
                 const data = await response.json();
-
                 const expandedBookings = data.flatMap((booking) =>
                     booking.seatNo.map((seat) => ({
+                        passengerName: user.firstName + " " + user.lastName || "Passenger",
                         flightNumber: booking.flightNumber,
                         origin: booking.origin,
                         destination: booking.destination,
                         date: booking.date,
                         seatNo: seat,
+                        gate: "18",
+                        time: "10:30",
                     }))
                 );
-
                 setBookings(expandedBookings);
             } catch (err) {
                 setError(err.message);
@@ -53,47 +54,34 @@ function UserBookings() {
 
     return (
         <div>
-            <UserNavBar />
-            <div className="container">
-                <h2>User Bookings</h2>
-                <div className="ticket-container">
-                    {bookings.length > 0 ? (
-                        bookings.map((booking, index) => (
-                            <div key={index} className="ticket">
-                                <div className="ticket-header">
-                                    <h3>Flight Ticket</h3>
-                                    <p>Flight No: {booking.flightNumber}</p>
-                                </div>
-                                <div className="ticket-body">
-                                    <div className="ticket-row">
-                                        <span>From:</span>
-                                        <strong>{booking.origin}</strong>
-                                    </div>
-                                    <div className="ticket-row">
-                                        <span>To:</span>
-                                        <strong>{booking.destination}</strong>
-                                    </div>
-                                    <div className="ticket-row">
-                                        <span>Date:</span>
-                                        <strong>{new Date(booking.date).toLocaleDateString()}</strong>
-                                    </div>
-                                    <div className="ticket-row">
-                                        <span>Seat:</span>
-                                        <strong>{booking.seatNo}</strong>
-                                    </div>
-                                </div>
-                                <div className="ticket-footer">
-                                    <p>Thank you for booking with us!</p>
-                                </div>
+            <UserNavBar/>
+            <div className="tickets-container">
+                {bookings.map((booking, index) => (
+                    <div key={index} className="ticket">
+                        <div className="ticket-left">
+                            <div className="ticket-logo">
+                                <h2>Jet Set Airline</h2>
                             </div>
-                        ))
-                    ) : (
-                        <p>No bookings found.</p>
-                    )}
-                </div>
+                            <div className="ticket-info">
+                                <p>Passenger Name: <strong>{booking.passengerName}</strong></p>
+                                <p>From: <strong>{booking.origin}</strong></p>
+                                <p>To: <strong>{booking.destination}</strong></p>
+                                <p>Date: <strong>{new Date(booking.date).toLocaleDateString()}</strong></p>
+                                <p>Flight: <strong>{booking.flightNumber}</strong></p>
+                                <p>Gate: <strong>{booking.gate}</strong></p>
+                            </div>
+                        </div>
+                        <div className="ticket-right">
+                            <p>Seat: <strong>{booking.seatNo}</strong></p>
+                            <p>Time: <strong>{booking.time}</strong></p>
+                            <p>Board Till: <strong>{booking.time}</strong></p>
+                        </div>
+                    </div>
+                ))}
             </div>
-            <Footer />
+            <Footer/>
         </div>
+        
     );
 }
 

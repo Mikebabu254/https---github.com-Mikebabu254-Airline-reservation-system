@@ -1,61 +1,65 @@
-.container {
-    padding: 20px;
-}
-
-.ticket-container {
+.tickets-container {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
+    padding: 20px;
 }
 
 .ticket {
-    background: #f8f9fa;
-    border: 1px solid #ddd;
+    width: 20cm;
+    height: auto;
+    display: flex;
+    border: 1px solid #ccc;
     border-radius: 8px;
-    width: 300px;
-    padding: 15px;
+    background-color: white;
+    position: relative;
+    overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
 }
 
-.ticket-header {
-    background: #007bff;
-    color: #fff;
-    padding: 10px;
-    border-radius: 6px 6px 0 0;
-    text-align: center;
+.ticket-left {
+    width: 57%;
+    padding: 20px;
+    background: #f0f0f0;
+    position: relative;
 }
 
-.ticket-header h3 {
+.ticket-logo h2 {
     margin: 0;
-    font-size: 18px;
+    font-size: 24px;
+    color: #d9534f;
 }
 
-.ticket-body {
-    padding: 10px 0;
-}
-
-.ticket-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
-
-.ticket-row span {
-    color: #555;
-}
-
-.ticket-row strong {
-    color: #333;
-}
-
-.ticket-footer {
-    text-align: center;
+.ticket-info p {
+    margin: 8px 0;
     font-size: 14px;
-    color: #555;
-    margin-top: 10px;
+}
+
+.ticket-right {
+    width: 43%;
+    padding: 20px;
+    background: #d9534f;
+    color: white;
+    text-align: left;
+}
+
+.ticket-right p {
+    margin: 8px 0;
+    font-size: 14px;
+    color: white;
+}
+
+/* Airplane background */
+.ticket-left::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("../public/airplane-3702676_1920.jpg") no-repeat center;
+    background-size: contain;
+    opacity: 0.2;
+    z-index: 0;
 }
