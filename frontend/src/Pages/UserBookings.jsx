@@ -11,7 +11,6 @@ function UserBookings() {
         const fetchBookings = async () => {
             const user = JSON.parse(localStorage.getItem("user"));
             const email = user?.email;
-            
 
             if (!email) {
                 setError("User email not found. Please log in.");
@@ -21,13 +20,24 @@ function UserBookings() {
 
             try {
                 const response = await fetch(`http://localhost:3000/user-bookings?email=${email}`);
-                console.log(email)
                 if (!response.ok) {
                     throw new Error("Failed to fetch bookings");
                 }
 
                 const data = await response.json();
-                setBookings(data);
+
+                // Expand each booking into individual rows based on the number of seats
+                const expandedBookings = data.flatMap((booking) =>
+                    booking.seatNo.map((seat) => ({
+                        flightNumber: booking.flightNumber,
+                        origin: booking.origin,
+                        destination: booking.destination,
+                        date: booking.date,
+                        seatNo: seat,
+                    }))
+                );
+
+                setBookings(expandedBookings);
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -38,6 +48,8 @@ function UserBookings() {
         fetchBookings();
     }, []);
 
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error: {error}</p>;
 
     return (
         <div>
@@ -52,12 +64,12 @@ function UserBookings() {
                                 <th>Origin</th>
                                 <th>Destination</th>
                                 <th>Date</th>
-                                <th>Seats</th>
+                                <th>Seat No</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {bookings.map((booking) => (
-                                <tr key={booking._id}>
+                            {bookings.map((booking, index) => (
+                                <tr key={index}>
                                     <td>{booking.flightNumber}</td>
                                     <td>{booking.origin}</td>
                                     <td>{booking.destination}</td>
