@@ -1,15 +1,15 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
-const bookingFlights = mongoose.Schema({
+const bookingFlightsSchema = new mongoose.Schema({
     flightNumber: String,
     origin: String,
     destination: String,
     time: String,
     date: String,
-    seatNo: String,
+    seatNo: [Number], // Array to store multiple selected seats
     price: String,
     firstName: String,
     email: String,
-})
+});
 
-module.exports = mongoose.model("booking-flight", bookingFlights)
+module.exports = mongoose.model("BookingFlight", bookingFlightsSchema);

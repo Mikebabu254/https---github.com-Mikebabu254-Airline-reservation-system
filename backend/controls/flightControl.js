@@ -26,27 +26,27 @@ const addFlight = async (req, res) => {
 
 
 const bookFlight = async (req, res)=>{
-    const { flightNumber, origin, destination, time, date, seatNo, price, firstName, email} = req.body;
+  const {flightNumber, origin, destination, time,date,selectedSeats,price,firstName,email,} = req.body;
+  try {
+    const newFlight = await bookingFlights.create({
+        flightNumber,
+        origin,
+        destination,
+        time,
+        date,
+        seatNo: selectedSeats,
+        price,
+        firstName,
+        email,
+    });
 
-    try {
-        const newFlight = await bookingFlights.create({
-          flightNumber,
-          origin,
-          destination,
-          time,
-          date,
-          seatNo,
-          price,
-          firstName,
-          email,
-        });
-    
-        res.status(201).json(newFlight); 
-    } catch (error) {
-        console.error("Error adding flight:", error);
-        res.status(500).json({ message: "Internal server error" });
-    }
+    res.status(201).json(newFlight);
+} catch (error) {
+    console.error("Error booking flight:", error);
+    res.status(500).json({ message: "Internal server error" });
 }
+}
+
 
 
 // deleting flight
