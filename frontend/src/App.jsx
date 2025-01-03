@@ -26,6 +26,7 @@ function App() {
         <Route path="/admin/add-flight" element={<AddFlight/>}/>
         <Route path="/admin/add-city" element={<AddCity/>}/>
         <Route path="/admin/edit-flight/:id" element={<EditFlight/>}/>
+        <Route path="/booking" element={<UserBookings/>}/>
       </Routes>
     </BrowserRouter>
   );

@@ -9,7 +9,7 @@ router.get("/view-flight/:id", viewFlight)
 router.put("/modifyFlight/:id", modifyFlight)
 router.get("/view-all-flight", viewAllFlights)
 router.post("/booking-flight", bookFlight)
-
+router.get("/user-bookings", getUserBookings)
 
 
 module.exports = router
