@@ -2,7 +2,7 @@ const cityModel = require("../models/cityModel")
 
 const addCity = async (req, res) => {
     const {cityCode,countryName,cityName,timeZone} = req.body;
-
+    
     try{
         // res.json({msg: "city added"})
         const addCity = await cityModel.create({

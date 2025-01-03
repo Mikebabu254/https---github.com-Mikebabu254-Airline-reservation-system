@@ -1,17 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Table, Button, Dropdown, Modal, Form } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Table, Button, Modal, Form } from "react-bootstrap";
 
 const ViewBooking = () => {
   const [showEditModal, setShowEditModal] = React.useState(false);
   const [selectedBooking, setSelectedBooking] = React.useState(null);
-
-  const bookings = [
-    { id: 1, name: "John Doe", flight: "AB123", status: "Confirmed", date: "2024-12-15" },
-    { id: 2, name: "Jane Smith", flight: "CD456", status: "Pending", date: "2024-12-18" },
-    { id: 3, name: "Bob Johnson", flight: "EF789", status: "Canceled", date: "2024-12-20" },
-  ];
 
   const handleEdit = (booking) => {
     setSelectedBooking(booking);
@@ -30,7 +23,6 @@ const ViewBooking = () => {
     }
   };
 
-  const navigate = useNavigate();
   const [allBooking, setAllBooking] = useState([]);
 
   useEffect (()=>{
@@ -45,11 +37,9 @@ const ViewBooking = () => {
     fetchBooking();
   }, [])
 
-
   return (
     <div className="container mt-4">
       <h2 className="text-center mb-4">Manage Bookings</h2>
-
       <Table striped bordered hover className="shadow-sm">
         <thead className="bg-primary text-white">
           <tr>

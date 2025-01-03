@@ -46,5 +46,4 @@ const viewBookings = async (rqe, res)=>{
     }
 }
 
-
 module.exports = {bookFlight, getUserBookings, viewBookings}

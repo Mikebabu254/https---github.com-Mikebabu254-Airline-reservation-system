@@ -2,7 +2,6 @@ const express = require("express");
 const flightModel = require("../models/flightModel");
 const bookingFlights = require("../models/reservationModel")
 
-
 // adding flight
 const addFlight = async (req, res) => {
   const {flightNumber, origin, destination, time, date, noOfSeats } = req.body;
@@ -16,14 +15,12 @@ const addFlight = async (req, res) => {
       date,
       noOfSeats
     });
-
     res.status(201).json(newFlight); 
   } catch (error) {
     console.error("Error adding flight:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
-
 
 const bookFlight = async (req, res)=>{
   const {flightNumber, origin, destination, time,date,selectedSeats,price,firstName,email,} = req.body;
@@ -47,13 +44,10 @@ const bookFlight = async (req, res)=>{
 }
 }
 
-
-
 // deleting flight
 const deleteFlight = async (req, res) => {
   try {
     const { id } = req.params; 
-
     const deletedFlight = await flightModel.findByIdAndDelete(id); 
 
     if (!deletedFlight) {
@@ -66,7 +60,6 @@ const deleteFlight = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
-
 
 // view all flights
 const viewAllFlights = async (req, res) => {
@@ -86,13 +79,10 @@ const viewAllFlights = async (req, res) => {
     }
 };
 
-
-
 // viewing a single flight
 const viewFlight = async (req, res) => {
   try {
     const { id } = req.params; // Get flight ID from URL parameters
-
     const flight = await flightModel.findById(id); 
 
     if (!flight) {
@@ -106,13 +96,11 @@ const viewFlight = async (req, res) => {
   }
 };
 
-
 // editing flight
 const modifyFlight = async (req, res) => {
   try {
     const { id } = req.params; 
     const { flightNumber, origin, destination, time, date, noOfSeats  } = req.body;
-
     const updatedFlight = await flightModel.findByIdAndUpdate(
       id, 
       {flightNumber, origin, destination, time, date, noOfSeats  }, 

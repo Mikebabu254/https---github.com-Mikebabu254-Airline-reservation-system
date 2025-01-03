@@ -12,5 +12,4 @@ router.post("/booking-flight", bookFlight)
 router.get("/user-bookings", getUserBookings)
 router.get("/view-bookings", viewBookings)
 
-
 module.exports = router
