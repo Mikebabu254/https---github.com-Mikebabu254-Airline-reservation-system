@@ -37,5 +37,14 @@ const getUserBookings = async (req, res) => {
     }
 };
 
+const viewBookings = async (rqe, res)=>{
+    try{
+        const ViewBooking = await bookingFlights.find()
+        res.json(ViewBooking)
+    }catch(Error){
+        console.log("error fetching bookings")
+    }
+}
 
-module.exports = {bookFlight, getUserBookings}
+
+module.exports = {bookFlight, getUserBookings, viewBookings}

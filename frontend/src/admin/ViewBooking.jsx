@@ -1,5 +1,7 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Table, Button, Dropdown, Modal, Form } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const ViewBooking = () => {
   const [showEditModal, setShowEditModal] = React.useState(false);
@@ -28,6 +30,22 @@ const ViewBooking = () => {
     }
   };
 
+  const navigate = useNavigate();
+  const [allBooking, setAllBooking] = useState([]);
+
+  useEffect (()=>{
+    const fetchBooking = async()=>{
+      try{
+        const response = await axios.get("http://localhost:3000/view-bookings")
+        setAllBooking(response.data)
+      }catch(error){
+        console.log("Error fetching booking", error)
+      }
+    }
+    fetchBooking();
+  }, [])
+
+
   return (
     <div className="container mt-4">
       <h2 className="text-center mb-4">Manage Bookings</h2>
@@ -35,34 +53,28 @@ const ViewBooking = () => {
       <Table striped bordered hover className="shadow-sm">
         <thead className="bg-primary text-white">
           <tr>
-            <th>#</th>
-            <th>Passenger Name</th>
-            <th>Flight</th>
-            <th>Status</th>
+            <th>Flight No</th>
+            <th>Origin</th>
+            <th>Destination</th>
+            <th>Time</th>
             <th>Date</th>
-            <th>Actions</th>
+            <th>Seat(s)</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          {bookings.map((booking, index) => (
+          {allBooking.map((booking) => (
             <tr key={booking.id}>
-              <td>{index + 1}</td>
-              <td>{booking.name}</td>
-              <td>{booking.flight}</td>
-              <td>
-                <span
-                  className={`badge ${
-                    booking.status === "Confirmed"
-                      ? "bg-success"
-                      : booking.status === "Pending"
-                      ? "bg-warning text-dark"
-                      : "bg-danger"
-                  }`}
-                >
-                  {booking.status}
-                </span>
-              </td>
+              <td>{booking.flightNumber}</td>
+              <td>{booking.origin}</td>
+              <td>{booking.destination}</td>
+              <td>{booking.time}</td>
               <td>{booking.date}</td>
+              <td>{booking.seatNo}</td>
+              <td>{booking.firstName}</td>
+              <td>{booking.email}</td>              
               <td>
                 <Button
                   variant="info"
