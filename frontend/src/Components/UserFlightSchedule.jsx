@@ -5,6 +5,7 @@ import { Spinner, Modal, Button } from "react-bootstrap";
 const UserFlightSchedule = () => {
     const [loggedInUser, setLoggedInUser] = useState(null);
 
+    // Fetch logged-in user from localStorage
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
@@ -31,6 +32,7 @@ const UserFlightSchedule = () => {
 
     const flightsPerPage = 5;
 
+    // Fetch flights from the backend with search filters
     const fetchFlights = async () => {
         setLoading(true);
         setError(null);
@@ -80,13 +82,13 @@ const UserFlightSchedule = () => {
 
         try {
             const reservation = {
+                flightId: selectedFlight._id,
                 flightNumber: selectedFlight.flightNumber,
                 origin: selectedFlight.origin,
                 destination: selectedFlight.destination,
                 time: selectedFlight.time,
                 date: selectedFlight.date,
                 selectedSeats,
-                price: selectedFlight.price,
             };
 
             if (loggedInUser) {
@@ -100,13 +102,12 @@ const UserFlightSchedule = () => {
             fetchFlights();
         } catch (err) {
             alert("Failed to make reservation. Please try again.");
-            console.error(err);
         }
     };
 
     const renderSeatGrid = (flight) => {
         const totalSeats = flight.noOfSeats;
-        const rows = Math.ceil(totalSeats / 6); 
+        const rows = Math.ceil(totalSeats / 6); // Assuming 6 seats per row
         const seatGrid = [];
 
         for (let i = 0; i < rows; i++) {
