@@ -118,4 +118,13 @@ const modifyFlight = async (req, res) => {
   }
 };
 
-module.exports = { addFlight, deleteFlight, viewFlight, modifyFlight, viewAllFlights, bookFlight};
+const countFlight = async (req, res) =>{
+  try{
+    const flightCount = await flightModel.countDocuments();
+    res.json({flightCount})
+  }catch(Error){
+    console.log("error counting the flight")
+  }
+}
+
+module.exports = { addFlight, deleteFlight, viewFlight, modifyFlight, viewAllFlights, bookFlight, countFlight};
