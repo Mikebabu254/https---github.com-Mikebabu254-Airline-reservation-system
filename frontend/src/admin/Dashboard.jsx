@@ -1,11 +1,48 @@
-import React from "react";
-import { Card, Row, Col, ProgressBar, Table } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Card, Row, Col, ProgressBar, Table, Spinner } from "react-bootstrap";
 import { FaUsers, FaPlane, FaCity, FaClipboardList } from "react-icons/fa";
+import axios from "axios";
 
 const Dashboard = () => {
+  const [userCount, setUserCount] = useState(null);
+  const [flightCount, setFlightCount] = useState(null);
+  const [cityCount, setCityCount] = useState(null);
+  const [bookingCount, setBookingCount] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        // Fetch user count
+        const usersRes = await axios.get("http://localhost:3000/users-total");
+        setUserCount(usersRes.data.userCount);
+
+        // Mock data for flights, cities, and bookings (replace with real endpoints)
+        const flightsRes = { data: { count: 120 } }; // Replace with actual API call
+        const citiesRes = { data: { count: 30 } };   // Replace with actual API call
+        const bookingsRes = { data: { count: 50 } }; // Replace with actual API call
+
+        setFlightCount(flightsRes.data.count);
+        setCityCount(citiesRes.data.count);
+        setBookingCount(bookingsRes.data.count);
+      } catch (err) {
+        console.error("Error fetching stats:", err);
+        setError("Unable to fetch dashboard data. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStats();
+  }, []);
+
   return (
     <div className="container-fluid py-4">
       <h2 className="mb-4">Admin Dashboard</h2>
+
+      {/* Error Message */}
+      {error && <div className="alert alert-danger">{error}</div>}
 
       {/* Stats Cards */}
       <Row className="mb-4">
@@ -14,7 +51,9 @@ const Dashboard = () => {
             <Card.Body>
               <FaUsers size={40} className="text-primary mb-2" />
               <h5>Total Users</h5>
-              <h3>1,245</h3>
+              <h3>
+                {loading ? <Spinner animation="border" size="sm" /> : userCount}
+              </h3>
             </Card.Body>
           </Card>
         </Col>
@@ -23,7 +62,9 @@ const Dashboard = () => {
             <Card.Body>
               <FaPlane size={40} className="text-success mb-2" />
               <h5>Flights Scheduled</h5>
-              <h3>320</h3>
+              <h3>
+                {loading ? <Spinner animation="border" size="sm" /> : flightCount}
+              </h3>
             </Card.Body>
           </Card>
         </Col>
@@ -32,7 +73,9 @@ const Dashboard = () => {
             <Card.Body>
               <FaCity size={40} className="text-warning mb-2" />
               <h5>Cities</h5>
-              <h3>25</h3>
+              <h3>
+                {loading ? <Spinner animation="border" size="sm" /> : cityCount}
+              </h3>
             </Card.Body>
           </Card>
         </Col>
@@ -41,7 +84,9 @@ const Dashboard = () => {
             <Card.Body>
               <FaClipboardList size={40} className="text-danger mb-2" />
               <h5>Bookings Today</h5>
-              <h3>58</h3>
+              <h3>
+                {loading ? <Spinner animation="border" size="sm" /> : bookingCount}
+              </h3>
             </Card.Body>
           </Card>
         </Col>

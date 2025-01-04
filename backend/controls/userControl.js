@@ -94,7 +94,7 @@ const allUser = async (req, res) =>{
 const countUsers = async(req, res)=>{
     try{
         const userCount = await userModel.countDocuments();
-        res.json(userCount)
+        res.json({userCount})
     }catch(Error){
         console.log("error encounter while counting")
     }
