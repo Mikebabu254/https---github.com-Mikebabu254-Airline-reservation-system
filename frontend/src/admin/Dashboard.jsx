@@ -86,7 +86,7 @@ const Dashboard = () => {
           <Card className="text-center shadow-sm border-0">
             <Card.Body>
               <FaClipboardList size={40} className="text-danger mb-2" />
-              <h5>Bookings Today</h5>
+              <h5>Bookings</h5>
               <h3>
                 {loading ? <Spinner animation="border" size="sm" /> : bookingCount}
               </h3>

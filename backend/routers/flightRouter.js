@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const {addFlight, deleteFlight, viewFlight, modifyFlight, viewAllFlights, bookFlight, countFlight} = require("../controls/flightControl")
-const {getUserBookings, viewBookings} = require("../controls/reservationControl")
+const {getUserBookings, viewBookings, countBooking} = require("../controls/reservationControl")
 
 router.post("/flight-schedule",addFlight)
 router.delete("/delete-flight/:id", deleteFlight)
@@ -12,5 +12,6 @@ router.post("/booking-flight", bookFlight)
 router.get("/user-bookings", getUserBookings)
 router.get("/view-bookings", viewBookings)
 router.get("/count-flight", countFlight)
+router.get("/count-booking", countBooking)
 
 module.exports = router

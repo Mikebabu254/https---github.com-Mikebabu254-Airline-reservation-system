@@ -46,4 +46,12 @@ const viewBookings = async (rqe, res)=>{
     }
 }
 
-module.exports = {bookFlight, getUserBookings, viewBookings}
+const countBooking = async(req, res) =>{
+    try{
+        const noOfBooking = await bookingFlights.countDocuments();
+        res.json({noOfBooking})
+    }catch(Eror){
+        console.log("Error counting number of bookings")
+    }
+}
+module.exports = {bookFlight, getUserBookings, viewBookings, countBooking}
