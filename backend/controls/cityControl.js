@@ -23,4 +23,13 @@ const viewCity= async (req, res)=>{
     }
 }
 
-module.exports = {addCity, viewCity}
+const countCity = async (req, res) =>{
+    try{
+        const numberOfCities = await cityModel.countDocuments();
+        res.json({numberOfCities})
+    }catch(Error){
+        console.log("Error counting the numbers of cities")
+    }
+}
+
+module.exports = {addCity, viewCity, countCity}
