@@ -91,4 +91,13 @@ const allUser = async (req, res) =>{
     }
 }
 
-module.exports = {registerUser, loginUser, allUser}
+const countUsers = async(req, res)=>{
+    try{
+        const userCount = await userModel.countDocuments();
+        res.json(userCount)
+    }catch(Error){
+        console.log("error encounter while counting")
+    }
+}
+
+module.exports = {registerUser, loginUser, allUser, countUsers}
