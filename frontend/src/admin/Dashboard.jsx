@@ -14,7 +14,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        // Fetch user count
+
         const usersRes = await axios.get("http://localhost:3000/users-total");
         setUserCount(usersRes.data.userCount);
 
@@ -23,12 +23,10 @@ const Dashboard = () => {
 
         const citiesRes = await axios.get("http://localhost:3000/number-of-cities");
         setCityCount(citiesRes.data.numberOfCities);
-        //   // Replace with actual API call
-        const bookingsRes = { data: { count: 50 } }; // Replace with actual API call
 
-        // setFlightCount(flightsRes.data.count);
-        
-        setBookingCount(bookingsRes.data.count);
+        const bookingsRes = await axios.get("http://localhost:3000/count-booking");
+        setBookingCount(bookingsRes.data.noOfBooking);
+
       } catch (err) {
         console.error("Error fetching stats:", err);
         setError("Unable to fetch dashboard data. Please try again later.");
