@@ -17,15 +17,17 @@ const Dashboard = () => {
         // Fetch user count
         const usersRes = await axios.get("http://localhost:3000/users-total");
         setUserCount(usersRes.data.userCount);
-        console.log({userCount})
+
         const flightsRes = await axios.get("http://localhost:3000/count-flight");
         setFlightCount(flightsRes.data.flightCount);
-        console.log({flightCount})
-        const citiesRes = { data: { count: 30 } };   // Replace with actual API call
+
+        const citiesRes = await axios.get("http://localhost:3000/number-of-cities");
+        setCityCount(citiesRes.data.numberOfCities);
+        //   // Replace with actual API call
         const bookingsRes = { data: { count: 50 } }; // Replace with actual API call
 
         // setFlightCount(flightsRes.data.count);
-        setCityCount(citiesRes.data.count);
+        
         setBookingCount(bookingsRes.data.count);
       } catch (err) {
         console.error("Error fetching stats:", err);
