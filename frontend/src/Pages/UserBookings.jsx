@@ -36,6 +36,7 @@ function UserBookings() {
                         seatNo: seat,
                         gate: "18",
                         time: booking.time,
+                        price: booking.price
                     }))
                 );
                 setBookings(expandedBookings);
@@ -75,6 +76,7 @@ function UserBookings() {
                             <p>Seat: <strong>{booking.seatNo}</strong></p>
                             <p>Time: <strong>{booking.time}</strong></p>
                             <p>Board Till: <strong>{booking.time}</strong></p>
+                            <p className="price">Price : <strong>{"ksh. " + booking.price + ".00"}</strong></p>
                         </div>
                     </div>
                 ))}

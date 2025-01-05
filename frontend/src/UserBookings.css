@@ -39,7 +39,7 @@
 .ticket-right {
     width: 43%;
     padding: 20px;
-    background: #d9534f;
+    background: green;
     color: white;
     text-align: left;
 }
@@ -62,4 +62,11 @@
     background-size: contain;
     opacity: 0.2;
     z-index: 0;
+}
+
+.price{
+    background-color: red;
+    padding: 20px;
+    width:200px;
+    border-radius: 50%;
 }
