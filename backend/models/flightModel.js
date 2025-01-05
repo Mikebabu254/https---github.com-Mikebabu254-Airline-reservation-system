@@ -7,6 +7,7 @@ const flightSchema = mongoose.Schema({
     time: String,
     date: String,
     noOfSeats: String,
+    price: String
     
 })
 

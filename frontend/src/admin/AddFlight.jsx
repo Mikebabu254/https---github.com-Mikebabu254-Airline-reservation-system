@@ -23,11 +23,8 @@ const AddFlight = () => {
     const [time, setTime] = useState("");
     const [date, setDate] = useState("");
     const [noOfSeats, setNoOfSeats] = useState("");
-
-    // State for cities
+    const [price, setPrice] = useState("");
     const [cities, setCities] = useState([]);
-
-    // State for error message
     const [error, setError] = useState("");
 
     // Fetch cities from the backend
@@ -65,6 +62,7 @@ const AddFlight = () => {
                 time,
                 date,
                 noOfSeats,
+                price
             });
             console.log(response.data); // Log response for confirmation
             setFlightNumber("");
@@ -73,6 +71,7 @@ const AddFlight = () => {
             setTime("");
             setDate("");
             setNoOfSeats("");
+            setPrice("");
         } catch (error) {
             console.error("Error adding flight:", error);
         }
@@ -168,6 +167,17 @@ const AddFlight = () => {
                         id="date"
                         value={date}
                         onChange={(e) => setDate(e.target.value)}
+                        required
+                    />
+                </div>
+                <div className="form-group mb-4">
+                    <label htmlFor="date">Price</label>
+                    <input
+                        type="number"
+                        className="form-control"
+                        id="price"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
                         required
                     />
                 </div>
