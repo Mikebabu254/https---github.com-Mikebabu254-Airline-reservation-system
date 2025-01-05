@@ -201,6 +201,7 @@ const UserFlightSchedule = () => {
                                 <td>{flight.time}</td>
                                 <td>{new Date(flight.date).toLocaleDateString()}</td>
                                 <td>{flight.noOfSeats}</td>
+                                <td>{"ksh. " + flight.price + ".00"}</td>
                                 <td>
                                     <button
                                         className="btn btn-primary btn-sm"
