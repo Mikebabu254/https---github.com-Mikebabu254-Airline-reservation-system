@@ -65,11 +65,6 @@ const UserNavBar = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/check-in">
-                Check-In
-              </Link>
-            </li>
-            <li className="nav-item">
               <Link className="nav-link" to="/support">
                 Customer Support
               </Link>
