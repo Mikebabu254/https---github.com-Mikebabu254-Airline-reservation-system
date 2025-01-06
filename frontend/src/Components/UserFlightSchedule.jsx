@@ -14,7 +14,7 @@ const UserFlightSchedule = () => {
     });
     const [selectedFlight, setSelectedFlight] = useState(null);
     const [selectedSeats, setSelectedSeats] = useState([]);
-    const [bookedSeats, setBookedSeats] = useState([]);
+    const [bookedSeats, setBookedSeats] = useState([]); // NEW: Track booked seats
     const [currentPage, setCurrentPage] = useState(1);
 
     const flightsPerPage = 5;
@@ -63,9 +63,19 @@ const UserFlightSchedule = () => {
         fetchFlights();
     };
 
-    const fetchBookedSeats = async (flight) => {
+    const handleReserve = async (flight) => {
+        if (!flight || !flight.noOfSeats) {
+            alert("Invalid flight data.");
+            return;
+        }
+        setSelectedFlight(flight);
+        setSelectedSeats([]);
+
         try {
-            const response = await axios.get("http://localhost:3000/seat-book-flight");
+            // Fetch booked seats for the selected flight
+            const response = await axios.get("http://localhost:3000/seat-book-flight", {
+                params: { flightNumber: flight.flightNumber, date: flight.date },
+            });
             const flightData = response.data.find(
                 (f) => f.flightNumber === flight.flightNumber && f.date === flight.date
             );
@@ -74,16 +84,6 @@ const UserFlightSchedule = () => {
             console.error("Error fetching booked seats:", err);
             setBookedSeats([]);
         }
-    };
-
-    const handleReserve = (flight) => {
-        if (!flight) {
-            alert("Invalid flight data.");
-            return;
-        }
-        setSelectedFlight(flight);
-        setSelectedSeats([]);
-        fetchBookedSeats(flight);
     };
 
     const toggleSeatSelection = (seat) => {
@@ -106,6 +106,7 @@ const UserFlightSchedule = () => {
                 time: selectedFlight.time,
                 date: selectedFlight.date,
                 selectedSeats,
+                price: selectedFlight.price,
             };
 
             if (loggedInUser) {
@@ -113,13 +114,14 @@ const UserFlightSchedule = () => {
                 reservation.email = loggedInUser.email;
             }
 
-            const response = await axios.post("http://localhost:3000/seat-book-flight", reservation);
+            await axios.post("http://localhost:3000/booking-flight", reservation);
+            await axios.patch("http://localhost:3000/seat-book-flight", reservation);
             alert("Reservation successful!");
             setSelectedFlight(null);
             fetchFlights();
         } catch (err) {
+            console.error("Error making reservation:", err);
             alert("Failed to make reservation. Please try again.");
-            console.error(err);
         }
     };
 
@@ -134,7 +136,7 @@ const UserFlightSchedule = () => {
                 const seatNumber = i * 6 + j + 1;
                 if (seatNumber > totalSeats) break;
 
-                const isBooked = bookedSeats.includes(seatNumber.toString());
+                const isBooked = bookedSeats.includes(String(seatNumber));
                 rowSeats.push(
                     <div
                         key={seatNumber}
@@ -211,6 +213,7 @@ const UserFlightSchedule = () => {
                         <th>Time</th>
                         <th>Date</th>
                         <th>No. of Seats</th>
+                        <th>Price</th>
                         <th>Reserve</th>
                     </tr>
                 </thead>
@@ -224,6 +227,7 @@ const UserFlightSchedule = () => {
                                 <td>{flight.time}</td>
                                 <td>{new Date(flight.date).toLocaleDateString()}</td>
                                 <td>{flight.noOfSeats}</td>
+                                <td>{"Ksh. " + flight.price + ".00"}</td>
                                 <td>
                                     <button
                                         className="btn btn-primary btn-sm"
@@ -236,13 +240,29 @@ const UserFlightSchedule = () => {
                         ))
                     ) : (
                         <tr>
-                            <td colSpan="7" className="text-center">
+                            <td colSpan="8" className="text-center">
                                 No flights available.
                             </td>
                         </tr>
                     )}
                 </tbody>
             </table>
+
+            <div className="d-flex justify-content-center">
+                <button
+                    className="btn btn-outline-secondary mx-2"
+                    disabled={currentPage === 1}
+                    onClick={() => setCurrentPage((prev) => prev - 1)}
+                >
+                    Previous
+                </button>
+                <button
+                    className="btn btn-outline-secondary mx-2"
+                    onClick={() => setCurrentPage((prev) => prev + 1)}
+                >
+                    Next
+                </button>
+            </div>
 
             {selectedFlight && (
                 <Modal show onHide={() => setSelectedFlight(null)}>
