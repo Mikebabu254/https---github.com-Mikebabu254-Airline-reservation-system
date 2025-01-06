@@ -23,27 +23,44 @@ const addFlight = async (req, res) => {
   }
 };
 
-const bookFlight = async (req, res)=>{
-  const {flightNumber, origin, destination, time,date,selectedSeats,price,firstName,email,} = req.body;
+const bookFlight = async (req, res) => {
+  const { flightNumber, origin, destination, time, date, selectedSeats, price, firstName, email } = req.body;
   try {
-    const newFlight = await bookingFlights.create({
-        flightNumber,
-        origin,
-        destination,
-        time,
-        date,
-        seatNo: selectedSeats,
-        price,
-        firstName,
-        email,
-    });
+      // Fetch the flight bookings to check for already booked seats
+      const existingBookings = await bookingFlights.find({ 
+          flightNumber, 
+          date, 
+          seatNo: { $in: selectedSeats }
+      });
 
-    res.status(201).json(newFlight);
-} catch (error) {
-    console.error("Error booking flight:", error);
-    res.status(500).json({ message: "Internal server error" });
-}
-}
+      if (existingBookings.length > 0) {
+          const bookedSeats = existingBookings.map((booking) => booking.seatNo).flat();
+          return res.status(400).json({
+              message: "Some seats have already been booked.",
+              bookedSeats,
+          });
+      }
+
+      // Proceed with booking if seats are available
+      const newFlight = await bookingFlights.create({
+          flightNumber,
+          origin,
+          destination,
+          time,
+          date,
+          seatNo: selectedSeats,
+          price,
+          firstName,
+          email,
+      });
+
+      res.status(201).json(newFlight);
+  } catch (error) {
+      console.error("Error booking flight:", error);
+      res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 
 // deleting flight
 const deleteFlight = async (req, res) => {

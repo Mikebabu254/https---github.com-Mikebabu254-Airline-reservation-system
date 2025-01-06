@@ -4,19 +4,6 @@ import { Spinner, Modal, Button } from "react-bootstrap";
 
 const UserFlightSchedule = () => {
     const [loggedInUser, setLoggedInUser] = useState(null);
-
-    useEffect(() => {
-        const storedUser = localStorage.getItem("user");
-        if (storedUser) {
-            try {
-                const parsedUser = JSON.parse(storedUser);
-                setLoggedInUser(parsedUser);
-            } catch (err) {
-                console.error("Error parsing logged-in user:", err);
-            }
-        }
-    }, []);
-
     const [flights, setFlights] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -31,6 +18,20 @@ const UserFlightSchedule = () => {
 
     const flightsPerPage = 5;
 
+    // Load logged-in user from localStorage
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+            try {
+                const parsedUser = JSON.parse(storedUser);
+                setLoggedInUser(parsedUser);
+            } catch (err) {
+                console.error("Error parsing logged-in user:", err);
+            }
+        }
+    }, []);
+
+    // Fetch flights
     const fetchFlights = async () => {
         setLoading(true);
         setError(null);
@@ -62,6 +63,10 @@ const UserFlightSchedule = () => {
     };
 
     const handleReserve = (flight) => {
+        if (!flight || !flight.noOfSeats) {
+            alert("Invalid flight data.");
+            return;
+        }
         setSelectedFlight(flight);
         setSelectedSeats([]);
     };
@@ -94,19 +99,24 @@ const UserFlightSchedule = () => {
                 reservation.email = loggedInUser.email;
             }
 
-            await axios.post("http://localhost:3000/booking-flight", reservation);
+            const response = await axios.post("http://localhost:3000/booking-flight", reservation);
             alert("Reservation successful!");
             setSelectedFlight(null);
             fetchFlights();
         } catch (err) {
-            alert("Failed to make reservation. Please try again.");
+            if (err.response && err.response.status === 400) {
+                const { message, bookedSeats } = err.response.data;
+                alert(`${message} Booked seats: ${bookedSeats.join(", ")}`);
+            } else {
+                alert("Failed to make reservation. Please try again.");
+            }
             console.error(err);
         }
     };
 
     const renderSeatGrid = (flight) => {
-        const totalSeats = flight.noOfSeats;
-        const rows = Math.ceil(totalSeats / 6); 
+        const totalSeats = flight.noOfSeats || 0;
+        const rows = Math.ceil(totalSeats / 6);
         const seatGrid = [];
 
         for (let i = 0; i < rows; i++) {
@@ -115,11 +125,15 @@ const UserFlightSchedule = () => {
                 const seatNumber = i * 6 + j + 1;
                 if (seatNumber > totalSeats) break;
 
+                const isBooked = flight.bookedSeats?.includes(seatNumber);
                 rowSeats.push(
                     <div
                         key={seatNumber}
-                        className={`seat ${selectedSeats.includes(seatNumber) ? "selected" : ""}`}
-                        onClick={() => toggleSeatSelection(seatNumber)}
+                        className={`seat ${isBooked ? "booked" : ""} ${
+                            selectedSeats.includes(seatNumber) ? "selected" : ""
+                        }`}
+                        onClick={!isBooked ? () => toggleSeatSelection(seatNumber) : undefined}
+                        style={{ backgroundColor: isBooked ? "gray" : undefined }}
                     >
                         {seatNumber}
                     </div>
@@ -188,6 +202,7 @@ const UserFlightSchedule = () => {
                         <th>Time</th>
                         <th>Date</th>
                         <th>No. of Seats</th>
+                        <th>Price</th>
                         <th>Reserve</th>
                     </tr>
                 </thead>
@@ -201,7 +216,7 @@ const UserFlightSchedule = () => {
                                 <td>{flight.time}</td>
                                 <td>{new Date(flight.date).toLocaleDateString()}</td>
                                 <td>{flight.noOfSeats}</td>
-                                <td>{"ksh. " + flight.price + ".00"}</td>
+                                <td>{"Ksh. " + flight.price + ".00"}</td>
                                 <td>
                                     <button
                                         className="btn btn-primary btn-sm"
@@ -214,7 +229,7 @@ const UserFlightSchedule = () => {
                         ))
                     ) : (
                         <tr>
-                            <td colSpan="7" className="text-center">
+                            <td colSpan="8" className="text-center">
                                 No flights available.
                             </td>
                         </tr>
