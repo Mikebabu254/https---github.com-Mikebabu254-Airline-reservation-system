@@ -1,6 +1,7 @@
 const express = require("express");
 const flightModel = require("../models/flightModel");
 const bookingFlights = require("../models/reservationModel")
+const SeatBooking = require("../models/SeatBooking")
 
 // adding flight
 const addFlight = async (req, res) => {
@@ -55,6 +56,39 @@ const bookFlight = async (req, res) => {
       });
 
       res.status(201).json(newFlight);
+  } catch (error) {
+      console.error("Error booking flight:", error);
+      res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+const seatBookFlight = async (req, res) => {
+  const { flightNumber, origin, destination, time, date, selectedSeats } = req.body;
+
+  try {
+      // Find the existing booking for the flight and date
+      const existingBooking = await SeatBooking.findOne({ flightNumber, date });
+
+      if (existingBooking) {
+          // Update the existing booking with new seats (add unique entries)
+          await SeatBooking.updateOne(
+              { _id: existingBooking._id },
+              { $addToSet: { seatNo: { $each: selectedSeats } } }
+          );
+          return res.status(200).json({ message: "Booking successful!" });
+      } else {
+          // No existing booking, proceed with creating a new one
+          const newFlight = await SeatBooking.create({
+              flightNumber,
+              origin,
+              destination,
+              time,
+              date,
+              seatNo: selectedSeats, 
+          });
+
+          res.status(201).json(newFlight);
+      }
   } catch (error) {
       console.error("Error booking flight:", error);
       res.status(500).json({ message: "Internal server error" });
@@ -145,4 +179,4 @@ const countFlight = async (req, res) =>{
   }
 }
 
-module.exports = { addFlight, deleteFlight, viewFlight, modifyFlight, viewAllFlights, bookFlight, countFlight};
+module.exports = { addFlight, deleteFlight, viewFlight, modifyFlight, viewAllFlights, bookFlight, countFlight, seatBookFlight};
