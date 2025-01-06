@@ -77,6 +77,41 @@ const UserFlightSchedule = () => {
         );
     };
 
+    const seatChecking = async () => {
+        
+
+        try {
+            const reservation = {
+                flightNumber: selectedFlight.flightNumber,
+                origin: selectedFlight.origin,
+                destination: selectedFlight.destination,
+                time: selectedFlight.time,
+                date: selectedFlight.date,
+                selectedSeats,
+                price: selectedFlight.price,
+            };
+
+            if (loggedInUser) {
+                reservation.firstName = loggedInUser.firstName;
+                reservation.email = loggedInUser.email;
+            }
+
+            const response = await axios.post("http://localhost:3000/booking-flight", reservation);
+            const responseSeat = await axios.patch("http://localhost:3000/seat-book-flight", reservation);
+            alert("Reservation successful!");
+            setSelectedFlight(null);
+            fetchFlights();
+        } catch (err) {
+            if (err.response && err.response.status === 400) {
+                const { message, bookedSeats } = err.response.data;
+                alert(`${message} Booked seats: ${bookedSeats.join(", ")}`);
+            } else {
+                alert("Failed to make reservation. Please try again.");
+            }
+            console.error(err);
+        }
+    };
+
     const confirmBooking = async () => {
         if (selectedSeats.length === 0) {
             alert("Please select at least one seat.");

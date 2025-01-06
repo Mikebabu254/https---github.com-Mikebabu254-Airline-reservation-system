@@ -95,6 +95,15 @@ const seatBookFlight = async (req, res) => {
   }
 };
 
+const checkingSeat = async (req, res) => {
+  try{
+    const checkAllSeat = await SeatBooking.find()
+    res.json(checkAllSeat) 
+  }catch(Error){
+    res.json("Error fetching data")
+  }
+}
+
 
 // deleting flight
 const deleteFlight = async (req, res) => {
@@ -179,4 +188,4 @@ const countFlight = async (req, res) =>{
   }
 }
 
-module.exports = { addFlight, deleteFlight, viewFlight, modifyFlight, viewAllFlights, bookFlight, countFlight, seatBookFlight};
+module.exports = { addFlight, deleteFlight, viewFlight, modifyFlight, viewAllFlights, bookFlight, countFlight, seatBookFlight, checkingSeat};
