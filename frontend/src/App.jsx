@@ -12,6 +12,7 @@ import AddFlight from './admin/AddFlight';
 import AddCity from './admin/AddCity';
 import EditFlight from './admin/EditFlight';
 import UserBookings from './Pages/UserBookings';
+import Profile from './Pages/profile';
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <Route path="/admin/add-city" element={<AddCity/>}/>
         <Route path="/admin/edit-flight/:id" element={<EditFlight/>}/>
         <Route path="/booking" element={<UserBookings/>}/>
+        <Route path="/profile" element={<Profile/>}/>
       </Routes>
     </BrowserRouter>
   );
