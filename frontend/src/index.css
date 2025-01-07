@@ -29,7 +29,7 @@
 
 /* admin */
 .hover-bg:hover {
-    background-color: yellow;
+    background-color: blue  ;
     cursor: pointer;
     color: black;
   }
