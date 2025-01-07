@@ -6,10 +6,9 @@ const addCity = async (req, res) => {
     try {
       // Check if the city and country already exist in the database
       const existingCity = await cityModel.findOne({
-        where: {
-          cityName: cityName,
-          countryName: countryName,
-        },
+        cityCode: cityCode,
+        cityName: cityName,
+        countryName: countryName,
       });
   
       if (existingCity) {
@@ -17,16 +16,16 @@ const addCity = async (req, res) => {
           message: "City and country combination already exists in the database.",
         });
       }else{
-        const newCity = await cityModel.create({
-            cityCode,
-            countryName,
-            cityName,
-            timeZone,
-          });
+        
       }
   
       // If not, add the city to the database
-      
+      const newCity = await cityModel.create({
+        cityCode,
+        countryName,
+        cityName,
+        timeZone,
+      });
   
       res.status(201).json(newCity);
     } catch (error) {
