@@ -1,18 +1,43 @@
 const cityModel = require("../models/cityModel")
 
 const addCity = async (req, res) => {
-    const {cityCode,countryName,cityName,timeZone} = req.body;
-    
-    try{
-        // res.json({msg: "city added"})
-        const addCity = await cityModel.create({
-            cityCode,countryName,cityName,timeZone
-        })
-        res.status(201).json(addCity);
-    }catch(Error){
-        console.log(Error)
+    const { cityCode, countryName, cityName, timeZone } = req.body;
+  
+    try {
+      // Check if the city and country already exist in the database
+      const existingCity = await cityModel.findOne({
+        where: {
+          cityName: cityName,
+          countryName: countryName,
+        },
+      });
+  
+      if (existingCity) {
+        return res.status(400).json({
+          message: "City and country combination already exists in the database.",
+        });
+      }else{
+        const newCity = await cityModel.create({
+            cityCode,
+            countryName,
+            cityName,
+            timeZone,
+          });
+      }
+  
+      // If not, add the city to the database
+      
+  
+      res.status(201).json(newCity);
+    } catch (error) {
+      console.error("Error adding city:", error);
+      res.status(500).json({
+        message: "An error occurred while adding the city.",
+        error: error.message,
+      });
     }
-}
+  };
+  
 
 const viewCity= async (req, res)=>{
     try{
