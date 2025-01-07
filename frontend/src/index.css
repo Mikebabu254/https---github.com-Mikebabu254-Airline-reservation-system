@@ -24,3 +24,13 @@
     justify-content: center;
     margin-bottom: 10px;
 }
+
+
+
+/* admin */
+.hover-bg:hover {
+    background-color: yellow;
+    cursor: pointer;
+    color: black;
+  }
+  

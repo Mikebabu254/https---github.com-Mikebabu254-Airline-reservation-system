@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import NavBar from "../Components/NavBar";
-import SideNavBar from "../Components/SideNavBar";
+import { useState, useEffect } from "react";
+
 import { useNavigate } from 'react-router-dom';
+import SideNavBar from "../admin/SideNavBar";
 
 function Admin() {
   const navigate = useNavigate();
