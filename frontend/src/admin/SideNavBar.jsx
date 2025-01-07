@@ -11,12 +11,12 @@ import {
   FaSignOutAlt,
 } from "react-icons/fa";
 
-import Dashboard from "../admin/Dashboard";
-import ViewBooking from "../admin/ViewBooking";
-import FlightSchedule from "../admin/FlightSchedule";
-import PassangerManagement from "../admin/PassangerManagement";
-import Settings from "../admin/Settings";
-import CityList from "../admin/CityList";
+import Dashboard from "./Dashboard";
+import ViewBooking from "./ViewBooking";
+import FlightSchedule from "./FlightSchedule";
+import PassangerManagement from "./PassangerManagement";
+import Settings from "./Settings";
+import CityList from "./CityList";
 
 const SideNavBar = () => {
   const [activeSection, setActiveSection] = useState("dashboard");
