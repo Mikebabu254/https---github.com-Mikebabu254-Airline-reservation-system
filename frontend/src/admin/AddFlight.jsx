@@ -104,9 +104,9 @@ const AddFlight = () => {
                     >
                         <option value="">Select Number of Seats</option>
                         <option value="12">12</option>
-                        <option value="18">18</option>
-                        <option value="30">30</option>
-                        <option value="32">32</option>
+                        <option value="24">24</option>
+                        <option value="78">78</option>
+                        <option value="84">84</option>
                     </select>
                 </div>
                 <div className="form-group mb-3">

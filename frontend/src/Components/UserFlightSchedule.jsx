@@ -128,13 +128,13 @@ const UserFlightSchedule = () => {
 
     const renderSeatGrid = (flight) => {
         const totalSeats = flight.noOfSeats || 0;
-        const rows = Math.ceil(totalSeats / 6);
+        const rows = Math.ceil(totalSeats / 4);
         const seatGrid = [];
 
         for (let i = 0; i < rows; i++) {
             const rowSeats = [];
-            for (let j = 0; j < 6; j++) {
-                const seatNumber = i * 6 + j + 1;
+            for (let j = 0; j < 4; j++) {
+                const seatNumber = i * 4 + j + 1;
                 if (seatNumber > totalSeats) break;
         
                 const isBooked = bookedSeats.includes(String(seatNumber));
@@ -152,7 +152,7 @@ const UserFlightSchedule = () => {
                 );
         
                 // Add a spacer after every 3rd column
-                if ((j + 1) % 3 === 0 && j !== 5) {
+                if ((j + 1) % 2 === 0 && j !== 5) {
                     rowSeats.push(
                         <div key={`spacer-${seatNumber}`} className="spacer" style={{ width: "20px" }}></div>
                     );
