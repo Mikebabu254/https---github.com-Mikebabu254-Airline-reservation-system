@@ -136,7 +136,7 @@ const UserFlightSchedule = () => {
             for (let j = 0; j < 6; j++) {
                 const seatNumber = i * 6 + j + 1;
                 if (seatNumber > totalSeats) break;
-
+        
                 const isBooked = bookedSeats.includes(String(seatNumber));
                 rowSeats.push(
                     <div
@@ -150,6 +150,13 @@ const UserFlightSchedule = () => {
                         {seatNumber}
                     </div>
                 );
+        
+                // Add a spacer after every 3rd column
+                if ((j + 1) % 3 === 0 && j !== 5) {
+                    rowSeats.push(
+                        <div key={`spacer-${seatNumber}`} className="spacer" style={{ width: "20px" }}></div>
+                    );
+                }
             }
             seatGrid.push(
                 <div key={i} className="seat-row">
@@ -157,6 +164,7 @@ const UserFlightSchedule = () => {
                 </div>
             );
         }
+        
 
         return <div className="seat-grid">{seatGrid}</div>;
     };
