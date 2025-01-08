@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
+import { Link } from 'react-router-dom';
 
 function Body() {
   return (
@@ -31,21 +32,27 @@ function Body() {
               <div className="flight-card p-3" style={{ background: "rgba(255, 255, 255, 0.8)", borderRadius: "8px" }}>
                 <h4>Flight to Mombasa</h4>
                 <p>Starting at 12,000.00</p>
-                <Button variant="secondary">Book Now</Button>
+                <Link to="/login">
+                  <Button variant="secondary">Book Now</Button>
+                </Link>
               </div>
             </Col>
             <Col md={4}>
               <div className="flight-card p-3" style={{ background: "rgba(255, 255, 255, 0.8)", borderRadius: "8px" }}>
                 <h4>Flight to Eldoret</h4>
                 <p>Starting at ksh 6,000.00</p>
-                <Button variant="secondary">Book Now</Button>
+                <Link to="/login">
+                  <Button variant="secondary">Book Now</Button>
+                </Link>
               </div>
             </Col>
             <Col md={4}>
               <div className="flight-card p-3" style={{ background: "rgba(255, 255, 255, 0.8)", borderRadius: "8px" }}>
                 <h4>Flight to Kisumu</h4>
                 <p>Starting at ksh 7,000.00</p>
-                <Button variant="secondary">Book Now</Button>
+                <Link to="/login">
+                  <Button variant="secondary">Book Now</Button>
+                </Link>
               </div>
             </Col>
           </Row>
