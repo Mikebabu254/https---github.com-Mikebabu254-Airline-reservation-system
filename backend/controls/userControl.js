@@ -122,4 +122,4 @@ const countUsers = async(req, res)=>{
     }
 }
 
-module.exports = {registerUser, loginUser, allUser, countUsers}
+module.exports = {registerUser, loginUser, allUser, countUsers, changePassword}
