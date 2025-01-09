@@ -65,14 +65,36 @@ const loginUser = async (req, res) => {
     }
 };
 
-const changePassword = (req, res)=>{
-    try{
-        res.json({msg : "change password"})
-    }catch(Error){
+const changePassword = async (req, res) => {
+    const { email, currentPassword, newPassword } = req.body;
 
+    try {
+        // Find the user by email
+        const user = await userModel.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Check if the current password matches the hashed password in the database
+        const isPasswordMatch = await bcrypt.compare(currentPassword, user.password);
+        if (!isPasswordMatch) {
+            return res.status(401).json({ message: 'Current password is incorrect' });
+        }
+
+        // Hash the new password
+        const hashedNewPassword = await bcrypt.hash(newPassword, 10); // 10 is the salt rounds
+
+        // Update the user's password in the database
+        user.password = hashedNewPassword;
+        await user.save();
+
+        res.status(200).json({ message: 'Password updated successfully' });
+    } catch (error) {
+        console.error("Error changing password:", error);
+        res.status(500).json({ message: 'Internal server error' });
     }
-    
-}
+};
+
 
 const viewProfile = (req, res)=>{
     try{
