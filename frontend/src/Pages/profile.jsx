@@ -22,33 +22,49 @@ function EditProfile() {
         }
     }, [navigate]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // Validate if old password matches
-        if (oldPassword !== userDetails.password) {
-            setMessage("Old password is incorrect!");
-            return;
-        }
-
+    
         // Validate new password match
         if (newPassword !== confirmNewPassword) {
             setMessage("New passwords do not match!");
             return;
         }
-
-        // Simulate updating password (replace with an API call)
-        const updatedUser = { ...userDetails, password: newPassword };
-        localStorage.setItem("user", JSON.stringify(updatedUser));
-
-        setMessage("Password updated successfully!");
-
+    
+        try {
+            const token = localStorage.getItem("user"); // Assume a token is stored after login
+    
+            const response = await fetch("http://localhost:3000/change-password", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`, // Include token for authentication
+                },
+                body: JSON.stringify({
+                    email: userDetails.email,
+                    currentPassword: oldPassword,
+                    newPassword,
+                }),
+            });
+    
+            const data = await response.json();
+    
+            if (response.ok) {
+                setMessage("Password updated successfully!");
+            } else {
+                setMessage(data.message || "Failed to update password");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            setMessage("An error occurred. Please try again later.");
+        }
+    
         // Clear form fields
         setOldPassword("");
         setNewPassword("");
         setConfirmNewPassword("");
     };
-
+    
     return (
         <div>
             <UserNavBar />
