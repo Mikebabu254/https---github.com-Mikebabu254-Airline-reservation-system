@@ -11,6 +11,7 @@ const EditFlight = () => {
         destination: "",
         time: "",
         date: "",
+        price:"",
     });
 
     // Fetch flight details
@@ -122,6 +123,20 @@ const EditFlight = () => {
                         id="date"
                         name="date"
                         value={flight.date}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="destination" className="form-label">
+                        Price
+                    </label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="price"
+                        name="price"
+                        value={flight.price}
                         onChange={handleChange}
                         required
                     />
