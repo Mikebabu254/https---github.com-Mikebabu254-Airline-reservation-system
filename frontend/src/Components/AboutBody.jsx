@@ -81,7 +81,7 @@ function AboutBody() {
       </section>
 
       {/* Call to Action Section */}
-      <section className="cta-section text-center py-5" style={{ background: "#ff7f50" }}>
+      <section className="cta-section text-center py-5" style={{  }}>
         <Container>
           <h2 className="text-light mb-4">Join Us in Making Travel Better</h2>
           <p className="text-light mb-4">

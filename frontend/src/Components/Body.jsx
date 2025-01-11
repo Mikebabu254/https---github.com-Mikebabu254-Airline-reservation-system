@@ -31,7 +31,7 @@ function Body() {
             <Col md={4}>
               <div className="flight-card p-3" style={{ background: "rgba(255, 255, 255, 0.8)", borderRadius: "8px" }}>
                 <h4>Flight to Mombasa</h4>
-                <p>Starting at 12,000.00</p>
+                <p>Starting at 8,000.00</p>
                 <Link to="/login">
                   <Button variant="secondary">Book Now</Button>
                 </Link>
