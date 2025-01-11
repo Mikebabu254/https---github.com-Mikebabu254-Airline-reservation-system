@@ -26,15 +26,28 @@ const AddFlight = () => {
     const [cities, setCities] = useState([]);
     const [error, setError] = useState("");
 
-    // Function to generate a random 4-digit flight number
-    const generateFlightNumber = () => {
-        return Math.floor(1000 + Math.random() * 9000).toString(); // Generates a number between 1000 and 9999
-    };
-
+    // Update the flight number dynamically
     useEffect(() => {
-        // Generate initial flight number
-        setFlightNumber(generateFlightNumber());
-    }, []);
+        if (origin && destination && date && time) {
+            const originLetter = origin.charAt(0).toUpperCase();
+            const destinationLetter = destination.charAt(0).toUpperCase();
+
+            // Extract hour (HH) from the selected time (e.g., "06:30")
+            const timeHour = time.split(":")[0];
+
+            // Date formatted as MMDDYY
+            const dateObj = new Date(date);
+            const month = String(dateObj.getMonth() + 1).padStart(2, "0"); // Get month and pad to 2 digits
+            const day = String(dateObj.getDate()).padStart(2, "0"); // Get day and pad to 2 digits
+            const year = String(dateObj.getFullYear()).slice(-2); // Get last 2 digits of the year
+
+            const dateFormatted = `${month}${day}${year}`;
+
+            setFlightNumber(`${originLetter}${destinationLetter}${timeHour}${dateFormatted}`);
+        } else {
+            setFlightNumber(""); // Reset flight number if inputs are incomplete
+        }
+    }, [origin, destination, date, time]);
 
     // Fetch cities from the backend
     useEffect(() => {
@@ -75,14 +88,14 @@ const AddFlight = () => {
             });
             console.log(response.data); // Log response for confirmation
 
-            // Reset the form fields and generate a new flight number
-            setFlightNumber(generateFlightNumber());
+            // Reset the form fields
             setOrigin("");
             setDestination("");
             setTime("");
             setDate("");
             setNoOfSeats("");
             setPrice("");
+            setFlightNumber("");
         } catch (error) {
             console.error("Error adding flight:", error);
         }
@@ -165,10 +178,10 @@ const AddFlight = () => {
                         <option value="" disabled>
                             Select a time
                         </option>
-                        <option value="6:30 AM">6:30 AM</option>
-                        <option value="10:30 AM">10:30 AM</option>
-                        <option value="3:30 PM">3:30 PM</option>
-                        <option value="6:30 PM">6:30 PM</option>
+                        <option value="06:30">6:30 AM</option>
+                        <option value="10:30">10:30 AM</option>
+                        <option value="15:30">3:30 PM</option>
+                        <option value="18:30">6:30 PM</option>
                     </select>
                 </div>
                 <div className="form-group mb-4">
