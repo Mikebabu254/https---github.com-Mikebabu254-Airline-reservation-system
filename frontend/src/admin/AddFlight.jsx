@@ -4,17 +4,16 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const AddFlight = () => {
-    
     const navigate = useNavigate();
-    
-      useEffect(() => {
+
+    useEffect(() => {
         const isLoggedIn = localStorage.getItem("isLoggedIn");
         const user = JSON.parse(localStorage.getItem("user"));
-    
+
         if (!isLoggedIn || !user || user.role !== "admin") {
-          navigate("/login"); 
+            navigate("/login");
         }
-      }, []); 
+    }, []);
 
     // State for form fields
     const [flightNumber, setFlightNumber] = useState("");
@@ -26,6 +25,16 @@ const AddFlight = () => {
     const [price, setPrice] = useState("");
     const [cities, setCities] = useState([]);
     const [error, setError] = useState("");
+
+    // Function to generate a random 4-digit flight number
+    const generateFlightNumber = () => {
+        return Math.floor(1000 + Math.random() * 9000).toString(); // Generates a number between 1000 and 9999
+    };
+
+    useEffect(() => {
+        // Generate initial flight number
+        setFlightNumber(generateFlightNumber());
+    }, []);
 
     // Fetch cities from the backend
     useEffect(() => {
@@ -62,10 +71,12 @@ const AddFlight = () => {
                 time,
                 date,
                 noOfSeats,
-                price
+                price,
             });
             console.log(response.data); // Log response for confirmation
-            setFlightNumber("");
+
+            // Reset the form fields and generate a new flight number
+            setFlightNumber(generateFlightNumber());
             setOrigin("");
             setDestination("");
             setTime("");
@@ -89,8 +100,7 @@ const AddFlight = () => {
                         className="form-control"
                         id="flightNumber"
                         value={flightNumber}
-                        onChange={(e) => setFlightNumber(e.target.value)}
-                        required
+                        disabled // Make the field read-only
                     />
                 </div>
                 <div className="form-group mb-3">
@@ -152,7 +162,9 @@ const AddFlight = () => {
                         onChange={(e) => setTime(e.target.value)}
                         required
                     >
-                        <option value="" disabled>Select a time</option>
+                        <option value="" disabled>
+                            Select a time
+                        </option>
                         <option value="6:30 AM">6:30 AM</option>
                         <option value="10:30 AM">10:30 AM</option>
                         <option value="3:30 PM">3:30 PM</option>
@@ -171,7 +183,7 @@ const AddFlight = () => {
                     />
                 </div>
                 <div className="form-group mb-4">
-                    <label htmlFor="date">Price</label>
+                    <label htmlFor="price">Price</label>
                     <input
                         type="number"
                         className="form-control"
