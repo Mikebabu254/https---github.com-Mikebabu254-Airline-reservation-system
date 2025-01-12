@@ -19,7 +19,7 @@ Jet-Set is a modern and efficient airline reservation system built using the MER
 
 ### User Features
 - **Account Management**: Sign up, log in, and manage profiles.
-- **Flight Search**: Search for available flights by destination and date.
+- **Flight Search**: Search for available flights by origin, destination and date.
 - **Booking System**: Book flights, view booking history, and cancel bookings.
 
 ### Admin Features
@@ -50,7 +50,7 @@ Jet-Set is a modern and efficient airline reservation system built using the MER
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/jet-set-reservation-system.git
+   git clone https://github.com/Mikebabu254/Jet-set-airline-reservation-system.git
    cd jet-set-reservation-system
    ```
 
@@ -66,7 +66,7 @@ Jet-Set is a modern and efficient airline reservation system built using the MER
      npm install
      ```
 
-3. **Configure environment variables**:
+3. **Configure environment variables**: **(Not am must)**
    - Create a `.env` file in the `backend` directory with the following variables:
      ```env
      MONGO_URI=your-mongodb-connection-string
@@ -83,7 +83,7 @@ Jet-Set is a modern and efficient airline reservation system built using the MER
    - Start the frontend:
      ```bash
      cd ../frontend
-     npm start
+     npm run dev
      ```
 
 5. **Access the application**:
@@ -115,18 +115,22 @@ Jet-Set is a modern and efficient airline reservation system built using the MER
 ```
 jet-set-reservation-system
 ├── backend
-│   ├── controllers
+│   ├── controls
 │   ├── models
-│   ├── routes
-│   ├── middleware
+│   ├── routers
 │   └── index.js
 ├── frontend
 │   ├── public
 │   ├── src
+│   │   ├── admin
 │   │   ├── components
 │   │   ├── pages
 │   │   ├── utils
-│   │   └── App.js
+│   │   ├── app.css
+│   │   ├── main.jsx
+│   │   ├── UserBookings.css
+│   │   └── App.jsx
+|── LICENSE
 └── README.md
 ```
 
@@ -135,9 +139,9 @@ jet-set-reservation-system
 ## API Endpoints
 
 ### User Routes
-- `POST /api/users/login`: Login user.
-- `POST /api/users/register`: Register new user.
-- `GET /api/users/profile`: Fetch logged-in user profile.
+- `POST /login`: Login user.
+- `POST /register`: Register new user.
+- `GET /profile`: Fetch logged-in user profile.
 
 ### Flight Routes
 - `GET /api/flights`: Fetch all flights.
@@ -180,6 +184,6 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 ---
 
 ## Acknowledgments
-
+Special thanks to me for commiting my time to this project.
 Special thanks to the open-source community for the tools and libraries used in this project.
 
