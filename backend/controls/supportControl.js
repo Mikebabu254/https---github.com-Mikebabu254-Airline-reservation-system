@@ -1,5 +1,4 @@
 const supportModel = require("../models/supportModel")
-const supportModel = require("../models/supportModel")
 
 const support = async (req, res)=>{
     const {userID, complain} = req.body
