@@ -38,7 +38,7 @@ function Footer() {
 
                 {/* Footer Bottom Line */}
                 <div className="text-center border-top pt-3 mt-3">
-                    <small>© 2024 JetSet Airline. All rights reserved.</small>
+                    <small>© {new Date().getFullYear()} JetSet Airline. All rights reserved.</small>
                 </div>
             </div>
         </footer>
