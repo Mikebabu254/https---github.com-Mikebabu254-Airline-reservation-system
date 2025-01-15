@@ -71,7 +71,7 @@ Jet-Set is a modern and efficient airline reservation system built using the MER
      ```env
      MONGO_URI=your-mongodb-connection-string
      JWT_SECRET=your-jwt-secret
-     PORT=5000
+     PORT=3000
      ```
 
 4. **Start the application**:
@@ -87,8 +87,8 @@ Jet-Set is a modern and efficient airline reservation system built using the MER
      ```
 
 5. **Access the application**:
-   - Frontend: `http://localhost:3000`
-   - Backend API: `http://localhost:5000`
+   - Frontend: `http://localhost:5173`
+   - Backend API: `http://localhost:3000`
 
 ---
 
